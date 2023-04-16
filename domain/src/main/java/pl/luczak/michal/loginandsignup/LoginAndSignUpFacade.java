@@ -4,14 +4,9 @@ public class LoginAndSignUpFacade {
 
     public void register() {
         //TODO
-
-
     }
 
     public void findByUsername(String username) {
         //TODO
-
-
-
     }
 }
