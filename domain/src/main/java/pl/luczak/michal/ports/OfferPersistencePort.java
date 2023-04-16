@@ -1,0 +1,20 @@
+package pl.luczak.michal.ports;
+
+import pl.luczak.michal.offer.dto.OfferDTO;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface OfferPersistencePort {
+
+    UUID saveOffer(OfferDTO offerDTO);
+
+    UUID deleteOffer(OfferDTO offerDTO);
+
+    Optional<OfferDTO> findOfferById(UUID uniqueID);
+
+    List<OfferDTO> findAllOffers();
+
+    List<UUID> saveAllOffers(List<OfferDTO> offerDTOs);
+}
