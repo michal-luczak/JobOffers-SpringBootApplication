@@ -3,6 +3,7 @@ package pl.luczak.michal.offer;
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.offer.dto.OfferDTO;
 import pl.luczak.michal.ports.OfferDAO;
+import pl.luczak.michal.ports.OfferFetcherPort;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import java.util.UUID;
 public class OfferFacade {
 
     private final OfferDAO offerDAO;
+    private final OfferFetcherPort offerFetcherPort;
 
     public List<OfferDTO> findAllOffers() {
         return offerDAO.findAllOffers();
@@ -21,13 +23,13 @@ public class OfferFacade {
     }
 
     public OfferDTO findOfferById(UUID uniqueID) {
-        return offerPersistencePort.findOfferById(uniqueID)
+        return offerDAO.findOfferById(uniqueID)
                 .orElseThrow(() -> new OfferNotFoundException(uniqueID));
     }
 
     public List<OfferDTO> fetchAllOffersAndSaveAllIfNotExists() {
         List<OfferDTO> fetchedOffers = offerFetcherPort.fetchOffers();
-        offerPersistencePort.saveAllOffers(fetchedOffers);
+        offerDAO.saveAllOffers(fetchedOffers);
         return fetchedOffers;
     }
 }
