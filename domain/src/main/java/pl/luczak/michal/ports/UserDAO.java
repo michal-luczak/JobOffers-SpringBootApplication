@@ -4,7 +4,7 @@ import pl.luczak.michal.loginandsignup.dto.UserDTO;
 
 import java.util.Optional;
 
-public interface UserPersistencePort {
+public interface UserDAO {
 
     Long save(UserDTO userDTO);
 
