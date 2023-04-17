@@ -1,13 +1,13 @@
 package pl.luczak.michal.loginandsignup;
 
 import pl.luczak.michal.loginandsignup.dto.UserDTO;
-import pl.luczak.michal.ports.UserPersistencePort;
+import pl.luczak.michal.ports.UserDAO;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-class InMemoryDatabaseAdapter implements UserPersistencePort {
+class InMemoryDatabaseAdapter implements UserDAO {
 
     private final Map<Long, UserDTO> users = new HashMap<>();
 
