@@ -21,8 +21,14 @@ public class OfferFacade {
     }
 
     public OfferDTO findOfferById(UUID uniqueID) {
-        //TODO
-        return null;
+        return offerPersistencePort.findOfferById(uniqueID)
+                .orElseThrow(() -> new OfferNotFoundException(uniqueID));
+    }
+
+    public List<OfferDTO> fetchAllOffersAndSaveAllIfNotExists() {
+        List<OfferDTO> fetchedOffers = offerFetcherPort.fetchOffers();
+        offerPersistencePort.saveAllOffers(fetchedOffers);
+        return fetchedOffers;
     }
 }
 
