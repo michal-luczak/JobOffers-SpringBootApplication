@@ -1,23 +1,30 @@
 package pl.luczak.michal.loginandsignup;
 
 import lombok.AllArgsConstructor;
+import pl.luczak.michal.loginandsignup.dto.RegistrationRequestDTO;
 import pl.luczak.michal.loginandsignup.dto.UserDTO;
-import pl.luczak.michal.ports.UserPersistencePort;
+import pl.luczak.michal.ports.UserDAO;
 
 @AllArgsConstructor
 public class LoginAndSignUpFacade {
 
-    private final UserPersistencePort userPersistencePort;
+    private final UserDAO userDAO;
 
-    public Long register(UserDTO userDTO) {
-        if (userPersistencePort.findByUsername(userDTO.username()).isPresent()) {
-            throw new UserAlreadyExistsException(userDTO.username());
+    public Long register(RegistrationRequestDTO registrationRequest) {
+        String username = registrationRequest.username();
+        String password = registrationRequest.password();
+        if (userDAO.findByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException(password);
         }
-        return userPersistencePort.save(userDTO);
+        UserDTO userDTO = UserDTO.builder()
+                .username(username)
+                .password(password)
+                .build();
+        return userDAO.save(userDTO);
     }
 
     public UserDTO findByUsername(String username) {
-        return userPersistencePort.findByUsername(username)
+        return userDAO.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
     }
 }

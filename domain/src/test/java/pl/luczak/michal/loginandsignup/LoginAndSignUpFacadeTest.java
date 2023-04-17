@@ -2,6 +2,7 @@ package pl.luczak.michal.loginandsignup;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pl.luczak.michal.loginandsignup.dto.RegistrationRequestDTO;
 import pl.luczak.michal.loginandsignup.dto.UserDTO;
 
 class LoginAndSignUpFacadeTest {
@@ -41,19 +42,19 @@ class LoginAndSignUpFacadeTest {
     @Test
     public void should_successfully_register_user() {
         //given
-        UserDTO userDTO = UserDTO.builder()
-                .id(1L)
+        RegistrationRequestDTO registrationRequest = RegistrationRequestDTO.builder()
                 .password("password")
                 .username("username")
                 .build();
 
         //when
-        Long idRegisteredUser = loginAndSignUpFacade.register(userDTO);
-        UserDTO foundUserDTO = loginAndSignUpFacade.findByUsername(userDTO.username());
+        Long idRegisteredUser = loginAndSignUpFacade.register(registrationRequest);
+        UserDTO foundUserDTO = loginAndSignUpFacade.findByUsername(registrationRequest.username());
 
         //then
-        Assertions.assertEquals(idRegisteredUser, userDTO.id());
-        Assertions.assertEquals(foundUserDTO, userDTO);
+        Assertions.assertEquals(idRegisteredUser, foundUserDTO.id());
+        Assertions.assertEquals(foundUserDTO.username(), foundUserDTO.username());
+        Assertions.assertEquals(foundUserDTO.password(), foundUserDTO.password());
     }
 
     @Test
@@ -66,10 +67,16 @@ class LoginAndSignUpFacadeTest {
                 .build();
         inMemoryDatabaseAdapter.save(userDTO);
 
+        //when
+        RegistrationRequestDTO registrationRequest = RegistrationRequestDTO.builder()
+                .password("password")
+                .username("username")
+                .build();
+
         //then
         Assertions.assertThrows(
                 UserAlreadyExistsException.class,
-                () -> loginAndSignUpFacade.register(userDTO)
+                () -> loginAndSignUpFacade.register(registrationRequest)
         );
     }
 }
