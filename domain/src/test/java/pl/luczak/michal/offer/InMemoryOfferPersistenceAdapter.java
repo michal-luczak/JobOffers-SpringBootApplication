@@ -1,12 +1,12 @@
 package pl.luczak.michal.offer;
 
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferPersistencePort;
+import pl.luczak.michal.ports.OfferDAO;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-class InMemoryOfferPersistenceAdapter implements OfferPersistencePort {
+class InMemoryOfferPersistenceAdapter implements OfferDAO {
 
     private final Map<UUID, OfferDTO> offers = new HashMap<>();
 

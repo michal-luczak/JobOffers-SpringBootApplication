@@ -3,6 +3,7 @@ package pl.luczak.michal.loginandsignup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.luczak.michal.loginandsignup.dto.RegistrationRequestDTO;
+import pl.luczak.michal.loginandsignup.dto.UserDTO;
 
 class LoginAndSignUpFacadeTest {
 
@@ -42,6 +43,9 @@ class LoginAndSignUpFacadeTest {
     public void should_successfully_register_user() {
         //given
         RegistrationRequestDTO registrationRequest = RegistrationRequestDTO.builder()
+                .username("username")
+                .password("password")
+                .build();
 
         //when
         Long idRegisteredUser = loginAndSignUpFacade.register(registrationRequest);
