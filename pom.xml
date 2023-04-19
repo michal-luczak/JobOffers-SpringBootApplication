@@ -12,7 +12,6 @@
         <module>domain</module>
         <module>infrastructure</module>
         <module>application</module>
-        <module>integration</module>
     </modules>
 
     <properties>
