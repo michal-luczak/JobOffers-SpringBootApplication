@@ -2,11 +2,13 @@ package pl.luczak.michal.offer;
 
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.offer.dto.OfferDTO;
+import pl.luczak.michal.offer.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferDAO;
 import pl.luczak.michal.ports.OfferFetcherPort;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class OfferFacade {
@@ -28,9 +30,16 @@ public class OfferFacade {
     }
 
     public List<OfferDTO> fetchAllOffersAndSaveAllIfNotExists() {
-        List<OfferDTO> fetchedOffers = offerFetcherPort.fetchOffers();
-        offerDAO.saveAllOffers(fetchedOffers);
-        return fetchedOffers;
+        List<OfferRequestDTO> fetchedOffers = offerFetcherPort.fetchOffers();
+        return fetchedOffers.stream()
+                .filter(requestDTO -> offerDAO.findOfferByUrl(requestDTO.url()).isEmpty())
+                .map(requestDTO -> OfferDTO.builder()
+                        .companyName(requestDTO.companyName())
+                        .salary(requestDTO.salary())
+                        .jobName(requestDTO.jobName())
+                        .url(requestDTO.url())
+                        .build()
+                ).toList();
     }
 }
 
