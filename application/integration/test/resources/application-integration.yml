@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:password@localhost:27017/job-offers
+job-offers:
+  offer-fetcher:
+    http-client:
+      config:
+        uri: http://localhost
+        connection-TimeOut: 5000
+        read-TimeOut: 5000

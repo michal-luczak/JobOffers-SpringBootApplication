@@ -18,14 +18,24 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      # Use mvn clean and package as the standard maven build phase
+      # installing the local dependencies
       - run:
-          name: Build
-          command: mvn -B -DskipTests clean package
-      # Then run your tests!
+          name: Generate Cache Checksum
+          command: find . -name 'pom.xml' | sort | xargs cat > /tmp/maven_cache_seed
+      - restore_cache:
+          key: maven-{{ checksum "/tmp/maven_cache_seed" }}
       - run:
-          name: Test
-          command: mvn test
+          name: Install domain dependency
+          command: mvn clean install -pl domain
+      - run:
+          name: Run Tests
+          command: mvn verify
+      - save_cache:
+          paths:
+             - ~/.m2
+          key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+      - store_test_results:
+          path: target/surefire-reports
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

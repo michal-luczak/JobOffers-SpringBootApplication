@@ -1,6 +1,12 @@
 package pl.luczak.michal.feature;
 
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import pl.luczak.michal.BaseIntegrationTest;
+import pl.luczak.michal.ports.OfferFetcherPort;
 
 class OfferFetcherTest extends BaseIntegrationTest {
     /*
@@ -22,4 +28,32 @@ class OfferFetcherTest extends BaseIntegrationTest {
         step 16: user made POST /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and offer and system returned CREATED(201) with saved offer
         step 17: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 5 offers
     */
+
+    @Autowired
+    private OfferFetcherPort offerFetcherPort;
+
+    @Test
+    void fetchOffers() {
+        ResponseDefinitionBuilder response = WireMock.aResponse()
+                .withStatus(HttpStatus.OK.value())
+                .withHeader("Content-Type", "application/json")
+                .withBody("""
+                        [
+                            {
+                                "title": "Junior Java Developer",
+                                "company": "BlueSoft Sp. z o.o.",
+                                "salary": "7 000 – 9 000 PLN",
+                                "offerUrl": "https://nofluffjobs.com/pl/job/junior-java-developer-bluesoft-remote-hfuanrre"
+                            },
+                            {
+                                "title": "Java (CMS) Developer",
+                                "company": "Efigence SA",
+                                "salary": "16 000 – 18 000 PLN",
+                                "offerUrl": "https://nofluffjobs.com/pl/job/java-cms-developer-efigence-warszawa-b4qs8loh"
+                            }
+                        ]
+                        """.trim());
+        wireMockServer.stubFor(WireMock.get("/offers").willReturn(response));
+        offerFetcherPort.fetchOffers();
+    }
 }

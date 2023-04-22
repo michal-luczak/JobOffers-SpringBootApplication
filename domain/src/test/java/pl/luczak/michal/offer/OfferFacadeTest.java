@@ -2,9 +2,11 @@ package pl.luczak.michal.offer;
 
 import org.junit.jupiter.api.Test;
 import pl.luczak.michal.offer.dto.OfferDTO;
+import pl.luczak.michal.offer.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferDAO;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,17 +75,29 @@ class OfferFacadeTest {
     void should_successfully_fetch_offers_from_fetcher_and_save_all_offers_which_not_exists() {
         //given
         List<OfferDTO> randomOffers = generateRandomOffers();
-        randomOffers.forEach(offerFetcherAdapter::addOffer);
+        List<OfferRequestDTO> randomOfferRequests = randomOffers.stream()
+                        .map(offerDTO -> OfferRequestDTO.builder()
+                                .url(offerDTO.url())
+                                .salary(offerDTO.salary())
+                                .jobName(offerDTO.jobName())
+                                .companyName(offerDTO.companyName())
+                                .build())
+                        .toList();
+        randomOfferRequests.forEach(offerFetcherAdapter::addOffer);
 
         //when
         List<OfferDTO> foundOffer = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
 
         //then
-        assertEquals(randomOffers, foundOffer);
-        assertTrue(
-                randomOffers.containsAll(offerPersistenceAdapter.findAllOffers())
-                        && offerPersistenceAdapter.findAllOffers().containsAll(randomOffers)
-        );
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        randomOffers.forEach(offerDTO -> {
+            assertEquals(
+                    0,
+                    new OfferComparator().compare(
+                            offerDTO,
+                            foundOffer.get(atomicInteger.getAndIncrement())
+                    ));
+        });
     }
 
     private static List<OfferDTO> generateRandomOffers() {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,8 +26,6 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @ContextConfiguration()
 public abstract class BaseIntegrationTest {
 
-    protected static final String WIRE_MOCK_HOST = "http://localhost";
-
     @Container
     protected static final MongoDBContainer mongoDbContainer =
             new MongoDBContainer(
@@ -36,8 +35,7 @@ public abstract class BaseIntegrationTest {
     @DynamicPropertySource
     protected static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
-        registry.add("offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
-        registry.add("offer.http.client.config.port", wireMockServer::getPort);
+        registry.add("job-offers.offer-fetcher.http-client.config.port", wireMockServer::getPort);
     }
 
     @RegisterExtension

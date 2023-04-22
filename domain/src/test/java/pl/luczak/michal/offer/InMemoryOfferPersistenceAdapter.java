@@ -44,4 +44,12 @@ class InMemoryOfferPersistenceAdapter implements OfferDAO {
                 .map(OfferDTO::uniqueID)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<OfferDTO> findOfferByUrl(String url) {
+        return offers.values()
+                .stream()
+                .filter(offerDTO -> offerDTO.url().equals(url))
+                .findFirst();
+    }
 }
