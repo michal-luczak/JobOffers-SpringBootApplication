@@ -23,6 +23,8 @@
             <groupId>pl.luczak.michal</groupId>
             <artifactId>domain</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}\..\target\domain-target-jar\domain-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
         <!-- SPRING BOOT -->
         <dependency>
