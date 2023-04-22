@@ -25,8 +25,8 @@ jobs:
       - restore_cache:
           key: maven-{{ checksum "/tmp/maven_cache_seed" }}
       - run:
-          name: Install Dependencies
-          command: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
+          name: Install domain dependency
+          command: mvn clean install -pl domain
       - run:
           name: Run Tests
           command: mvn verify
