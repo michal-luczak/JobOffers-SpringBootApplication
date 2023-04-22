@@ -3,28 +3,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>JobOffers-SpringBootApplication</artifactId>
+        <groupId>pl.luczak.michal</groupId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>pl.luczak.michal</groupId>
     <artifactId>application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>application</name>
     <description>application</description>
+
     <properties>
         <java.version>17</java.version>
         <wiremock-jre8-standalone.version>2.35.0</wiremock-jre8-standalone.version>
     </properties>
+
     <dependencies>
         <!-- DOMAIN MODULE -->
         <dependency>
             <groupId>pl.luczak.michal</groupId>
             <artifactId>domain</artifactId>
             <version>1.0-SNAPSHOT</version>
-<!--            <scope>system</scope>-->
-<!--            <systemPath>${project.basedir}/../target/domain-target-jar/domain-1.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
         <!-- SPRING BOOT -->
         <dependency>
@@ -70,6 +68,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.5</version>
+                <configuration>
+                    <testClassesDirectory>integration/test/java</testClassesDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>

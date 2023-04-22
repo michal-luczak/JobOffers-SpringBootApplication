@@ -54,6 +54,6 @@ class OfferFetcherTest extends BaseIntegrationTest {
                         ]
                         """.trim());
         wireMockServer.stubFor(WireMock.get("/offers").willReturn(response));
-        System.out.println(offerFetcherPort.fetchOffers());
+        offerFetcherPort.fetchOffers();
     }
 }
