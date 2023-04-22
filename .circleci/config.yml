@@ -20,11 +20,22 @@ jobs:
       - checkout
       # installing the local dependencies
       - run:
-          name: Install Dependencies
-          command: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
-      - run:
-          name: Run Tests
-          command: mvn verify
+          name: Generate Cache Checksum
+          command: find . -name 'pom.xml' | sort | xargs cat > /tmp/maven_cache_seed
+            - restore_cache:
+                key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+            - run:
+                name: Install Dependencies
+                command: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
+            - run:
+                name: Run Tests
+                command: mvn verify
+            - save_cache:
+                paths:
+                  - ~/.m2
+                key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+            - store_test_results:
+                path: target/surefire-reports
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
