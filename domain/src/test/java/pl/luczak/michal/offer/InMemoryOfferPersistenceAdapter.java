@@ -36,13 +36,11 @@ class InMemoryOfferPersistenceAdapter implements OfferDAO {
     }
 
     @Override
-    public List<UUID> saveAllOffers(List<OfferDTO> offerDTOs) {
+    public List<OfferDTO> saveAllOffers(List<OfferDTO> offerDTOs) {
         offerDTOs.forEach(offerDTO -> {
             offers.put(offerDTO.uniqueID(), offerDTO);
         });
-        return offerDTOs.stream()
-                .map(OfferDTO::uniqueID)
-                .collect(Collectors.toList());
+        return offerDTOs;
     }
 
     @Override

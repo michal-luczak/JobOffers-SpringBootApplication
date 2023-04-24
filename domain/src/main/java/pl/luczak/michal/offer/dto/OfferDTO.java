@@ -10,6 +10,5 @@ public record OfferDTO(
         String url,
         String companyName,
         String jobName,
-        String salary,
-        String offerDescription
+        String salary
 ) {}

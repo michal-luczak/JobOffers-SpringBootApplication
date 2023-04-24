@@ -1,25 +1,24 @@
 package pl.luczak.michal.offer;
 
-import pl.luczak.michal.offer.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferFetcherPort;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class OfferFetcherAdapter implements OfferFetcherPort {
+class OfferFetcherAdapter implements OfferFetcherPort<OfferFetchedDTO> {
 
-    private final List<OfferRequestDTO> offerDTOS = new ArrayList<>();
+    private final List<OfferFetchedDTO> offerDTOS = new ArrayList<>();
 
     @Override
-    public List<OfferRequestDTO> fetchOffers() {
+    public List<OfferFetchedDTO> fetchOffers() {
         return offerDTOS;
     }
 
-    void removeOffer(OfferRequestDTO offerDTO) {
+    void removeOffer(OfferFetchedDTO offerDTO) {
         offerDTOS.remove(offerDTO);
     }
 
-    void addOffer(OfferRequestDTO offerDTO) {
+    void addOffer(OfferFetchedDTO offerDTO) {
         offerDTOS.add(offerDTO);
     }
 }
