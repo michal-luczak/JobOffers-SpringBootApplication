@@ -35,8 +35,7 @@ class OfferFetcher implements OfferFetcherPort {
     }
 
     private String getUrlService(String service) {
-        return
-                offerFetcherConfigProperties.uri()
+        return offerFetcherConfigProperties.uri()
                         + ":"
                         + offerFetcherConfigProperties.port()
                         + service;

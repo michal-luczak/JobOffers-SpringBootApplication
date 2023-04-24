@@ -1,4 +1,4 @@
-package pl.luczak.michal.feature;
+package pl.luczak.michal.typicalscenario;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
@@ -33,27 +33,18 @@ class OfferFetcherTest extends BaseIntegrationTest {
     private OfferFetcherPort offerFetcherPort;
 
     @Test
-    void fetchOffers() {
+    void step_1() {
+
+    //step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
+
+        //given
         ResponseDefinitionBuilder response = WireMock.aResponse()
                 .withStatus(HttpStatus.OK.value())
                 .withHeader("Content-Type", "application/json")
-                .withBody("""
-                        [
-                            {
-                                "title": "Junior Java Developer",
-                                "company": "BlueSoft Sp. z o.o.",
-                                "salary": "7 000 – 9 000 PLN",
-                                "offerUrl": "https://nofluffjobs.com/pl/job/junior-java-developer-bluesoft-remote-hfuanrre"
-                            },
-                            {
-                                "title": "Java (CMS) Developer",
-                                "company": "Efigence SA",
-                                "salary": "16 000 – 18 000 PLN",
-                                "offerUrl": "https://nofluffjobs.com/pl/job/java-cms-developer-efigence-warszawa-b4qs8loh"
-                            }
-                        ]
-                        """.trim());
-        wireMockServer.stubFor(WireMock.get("/offers").willReturn(response));
-        offerFetcherPort.fetchOffers();
+                .withBody("[]".trim());
+
+    //step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
+
+        //TODO
     }
 }
