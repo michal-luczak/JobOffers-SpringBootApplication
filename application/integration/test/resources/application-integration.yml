@@ -3,9 +3,12 @@ spring:
     mongodb:
       uri: mongodb://admin:password@localhost:27017/job-offers
 job-offers:
-  offer-fetcher:
-    http-client:
+  offer:
+    fetcher:
       config:
         uri: http://localhost
-        connection-TimeOut: 5000
-        read-TimeOut: 5000
+    rest-template-config:
+      connection-time-out: 5000
+      read-time-out: 5000
+    scheduler:
+      cron: '*/5 * * * * *'

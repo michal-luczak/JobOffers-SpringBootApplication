@@ -3,10 +3,13 @@ spring:
     mongodb:
       uri: mongodb://admin:password@localhost:27017/job-offers
 job-offers:
-  offer-fetcher:
-    config:
-      port: 5057
-      uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
-  rest-template-config:
-    connection-time-out: 5000
-    read-time-out: 5000
+  offer:
+    fetcher:
+      config:
+        port: 5057
+        uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
+    rest-template-config:
+      connection-time-out: 5000
+      read-time-out: 5000
+    scheduler:
+      cron: '0 0 */3 * * *'

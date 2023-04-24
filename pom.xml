@@ -24,7 +24,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jackson-module-parameter-names.version>2.11.0</jackson-module-parameter-names.version>
+        <jackson-module-parameter-names.version>2.14.2</jackson-module-parameter-names.version>
     </properties>
 
     <dependencyManagement>
@@ -48,6 +48,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                <version>3.0.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <optional>true</optional>
                 <version>3.0.5</version>
             </dependency>
             <!-- LOMBOK -->
