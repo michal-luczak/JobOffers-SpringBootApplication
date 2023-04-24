@@ -1,4 +1,4 @@
-package pl.luczak.michal.offer.http;
+package pl.luczak.michal.offer.http.resttemplate;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

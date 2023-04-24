@@ -17,8 +17,7 @@ import java.util.List;
 class OfferFetcher implements OfferFetcherPort {
 
     private final RestTemplate restTemplate;
-    private final String uri;
-    private final int port;
+    private final OfferFetcherConfigProperties offerFetcherConfigProperties;
 
     @Override
     public List<OfferRequestDTO> fetchOffers() {
@@ -36,6 +35,10 @@ class OfferFetcher implements OfferFetcherPort {
     }
 
     private String getUrlService(String service) {
-        return uri + ":" + port + service;
+        return
+                offerFetcherConfigProperties.uri()
+                        + ":"
+                        + offerFetcherConfigProperties.port()
+                        + service;
     }
 }

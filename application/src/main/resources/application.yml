@@ -4,9 +4,9 @@ spring:
       uri: mongodb://admin:password@localhost:27017/job-offers
 job-offers:
   offer-fetcher:
-    http-client:
-      config:
-        port: 5057
-        uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
-        connection-TimeOut: 5000
-        read-TimeOut: 5000
+    config:
+      port: 5057
+      uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
+  rest-template-config:
+    connection-time-out: 5000
+    read-time-out: 5000
