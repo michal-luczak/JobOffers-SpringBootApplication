@@ -15,7 +15,7 @@ import pl.luczak.michal.ports.OfferFetcherPort;
 import java.util.List;
 
 @AllArgsConstructor
-class OfferFetcher implements OfferFetcherPort {
+class OfferFetcher implements OfferFetcherPort<OfferRequestDTO> {
 
     private final RestTemplate restTemplate;
     private final OfferFetcherConfigProperties offerFetcherConfigProperties;
