@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import pl.luczak.michal.BaseIntegrationTest;
+import pl.luczak.michal.offer.http.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferFetcherPort;
 
-class OfferMapperTest extends BaseIntegrationTest {
+class TypicalScenarioTest extends BaseIntegrationTest {
     /*
         step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
         step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
@@ -30,7 +31,7 @@ class OfferMapperTest extends BaseIntegrationTest {
     */
 
     @Autowired
-    private OfferFetcherPort offerFetcherPort;
+    private OfferFetcherPort<OfferRequestDTO> offerFetcherPort;
 
     @Test
     void step_1() {
