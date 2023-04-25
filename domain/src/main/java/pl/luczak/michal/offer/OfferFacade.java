@@ -2,19 +2,17 @@ package pl.luczak.michal.offer;
 
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.offer.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferDAO;
 import pl.luczak.michal.ports.OfferFetcherPort;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class OfferFacade {
+public class OfferFacade<T extends Fetchable> {
 
     private final OfferDAO offerDAO;
-    private final OfferFetcherPort offerFetcherPort;
+    private final OfferFetcherPort<T> offerFetcherPort;
 
     public List<OfferDTO> findAllOffers() {
         return offerDAO.findAllOffers();
@@ -30,16 +28,12 @@ public class OfferFacade {
     }
 
     public List<OfferDTO> fetchAllOffersAndSaveAllIfNotExists() {
-        List<OfferRequestDTO> fetchedOffers = offerFetcherPort.fetchOffers();
-        return fetchedOffers.stream()
-                .filter(requestDTO -> offerDAO.findOfferByUrl(requestDTO.url()).isEmpty())
-                .map(requestDTO -> OfferDTO.builder()
-                        .companyName(requestDTO.companyName())
-                        .salary(requestDTO.salary())
-                        .jobName(requestDTO.jobName())
-                        .url(requestDTO.url())
-                        .build()
-                ).toList();
+        List<T> fetchedOffers = offerFetcherPort.fetchOffers();
+        List<OfferDTO> offerDTOS = fetchedOffers.stream()
+                .map(Fetchable::toOfferDTO)
+                .filter(offerDTO -> offerDAO.findOfferByUrl(offerDTO.url()).isEmpty())
+                .toList();
+        return offerDAO.saveAllOffers(offerDTOS);
     }
 }
 

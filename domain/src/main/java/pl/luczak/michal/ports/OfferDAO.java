@@ -16,7 +16,7 @@ public interface OfferDAO {
 
     List<OfferDTO> findAllOffers();
 
-    List<UUID> saveAllOffers(List<OfferDTO> offerDTOs);
+    List<OfferDTO> saveAllOffers(List<OfferDTO> offerDTOs);
 
     Optional<OfferDTO> findOfferByUrl(String url);
 }

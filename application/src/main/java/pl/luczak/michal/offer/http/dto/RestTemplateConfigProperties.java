@@ -1,4 +1,4 @@
-package pl.luczak.michal.offer.http.resttemplate;
+package pl.luczak.michal.offer.http.dto;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Name;

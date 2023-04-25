@@ -1,10 +1,11 @@
 package pl.luczak.michal.ports;
 
-import pl.luczak.michal.offer.dto.OfferRequestDTO;
-
 import java.util.List;
 
-public interface OfferFetcherPort {
+/**
+    @param <T> OfferDTO that is fetched by fetchOffers()
+ **/
+public interface OfferFetcherPort<T> {
 
-    List<OfferRequestDTO> fetchOffers();
+    List<T> fetchOffers();
 }

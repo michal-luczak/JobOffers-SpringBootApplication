@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.luczak.michal.offer.OfferFacade;
 import pl.luczak.michal.offer.dto.OfferDTO;
+import pl.luczak.michal.offer.http.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferDAO;
 import pl.luczak.michal.ports.OfferFetcherPort;
 
@@ -38,7 +39,7 @@ class OfferFacadeConfig {
             }
 
             @Override
-            public List<UUID> saveAllOffers(List<OfferDTO> offerDTOs) {
+            public List<OfferDTO> saveAllOffers(List<OfferDTO> offerDTOs) {
                 return null;
             }
 
@@ -50,7 +51,10 @@ class OfferFacadeConfig {
     }
 
     @Bean
-    OfferFacade offerFacade(OfferDAO offerDAO, OfferFetcherPort offerFetcherPort) {
-        return new OfferFacade(offerDAO, offerFetcherPort);
+    OfferFacade<OfferRequestDTO> offerFacade(
+            OfferDAO offerDAO,
+            OfferFetcherPort<OfferRequestDTO> offerFetcherPort
+    ) {
+        return new OfferFacade<>(offerDAO, offerFetcherPort);
     }
 }

@@ -2,7 +2,6 @@ package pl.luczak.michal.offer;
 
 import org.junit.jupiter.api.Test;
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.offer.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferDAO;
 
 import java.util.*;
@@ -14,7 +13,7 @@ class OfferFacadeTest {
 
     private final OfferFetcherAdapter offerFetcherAdapter = new OfferFetcherAdapter();
     private final OfferDAO offerPersistenceAdapter = new InMemoryOfferPersistenceAdapter();
-    private final OfferFacade offerFacade = new OfferFacade(
+    private final OfferFacade<OfferFetchedDTO> offerFacade = new OfferFacade<>(
             offerPersistenceAdapter,
             offerFetcherAdapter
     );
@@ -42,11 +41,11 @@ class OfferFacadeTest {
 
         //when
         UUID savedOfferUUID = offerFacade.saveOffer(offerDTO);
-        OfferDTO optionalOfferDTO = offerPersistenceAdapter.findOfferById(offerDTO.uniqueID())
+        OfferDTO foundOfferDTO = offerPersistenceAdapter.findOfferById(offerDTO.uniqueID())
                 .orElseThrow();
 
         //then
-        assertEquals(offerDTO, optionalOfferDTO);
+        assertEquals(offerDTO, foundOfferDTO);
     }
 
     @Test
@@ -75,8 +74,8 @@ class OfferFacadeTest {
     void should_successfully_fetch_offers_from_fetcher_and_save_all_offers_which_not_exists() {
         //given
         List<OfferDTO> randomOffers = generateRandomOffers();
-        List<OfferRequestDTO> randomOfferRequests = randomOffers.stream()
-                        .map(offerDTO -> OfferRequestDTO.builder()
+        List<OfferFetchedDTO> randomOfferRequests = randomOffers.stream()
+                        .map(offerDTO -> OfferFetchedDTO.builder()
                                 .url(offerDTO.url())
                                 .salary(offerDTO.salary())
                                 .jobName(offerDTO.jobName())
@@ -89,13 +88,12 @@ class OfferFacadeTest {
         List<OfferDTO> foundOffer = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
 
         //then
-        AtomicInteger atomicInteger = new AtomicInteger(0);
+        Iterator<OfferDTO> iterator = foundOffer.iterator();
         randomOffers.forEach(offerDTO -> {
-            assertEquals(
-                    0,
+            assertEquals(0,
                     new OfferComparator().compare(
                             offerDTO,
-                            foundOffer.get(atomicInteger.getAndIncrement())
+                            iterator.next()
                     ));
         });
     }
@@ -117,7 +115,6 @@ class OfferFacadeTest {
             OfferDTO offerDTO = OfferDTO.builder()
                     .uniqueID(UUID.randomUUID())
                     .url(generatedString)
-                    .offerDescription(generatedString)
                     .jobName(generatedString)
                     .companyName(generatedString)
                     .salary(generatedString)
