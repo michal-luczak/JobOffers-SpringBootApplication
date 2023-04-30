@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OfferDAO {
+public interface OfferDAOPort {
 
     UUID saveOffer(OfferDTO offerDTO);
 
@@ -16,7 +16,7 @@ public interface OfferDAO {
 
     List<OfferDTO> findAllOffers();
 
-    List<OfferDTO> saveAllOffers(List<OfferDTO> offerDTOs);
+    List<UUID> saveAllOffers(List<OfferDTO> offerDTOs);
 
     Optional<OfferDTO> findOfferByUrl(String url);
 }

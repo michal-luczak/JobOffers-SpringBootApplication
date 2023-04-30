@@ -8,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.luczak.michal.offer.http.dto.OfferFetcherConfigProperties;
 import pl.luczak.michal.offer.http.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferFetcherPort;
 

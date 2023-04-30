@@ -2,6 +2,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:password@localhost:27017/job-offers
+      uuid-representation: standard
 job-offers:
   offer:
     fetcher:

@@ -2,12 +2,19 @@ package pl.luczak.michal.typicalscenario;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import pl.luczak.michal.BaseIntegrationTest;
+import pl.luczak.michal.offer.OfferFacade;
+import pl.luczak.michal.offer.dto.OfferDTO;
 import pl.luczak.michal.offer.http.dto.OfferRequestDTO;
 import pl.luczak.michal.ports.OfferFetcherPort;
+
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 class TypicalScenarioTest extends BaseIntegrationTest {
     /*
@@ -33,8 +40,11 @@ class TypicalScenarioTest extends BaseIntegrationTest {
     @Autowired
     private OfferFetcherPort<OfferRequestDTO> offerFetcherPort;
 
+    @Autowired
+    private OfferFacade<OfferRequestDTO> offerFacade;
+
     @Test
-    void step_1() {
+    void typical_scenario() {
 
     //step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
 
@@ -43,9 +53,17 @@ class TypicalScenarioTest extends BaseIntegrationTest {
                 .withStatus(HttpStatus.OK.value())
                 .withHeader("Content-Type", "application/json")
                 .withBody("[]".trim());
+        wireMockServer.stubFor(
+                WireMock.get("/offers").willReturn(response)
+        );
 
     //step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
 
-        //TODO
+        //when
+        List<OfferDTO> offerDTOList = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+
+        //then
+        Assertions.assertTrue(offerDTOList.isEmpty());
+
     }
 }

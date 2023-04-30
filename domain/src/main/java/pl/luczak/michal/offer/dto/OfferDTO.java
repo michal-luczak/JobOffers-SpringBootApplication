@@ -11,4 +11,9 @@ public record OfferDTO(
         String companyName,
         String jobName,
         String salary
-) {}
+) {
+
+    public boolean isNew() {
+        return uniqueID == null;
+    }
+}

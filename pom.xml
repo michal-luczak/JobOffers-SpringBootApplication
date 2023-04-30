@@ -12,12 +12,13 @@
 
     <groupId>pl.luczak.michal</groupId>
     <artifactId>JobOffers-SpringBootApplication</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>domain</module>
         <module>infrastructure</module>
         <module>application</module>
+        <module>infrastructure/offerDAO-mongodb-adapter</module>
     </modules>
 
     <properties>

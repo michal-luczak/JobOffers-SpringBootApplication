@@ -2,17 +2,16 @@ package pl.luczak.michal.offer;
 
 import org.junit.jupiter.api.Test;
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferDAO;
+import pl.luczak.michal.ports.OfferDAOPort;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class OfferFacadeTest {
 
     private final OfferFetcherAdapter offerFetcherAdapter = new OfferFetcherAdapter();
-    private final OfferDAO offerPersistenceAdapter = new InMemoryOfferPersistenceAdapter();
+    private final OfferDAOPort offerPersistenceAdapter = new InMemoryOfferPersistenceAdapter();
     private final OfferFacade<OfferFetchedDTO> offerFacade = new OfferFacade<>(
             offerPersistenceAdapter,
             offerFetcherAdapter

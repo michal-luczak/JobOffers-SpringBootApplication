@@ -2,7 +2,7 @@ package pl.luczak.michal.offer;
 
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferDAO;
+import pl.luczak.michal.ports.OfferDAOPort;
 import pl.luczak.michal.ports.OfferFetcherPort;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OfferFacade<T extends Fetchable> {
 
-    private final OfferDAO offerDAO;
+    private final OfferDAOPort offerDAO;
     private final OfferFetcherPort<T> offerFetcherPort;
 
     public List<OfferDTO> findAllOffers() {
@@ -33,7 +33,8 @@ public class OfferFacade<T extends Fetchable> {
                 .map(Fetchable::toOfferDTO)
                 .filter(offerDTO -> offerDAO.findOfferByUrl(offerDTO.url()).isEmpty())
                 .toList();
-        return offerDAO.saveAllOffers(offerDTOS);
+        offerDAO.saveAllOffers(offerDTOS);
+        return offerDTOS;
     }
 }
 
