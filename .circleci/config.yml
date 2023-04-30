@@ -24,7 +24,7 @@ jobs:
           command: mvn clean install -pl domain
       - run:
           name: Install MongoDb adapter dependency
-          command: mvn clean install -pl adapter-offerDAO-mongodb
+          command: mvn clean install -pl offerDAO-mongodb-adapter
       - run:
           name: Run Tests
           command: mvn verify
