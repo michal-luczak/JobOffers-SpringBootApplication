@@ -18,7 +18,6 @@
         <module>domain</module>
         <module>infrastructure</module>
         <module>application</module>
-        <module>infrastructure/offerDAO-mongodb-adapter</module>
     </modules>
 
     <properties>
