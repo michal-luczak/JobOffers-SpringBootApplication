@@ -3,9 +3,10 @@ package pl.luczak.michal;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import pl.luczak.michal.offer.http.dto.OfferFetcherConfigProperties;
-import pl.luczak.michal.offer.http.dto.RestTemplateConfigProperties;
+import pl.luczak.michal.offer.http.OfferFetcherConfigProperties;
+import pl.luczak.michal.offer.http.resttemplate.RestTemplateConfigProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
@@ -13,6 +14,7 @@ import pl.luczak.michal.offer.http.dto.RestTemplateConfigProperties;
         RestTemplateConfigProperties.class
 })
 @EnableScheduling
+@EnableMongoRepositories
 public class JobOffersApplication {
 
     public static void main(String[] args) {

@@ -1,12 +1,11 @@
 package pl.luczak.michal.offer;
 
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferDAO;
+import pl.luczak.michal.ports.OfferDAOPort;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-class InMemoryOfferPersistenceAdapter implements OfferDAO {
+class InMemoryOfferPersistenceAdapter implements OfferDAOPort {
 
     private final Map<UUID, OfferDTO> offers = new HashMap<>();
 
@@ -36,11 +35,13 @@ class InMemoryOfferPersistenceAdapter implements OfferDAO {
     }
 
     @Override
-    public List<OfferDTO> saveAllOffers(List<OfferDTO> offerDTOs) {
+    public List<UUID> saveAllOffers(List<OfferDTO> offerDTOs) {
         offerDTOs.forEach(offerDTO -> {
             offers.put(offerDTO.uniqueID(), offerDTO);
         });
-        return offerDTOs;
+        return offerDTOs.stream()
+                .map(OfferDTO::uniqueID)
+                .toList();
     }
 
     @Override
