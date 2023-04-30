@@ -23,8 +23,8 @@ jobs:
           name: Install domain dependency
           command: mvn clean install -pl domain
       - run:
-          name: Install MongoDb adapter dependency
-          command: mvn clean install -pl infrastructure/offerDAO-mongodb-adapter
+          name: Install infrastructure dependency
+          command: mvn clean install -pl infrastructure
       - run:
           name: Run Tests
           command: mvn verify
