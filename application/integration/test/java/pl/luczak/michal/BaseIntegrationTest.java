@@ -13,6 +13,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -23,7 +24,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @ActiveProfiles("integration")
 @AutoConfigureMockMvc
 @Testcontainers
-@ContextConfiguration()
+@ContextConfiguration
 public abstract class BaseIntegrationTest {
 
     @Container
@@ -32,9 +33,16 @@ public abstract class BaseIntegrationTest {
                     DockerImageName.parse("mongo:4.0.10")
             );
 
+    @Container
+    protected static final PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>(
+                    DockerImageName.parse("postgres:15.2")
+            );
+
     @DynamicPropertySource
     protected static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
         registry.add("job-offers.offer.fetcher.config.port", wireMockServer::getPort);
     }
 

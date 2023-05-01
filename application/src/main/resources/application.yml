@@ -2,7 +2,20 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:password@localhost:27017/job-offers
-      uuid-representation: standard
+  datasource:
+    url: jdbc.postgresql://localhost:5432/job-offers
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 job-offers:
   offer:
     fetcher:

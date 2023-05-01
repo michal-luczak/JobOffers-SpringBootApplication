@@ -13,6 +13,7 @@
 
     <modules>
         <module>offerDAO-mongodb-adapter</module>
+        <module>userDAO-jpa-adapter</module>
     </modules>
 
     <properties>

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @Configuration
 @EnableMongoAuditing
-class OfferDaoMongoAdapterConfig {
+class OfferDAOMongoAdapterConfig {
 
     @Bean
     OfferDAOMongoAdapter offerDaoMongoAdapter(
