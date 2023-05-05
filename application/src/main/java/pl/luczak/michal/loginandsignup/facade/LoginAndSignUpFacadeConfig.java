@@ -3,7 +3,7 @@ package pl.luczak.michal.loginandsignup.facade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.luczak.michal.loginandsignup.LoginAndSignUpFacade;
-import pl.luczak.michal.ports.UserDAOPort;
+import pl.luczak.michal.ports.input.UserDAOPort;
 
 @Configuration
 class LoginAndSignUpFacadeConfig {

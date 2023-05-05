@@ -94,6 +94,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal</groupId>
+            <artifactId>offer-rest-controller-adapter</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,4 +1,4 @@
-package pl.luczak.michal.ports;
+package pl.luczak.michal.ports.input;
 
 import pl.luczak.michal.offer.dto.OfferDTO;
 

@@ -1,7 +1,7 @@
 package pl.luczak.michal.loginandsignup;
 
 import pl.luczak.michal.loginandsignup.dto.UserDTO;
-import pl.luczak.michal.ports.UserDAOPort;
+import pl.luczak.michal.ports.input.UserDAOPort;
 
 import java.util.HashMap;
 import java.util.Map;

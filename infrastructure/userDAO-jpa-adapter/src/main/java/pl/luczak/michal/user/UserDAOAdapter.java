@@ -2,7 +2,7 @@ package pl.luczak.michal.user;
 
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.loginandsignup.dto.UserDTO;
-import pl.luczak.michal.ports.UserDAOPort;
+import pl.luczak.michal.ports.input.UserDAOPort;
 
 import java.util.Optional;
 import java.util.stream.Stream;

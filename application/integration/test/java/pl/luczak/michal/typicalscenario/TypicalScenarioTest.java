@@ -6,15 +6,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import pl.luczak.michal.BaseIntegrationTest;
-import pl.luczak.michal.offer.OfferFacade;
 import pl.luczak.michal.offer.dto.OfferDTO;
 import pl.luczak.michal.offer.http.dto.OfferRequestDTO;
-import pl.luczak.michal.ports.OfferFetcherPort;
+import pl.luczak.michal.ports.input.OfferFetcherPort;
+import pl.luczak.michal.ports.output.OfferService;
 
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class TypicalScenarioTest extends BaseIntegrationTest {
     /*
@@ -41,10 +45,10 @@ class TypicalScenarioTest extends BaseIntegrationTest {
     private OfferFetcherPort<OfferRequestDTO> offerFetcherPort;
 
     @Autowired
-    private OfferFacade<OfferRequestDTO> offerFacade;
+    private OfferService offerService;
 
     @Test
-    void typical_scenario() {
+    void typical_scenario() throws Exception {
 
     //step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
 
@@ -60,10 +64,51 @@ class TypicalScenarioTest extends BaseIntegrationTest {
     //step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
 
         //when
-        List<OfferDTO> offerDTOList = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        List<OfferDTO> offerDTOList = offerService.fetchAllOffersAndSaveAllIfNotExists();
 
         //then
         Assertions.assertTrue(offerDTOList.isEmpty());
 
+    //step 3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
+
+        //when
+        ResultActions tokenBadRequestResult = mockMvc.perform(post("/token")
+                .content("""
+                        {
+                            username: "someUser",
+                            password: "somePassword"
+                        }
+                        """)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        tokenBadRequestResult.andExpect(status().isUnauthorized());
+
+    //step 4: user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
+
+        //when
+        ResultActions offerBadRequestResult = mockMvc.perform(post("/offer")
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        offerBadRequestResult.andExpect(status().isUnauthorized());
+
+    //step 5: user made POST /register with username=someUser, password=somePassword and system registered user with status OK(200)
+
+        //when
+        ResultActions registerRequestOK = mockMvc.perform(post("/register")
+                .content("""
+                        {
+                            username: "someUser",
+                            password: "somePassword"
+                        }
+                        """)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        registerRequestOK.andExpect(status().isOk());
     }
 }

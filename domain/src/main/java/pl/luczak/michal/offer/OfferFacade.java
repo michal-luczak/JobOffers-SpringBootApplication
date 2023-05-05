@@ -2,14 +2,15 @@ package pl.luczak.michal.offer;
 
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferDAOPort;
-import pl.luczak.michal.ports.OfferFetcherPort;
+import pl.luczak.michal.ports.input.OfferDAOPort;
+import pl.luczak.michal.ports.input.OfferFetcherPort;
+import pl.luczak.michal.ports.output.OfferService;
 
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class OfferFacade<T extends Fetchable> {
+public class OfferFacade<T extends Fetchable> implements OfferService {
 
     private final OfferDAOPort offerDAO;
     private final OfferFetcherPort<T> offerFetcherPort;

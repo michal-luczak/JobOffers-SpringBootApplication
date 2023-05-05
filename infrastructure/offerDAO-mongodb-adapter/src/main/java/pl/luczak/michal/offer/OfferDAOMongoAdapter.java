@@ -2,7 +2,7 @@ package pl.luczak.michal.offer;
 
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferDAOPort;
+import pl.luczak.michal.ports.input.OfferDAOPort;
 
 import java.util.LinkedList;
 import java.util.List;

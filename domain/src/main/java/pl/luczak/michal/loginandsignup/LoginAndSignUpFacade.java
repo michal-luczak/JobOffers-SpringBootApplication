@@ -3,7 +3,7 @@ package pl.luczak.michal.loginandsignup;
 import lombok.AllArgsConstructor;
 import pl.luczak.michal.loginandsignup.dto.RegistrationRequestDTO;
 import pl.luczak.michal.loginandsignup.dto.UserDTO;
-import pl.luczak.michal.ports.UserDAOPort;
+import pl.luczak.michal.ports.input.UserDAOPort;
 
 @AllArgsConstructor
 public class LoginAndSignUpFacade {

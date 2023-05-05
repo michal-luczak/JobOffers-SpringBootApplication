@@ -3,17 +3,16 @@ package pl.luczak.michal.offer.scheduler;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.luczak.michal.offer.OfferFacade;
-import pl.luczak.michal.offer.http.dto.OfferRequestDTO;
+import pl.luczak.michal.ports.output.OfferService;
 
 @Component
 @AllArgsConstructor
 class OfferScheduler {
 
-    private final OfferFacade<OfferRequestDTO> offerFacade;
+    private final OfferService offerService;
 
     @Scheduled(cron = "${job-offers.offer.scheduler.cron}")
     void fetchOffer() {
-        offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        offerService.fetchAllOffersAndSaveAllIfNotExists();
     }
 }

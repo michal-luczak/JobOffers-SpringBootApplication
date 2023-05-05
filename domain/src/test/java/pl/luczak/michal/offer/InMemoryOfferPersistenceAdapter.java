@@ -1,7 +1,7 @@
 package pl.luczak.michal.offer;
 
 import pl.luczak.michal.offer.dto.OfferDTO;
-import pl.luczak.michal.ports.OfferDAOPort;
+import pl.luczak.michal.ports.input.OfferDAOPort;
 
 import java.util.*;
 

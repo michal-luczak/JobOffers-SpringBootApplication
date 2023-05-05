@@ -1,6 +1,6 @@
 package pl.luczak.michal.offer;
 
-import pl.luczak.michal.ports.OfferFetcherPort;
+import pl.luczak.michal.ports.input.OfferFetcherPort;
 
 import java.util.ArrayList;
 import java.util.List;
