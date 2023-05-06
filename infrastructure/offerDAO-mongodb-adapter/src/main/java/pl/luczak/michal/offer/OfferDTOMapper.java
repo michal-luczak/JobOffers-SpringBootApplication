@@ -1,13 +1,31 @@
 package pl.luczak.michal.offer;
 
-import org.springframework.stereotype.Service;
 import pl.luczak.michal.offer.dto.OfferDTO;
 
 import java.util.UUID;
 import java.util.function.Function;
 
-@Service
-final class OfferDTOMapper implements Function<OfferDocument, OfferDTO> {
+final class OfferDTOMapper implements IOfferDTOMapper<OfferDocument>, Function<OfferDocument, OfferDTO> {
+
+    @Override
+    public OfferDTO toOfferDTO(OfferDocument offerDocument) {
+        return apply(offerDocument);
+    }
+
+    @Override
+    public OfferDocument fromOfferDTO(OfferDTO offerDTO) {
+        UUID uniqueID = offerDTO.uniqueID();
+        if (offerDTO.isNew()) {
+            uniqueID = UUID.randomUUID();
+        }
+        return OfferDocument.builder()
+                .uniqueID(uniqueID.toString())
+                .salary(offerDTO.salary())
+                .url(offerDTO.url())
+                .companyName(offerDTO.companyName())
+                .jobName(offerDTO.jobName())
+                .build();
+    }
 
     @Override
     public OfferDTO apply(OfferDocument offerDocument) {

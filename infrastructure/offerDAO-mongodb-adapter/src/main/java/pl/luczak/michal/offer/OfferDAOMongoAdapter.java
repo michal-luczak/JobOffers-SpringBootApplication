@@ -13,18 +13,18 @@ import java.util.UUID;
 class OfferDAOMongoAdapter implements OfferDAOPort {
 
     private final OfferRepository offerRepository;
-    private final OfferDTOMapper offerDTOMapper;
+    private final IOfferDTOMapper<OfferDocument> offerDTOMapper;
 
     @Override
     public UUID saveOffer(OfferDTO offerDTO) {
-        OfferDocument offerDocument = OfferDocumentMapper.fromOfferDTO(offerDTO);
+        OfferDocument offerDocument = offerDTOMapper.fromOfferDTO(offerDTO);
         String uniqueID = offerRepository.save(offerDocument).uniqueID();
         return UUID.fromString(uniqueID);
     }
 
     @Override
     public UUID deleteOffer(OfferDTO offerDTO) {
-        OfferDocument offerDocument = OfferDocumentMapper.fromOfferDTO(offerDTO);
+        OfferDocument offerDocument = offerDTOMapper.fromOfferDTO(offerDTO);
         offerRepository.delete(offerDocument);
         return UUID.fromString(offerDocument.uniqueID());
     }

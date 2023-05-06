@@ -11,8 +11,13 @@ class OfferDAOMongoAdapterConfig {
     @Bean
     OfferDAOMongoAdapter offerDaoMongoAdapter(
             OfferRepository offerRepository,
-            OfferDTOMapper offerDTOMapper
+            IOfferDTOMapper<OfferDocument> offerDTOMapper
     ) {
         return new OfferDAOMongoAdapter(offerRepository, offerDTOMapper);
+    }
+
+    @Bean
+    IOfferDTOMapper<OfferDocument> offerDocumentToOfferDTOMapper() {
+        return new OfferDTOMapper();
     }
 }

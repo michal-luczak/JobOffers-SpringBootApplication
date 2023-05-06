@@ -2,11 +2,11 @@ package pl.luczak.michal.offer;
 
 import java.util.UUID;
 
-class OfferNotFoundException extends RuntimeException {
+public class OfferNotFoundException extends RuntimeException {
 
-    private static final String MESSAGE = "Offer with uniqueID: {id} not found";
+    public static final String MESSAGE = "Offer with uniqueID: %s not found";
 
-    public OfferNotFoundException(UUID uniqueID) {
-        super(MESSAGE.replace("{id}", uniqueID.toString()));
+    OfferNotFoundException(UUID uniqueID) {
+        super(String.format(MESSAGE, uniqueID.toString()));
     }
 }
