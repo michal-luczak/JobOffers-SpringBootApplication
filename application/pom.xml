@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>JobOffers-SpringBootApplication</artifactId>
-        <groupId>pl.luczak.michal</groupId>
+        <groupId>pl.luczak.michal.joboffersapp</groupId>
         <version>1.0</version>
     </parent>
     <artifactId>application</artifactId>
@@ -20,7 +20,7 @@
     <dependencies>
         <!-- DOMAIN MODULE -->
         <dependency>
-            <groupId>pl.luczak.michal</groupId>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>domain</artifactId>
             <version>1.0</version>
         </dependency>
@@ -67,16 +67,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>pl.luczak.michal</groupId>
-            <artifactId>offerDAO-mongodb-adapter</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>pl.luczak.michal</groupId>
-            <artifactId>userDAO-jpa-adapter</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <optional>true</optional>
@@ -93,11 +83,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pl.luczak.michal</groupId>
-            <artifactId>offer-rest-controller-adapter</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 

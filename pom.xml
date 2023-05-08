@@ -10,14 +10,16 @@
         <version>3.0.5</version>
     </parent>
 
-    <groupId>pl.luczak.michal</groupId>
+    <groupId>pl.luczak.michal.joboffersapp</groupId>
     <artifactId>JobOffers-SpringBootApplication</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>domain</module>
         <module>infrastructure</module>
         <module>application</module>
+        <module>infrastructure/adapters</module>
     </modules>
 
     <properties>
@@ -66,12 +68,6 @@
                 <artifactId>spring-boot-statrter-validation</artifactId>
                 <version>3.0.5</version>
             </dependency>
-            <!-- LOMBOK -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.26</version>
-            </dependency>
             <!-- UNIT TESTS -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
@@ -93,5 +89,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <!-- LOMBOK -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+    </dependencies>
 
 </project>

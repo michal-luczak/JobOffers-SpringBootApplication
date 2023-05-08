@@ -5,6 +5,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:password@localhost:27017/job-offers
+      auto-index-creation: true
   datasource:
     url: jdbc.postgresql://localhost:5432/job-offers
     username: test
