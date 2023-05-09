@@ -19,7 +19,6 @@
         <module>domain</module>
         <module>infrastructure</module>
         <module>application</module>
-        <module>infrastructure/adapters</module>
     </modules>
 
     <properties>
@@ -66,6 +65,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-statrter-validation</artifactId>
+                <version>3.0.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
                 <version>3.0.5</version>
             </dependency>
             <!-- UNIT TESTS -->

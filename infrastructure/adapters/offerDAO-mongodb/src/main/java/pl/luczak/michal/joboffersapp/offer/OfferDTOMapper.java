@@ -8,11 +8,6 @@ import java.util.function.Function;
 final class OfferDTOMapper implements IOfferDTOMapper<OfferDocument>, Function<OfferDocument, OfferDTO> {
 
     @Override
-    public OfferDTO toOfferDTO(OfferDocument offerDocument) {
-        return apply(offerDocument);
-    }
-
-    @Override
     public OfferDocument fromOfferDTO(OfferDTO offerDTO) {
         UUID uniqueID = offerDTO.uniqueID();
         if (offerDTO.isNew()) {

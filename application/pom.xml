@@ -21,7 +21,27 @@
         <!-- DOMAIN MODULE -->
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>offer-rest-fetcher</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>offerDAO-mongodb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>userDAO-jpa</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>authentication</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>offer-rest-controller</artifactId>
             <version>1.0</version>
         </dependency>
         <!-- SPRING BOOT -->

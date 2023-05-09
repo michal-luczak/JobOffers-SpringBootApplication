@@ -10,11 +10,6 @@ import java.util.UUID;
 class OfferSaveRequestToOfferDTOMapper implements IOfferDTOMapper<OfferSaveRequest> {
 
     @Override
-    public OfferDTO toOfferDTO(OfferSaveRequest offerSaveRequest) {
-        return apply(offerSaveRequest);
-    }
-
-    @Override
     public OfferSaveRequest fromOfferDTO(OfferDTO offerDTO) {
         return OfferSaveRequest.builder()
                 .url(offerDTO.url())

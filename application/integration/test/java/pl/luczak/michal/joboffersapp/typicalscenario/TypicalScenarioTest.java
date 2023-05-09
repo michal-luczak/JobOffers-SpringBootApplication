@@ -10,15 +10,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.luczak.michal.joboffersapp.BaseIntegrationTest;
+import pl.luczak.michal.joboffersapp.LoginRequestDTO;
+import pl.luczak.michal.joboffersapp.dto.OfferRequestDTO;
 import pl.luczak.michal.joboffersapp.offer.validation.controller.APIValidationErrorDTO;
 import pl.luczak.michal.joboffersapp.ports.input.OfferFetcherPort;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
-import pl.luczak.michal.dto.OfferRequestDTO;
 import pl.luczak.michal.joboffersapp.ports.output.OfferService;
 
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -120,5 +122,27 @@ class TypicalScenarioTest extends BaseIntegrationTest {
 //
 //        //then
 //        registerRequestOK.andExpect(status().isOk());
+
+
+
+
+
+
+
+        ResultActions tokenBadRequestResult = mockMvc.perform(post("/token")
+                .content("""
+                        {
+                            "username": "",
+                            "password": ""
+                        }
+                        """)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        MvcResult testMvcResult = tokenBadRequestResult.andExpect(status().isBadRequest()).andReturn();
+        String jsonTest = testMvcResult.getResponse().getContentAsString();
+        APIValidationErrorDTO resultTest = objectMapper.readValue(jsonTest, APIValidationErrorDTO.class);
+        Assertions.assertTrue(resultTest.messages().containsAll(List.of("Test2", "Test3")));
     }
 }

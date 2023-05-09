@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import pl.luczak.michal.resttemplate.RestTemplateConfigProperties;
+import pl.luczak.michal.joboffersapp.resttemplate.RestTemplateConfigProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({

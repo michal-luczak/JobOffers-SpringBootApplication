@@ -15,7 +15,7 @@ import java.util.Objects;
 @ControllerAdvice
 class APIValidationErrorHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     APIValidationErrorDTO handleValidationException(MethodArgumentNotValidException exception) {

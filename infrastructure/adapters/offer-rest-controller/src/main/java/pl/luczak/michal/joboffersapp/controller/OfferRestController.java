@@ -43,7 +43,6 @@ class OfferRestController implements OfferController<ResponseEntity<?>, OfferSav
     @GetMapping("/{uniqueID}")
     @Override
     public ResponseEntity<OfferDTO> findOfferById(@PathVariable @Valid UUID uniqueID) {
-        System.out.println(999999999);
         return new ResponseEntity<>(
                 offerService.findOfferById(uniqueID),
                 HttpStatus.OK

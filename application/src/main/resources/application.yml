@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include:
-      - messages
   data:
     mongodb:
       uri: mongodb://admin:password@localhost:27017/job-offers
