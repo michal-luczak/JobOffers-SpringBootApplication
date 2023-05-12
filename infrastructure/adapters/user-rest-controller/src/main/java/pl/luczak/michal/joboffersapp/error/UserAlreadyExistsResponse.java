@@ -1,8 +1,8 @@
-package pl.luczak.michal.joboffersapp.controller.error;
+package pl.luczak.michal.joboffersapp.error;
 
 import org.springframework.http.HttpStatus;
 
-record OfferNotFoundResponse(
+record UserAlreadyExistsResponse(
         String message,
         HttpStatus status
 ) {

@@ -6,7 +6,7 @@ public class OfferNotFoundException extends RuntimeException {
 
     public static final String MESSAGE = "Offer with uniqueID: %s not found";
 
-    OfferNotFoundException(UUID uniqueID) {
+    public OfferNotFoundException(UUID uniqueID) {
         super(String.format(MESSAGE, uniqueID.toString()));
     }
 }

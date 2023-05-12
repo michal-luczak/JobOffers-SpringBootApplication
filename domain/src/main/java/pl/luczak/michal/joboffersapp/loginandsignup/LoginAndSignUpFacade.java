@@ -1,7 +1,6 @@
 package pl.luczak.michal.joboffersapp.loginandsignup;
 
 import lombok.AllArgsConstructor;
-import pl.luczak.michal.joboffersapp.loginandsignup.dto.RegistrationRequestDTO;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 import pl.luczak.michal.joboffersapp.ports.input.UserDAOPort;
 import pl.luczak.michal.joboffersapp.ports.output.UserService;
@@ -12,12 +11,7 @@ public class LoginAndSignUpFacade implements UserService {
     private final UserDAOPort userDaoPort;
 
     @Override
-    public Long register(RegistrationRequestDTO registrationRequest) {
-        String username = registrationRequest.username();
-        String password = registrationRequest.password();
-        if (userDaoPort.findByUsername(username).isPresent()) {
-            throw new UserAlreadyExistsException(password);
-        }
+    public Long register(String username, String password) {
         UserDTO userDTO = UserDTO.builder()
                 .username(username)
                 .password(password)

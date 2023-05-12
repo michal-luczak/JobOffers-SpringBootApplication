@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.controller;
+package pl.luczak.michal.joboffersapp;
 
 import org.springframework.stereotype.Service;
 import pl.luczak.michal.joboffersapp.offer.IOfferDTOMapper;

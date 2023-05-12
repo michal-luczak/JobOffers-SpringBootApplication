@@ -1,6 +1,8 @@
 package pl.luczak.michal.joboffersapp.user;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import pl.luczak.michal.joboffersapp.loginandsignup.UserAlreadyExistsException;
 import pl.luczak.michal.joboffersapp.ports.input.UserDAOPort;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 
@@ -17,12 +19,13 @@ class UserDAOAdapter implements UserDAOPort {
     @Override
     public Long save(UserDTO userDTO) {
         UserEntity userEntity = userEntityMapper.map(userDTO);
-        return Stream.of(userEntity)
-                .map(user -> {
-                    userRepository.save(userEntity);
-                    return user.getId();
-                }).findFirst()
-                .orElseThrow();
+        UserEntity savedUser;
+        try {
+            savedUser = userRepository.save(userEntity);
+        } catch (DataIntegrityViolationException exception) {
+            throw new UserAlreadyExistsException(exception.getMessage());
+        }
+        return savedUser.getId();
     }
 
     @Override

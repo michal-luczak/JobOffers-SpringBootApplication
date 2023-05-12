@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.offer.validation.controller;
+package pl.luczak.michal.joboffersapp.validation.controller;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

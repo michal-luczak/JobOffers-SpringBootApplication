@@ -1,5 +1,6 @@
-package pl.luczak.michal.joboffersapp.controller;
+package pl.luczak.michal.joboffersapp;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -7,15 +8,15 @@ import lombok.Builder;
 @Builder
 record OfferSaveRequest(
         @NotNull(message = "{message.test1}")
-        @NotEmpty
+        @NotBlank
         String url,
         @NotNull
-        @NotEmpty
+        @NotBlank
         String companyName,
         @NotNull
-        @NotEmpty
+        @NotBlank
         String jobName,
         @NotNull
-        @NotEmpty
+        @NotBlank
         String salary
 ) { }

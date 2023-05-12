@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.controller;
+package pl.luczak.michal.joboffersapp;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,29 +23,21 @@ class OfferRestController implements OfferController<ResponseEntity<?>, OfferSav
     @PostMapping
     @Override
     public ResponseEntity<UUID> saveOffer(@RequestBody @Valid OfferSaveRequest offerSaveRequest) {
-        return new ResponseEntity<>(
-                offerService.saveOffer(
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(offerService.saveOffer(
                         offerSaveRequestToOfferDTOMapper.toOfferDTO(offerSaveRequest)
-                ),
-                HttpStatus.CREATED
-        );
+                ));
     }
 
     @GetMapping
     @Override
     public ResponseEntity<List<OfferDTO>> findAllOffers() {
-        return new ResponseEntity<>(
-                offerService.findAllOffers(),
-                HttpStatus.OK
-        );
+        return ResponseEntity.ok(offerService.findAllOffers());
     }
 
     @GetMapping("/{uniqueID}")
     @Override
     public ResponseEntity<OfferDTO> findOfferById(@PathVariable @Valid UUID uniqueID) {
-        return new ResponseEntity<>(
-                offerService.findOfferById(uniqueID),
-                HttpStatus.OK
-        );
+        return ResponseEntity.ok(offerService.findOfferById(uniqueID));
     }
 }

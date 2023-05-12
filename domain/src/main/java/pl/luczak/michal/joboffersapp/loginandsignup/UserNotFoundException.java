@@ -1,10 +1,10 @@
 package pl.luczak.michal.joboffersapp.loginandsignup;
 
-class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
 
-    private static final String MESSAGE = "User with username: {username} not found";
+    private static final String MESSAGE = "User with username: %s not found";
 
     public UserNotFoundException(String username) {
-        super(MESSAGE.replace("{username}", username));
+        super(MESSAGE.formatted(username));
     }
 }

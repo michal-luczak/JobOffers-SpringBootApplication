@@ -1,6 +1,7 @@
 package pl.luczak.michal.joboffersapp.offer;
 
 import lombok.AllArgsConstructor;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 import pl.luczak.michal.joboffersapp.ports.input.OfferDAOPort;
 
@@ -18,7 +19,12 @@ class OfferDAOMongoAdapter implements OfferDAOPort {
     @Override
     public UUID saveOffer(OfferDTO offerDTO) {
         OfferDocument offerDocument = offerDTOMapper.fromOfferDTO(offerDTO);
-        String uniqueID = offerRepository.save(offerDocument).uniqueID();
+        String uniqueID;
+        try {
+            uniqueID = offerRepository.save(offerDocument).uniqueID();
+        } catch (DuplicateKeyException exception) {
+            throw new OfferAlreadyExistsException(exception.getMessage());
+        }
         return UUID.fromString(uniqueID);
     }
 

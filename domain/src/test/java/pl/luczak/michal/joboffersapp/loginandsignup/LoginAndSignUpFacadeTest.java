@@ -2,7 +2,7 @@ package pl.luczak.michal.joboffersapp.loginandsignup;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.luczak.michal.joboffersapp.loginandsignup.dto.RegistrationRequestDTO;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 
 class LoginAndSignUpFacadeTest {
@@ -42,19 +42,17 @@ class LoginAndSignUpFacadeTest {
     @Test
     public void should_successfully_register_user() {
         //given
-        RegistrationRequestDTO registrationRequest = RegistrationRequestDTO.builder()
-                .username("username")
-                .password("password")
-                .build();
+        String username = "username";
+        String password = "password";
 
         //when
-        Long idRegisteredUser = loginAndSignUpFacade.register(registrationRequest);
-        UserDTO foundUserDTO = loginAndSignUpFacade.findByUsername(registrationRequest.username());
+        Long idRegisteredUser = loginAndSignUpFacade.register(username, password);
+        UserDTO foundUserDTO = loginAndSignUpFacade.findByUsername(username);
 
         //then
         Assertions.assertEquals(idRegisteredUser, foundUserDTO.id());
-        Assertions.assertEquals(foundUserDTO.username(), foundUserDTO.username());
-        Assertions.assertEquals(foundUserDTO.password(), foundUserDTO.password());
+        Assertions.assertEquals(username, foundUserDTO.username());
+        Assertions.assertEquals(password, foundUserDTO.password());
     }
 
     @Test
@@ -65,18 +63,14 @@ class LoginAndSignUpFacadeTest {
                 .password("password")
                 .username("username")
                 .build();
-        inMemoryDatabaseAdapter.save(userDTO);
 
         //when
-        RegistrationRequestDTO registrationRequest = RegistrationRequestDTO.builder()
-                .password("password")
-                .username("username")
-                .build();
+        inMemoryDatabaseAdapter.save(userDTO);
 
         //then
         Assertions.assertThrows(
-                UserAlreadyExistsException.class,
-                () -> loginAndSignUpFacade.register(registrationRequest)
+                DuplicateKeyException.class,
+                () -> loginAndSignUpFacade.register(userDTO.username(), userDTO.password())
         );
     }
 }

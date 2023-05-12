@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface OfferController<RP, RQ> {
 
-    RP saveOffer(RQ offerDTO);
+    RP saveOffer(RQ rq);
 
     RP findAllOffers();
 
