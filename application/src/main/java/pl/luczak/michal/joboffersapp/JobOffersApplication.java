@@ -11,7 +11,8 @@ import pl.luczak.michal.joboffersapp.resttemplate.RestTemplateConfigProperties;
 @SpringBootApplication
 @EnableConfigurationProperties({
         OfferFetcherConfigProperties.class,
-        RestTemplateConfigProperties.class
+        RestTemplateConfigProperties.class,
+        JWTConfigurationProperties.class
 })
 @EnableScheduling
 @EnableMongoRepositories

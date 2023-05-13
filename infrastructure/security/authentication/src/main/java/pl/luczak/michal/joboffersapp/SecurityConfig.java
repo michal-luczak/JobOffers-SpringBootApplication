@@ -10,10 +10,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.luczak.michal.joboffersapp.ports.output.UserService;
 
 @Configuration
 class SecurityConfig {
+
+    @Bean
+    JWTAuthTokenFilter jwtAuthTokenFilter(JWTConfigurationProperties jwtConfigurationProperties) {
+        return new JWTAuthTokenFilter(jwtConfigurationProperties);
+    }
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -29,7 +35,7 @@ class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JWTAuthTokenFilter jwtAuthTokenFilter) throws Exception {
         httpSecurity.csrf()
                 .disable()
                 .authorizeHttpRequests()
@@ -41,7 +47,9 @@ class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling();
+                .exceptionHandling()
+                .and()
+                .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
