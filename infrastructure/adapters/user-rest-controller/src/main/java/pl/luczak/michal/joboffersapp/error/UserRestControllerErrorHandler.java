@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import pl.luczak.michal.joboffersapp.loginandsignup.UserAlreadyExistsException;
+import pl.luczak.michal.joboffersapp.loginandsignup.UserIdDuplicationException;
 import pl.luczak.michal.joboffersapp.loginandsignup.UserNotFoundException;
 
 @ControllerAdvice
@@ -24,7 +24,7 @@ class UserRestControllerErrorHandler {
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(HttpStatus.CONFLICT)
-    UserAlreadyExistsResponse handle(UserAlreadyExistsException exception) {
+    UserAlreadyExistsResponse handle(UserIdDuplicationException exception) {
         return new UserAlreadyExistsResponse(
                 exception.getMessage(),
                 HttpStatus.CONFLICT

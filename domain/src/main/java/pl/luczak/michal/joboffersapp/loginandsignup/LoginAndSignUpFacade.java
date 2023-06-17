@@ -11,7 +11,7 @@ public class LoginAndSignUpFacade implements UserService {
     private final UserDAOPort userDaoPort;
 
     @Override
-    public Long register(String username, String password) {
+    public Long register(String username, String password) throws UserIdDuplicationException {
         UserDTO userDTO = UserDTO.builder()
                 .username(username)
                 .password(password)
@@ -20,7 +20,7 @@ public class LoginAndSignUpFacade implements UserService {
     }
 
     @Override
-    public UserDTO findByUsername(String username) {
+    public UserDTO findByUsername(String username) throws UserNotFoundException {
         return userDaoPort.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
     }

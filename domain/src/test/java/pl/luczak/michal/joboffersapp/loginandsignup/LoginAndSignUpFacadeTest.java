@@ -2,7 +2,6 @@ package pl.luczak.michal.joboffersapp.loginandsignup;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 
 class LoginAndSignUpFacadeTest {
@@ -27,7 +26,7 @@ class LoginAndSignUpFacadeTest {
         UserDTO user = loginAndSignUpFacade.findByUsername("username");
 
         //then
-        Assertions.assertEquals(user, userDTO);
+        Assertions.assertEquals(userDTO, user);
     }
 
     @Test
@@ -56,7 +55,7 @@ class LoginAndSignUpFacadeTest {
     }
 
     @Test
-    public void should_successfully_register_user_and_throw_UserAlreadyExistsException() {
+    public void should_throw_UserAlreadyExistsException() {
         //given
         UserDTO userDTO = UserDTO.builder()
                 .id(1L)
@@ -69,7 +68,7 @@ class LoginAndSignUpFacadeTest {
 
         //then
         Assertions.assertThrows(
-                DuplicateKeyException.class,
+                UsernameDuplicationException.class,
                 () -> loginAndSignUpFacade.register(userDTO.username(), userDTO.password())
         );
     }

@@ -4,7 +4,7 @@ spring:
       uri: mongodb://admin:password@localhost:27017/job-offers
       auto-index-creation: true
   datasource:
-    url: jdbc.postgresql://localhost:5432/job-offers
+    url: jdbc:postgresql://localhost:5432/job-offers
     username: test
     password: test
     driver-class-name: org.postgresql.Driver
@@ -27,4 +27,11 @@ job-offers:
       connection-time-out: 5000
       read-time-out: 5000
     scheduler:
-      cron: '0 0 */3 * * *'
+      fixed-rate: PT1H
+      enable: true
+  user:
+    auth:
+      jwt:
+        expirationTimeInMs: 1209600000
+        secret: test
+        issuer: job-offers-backend

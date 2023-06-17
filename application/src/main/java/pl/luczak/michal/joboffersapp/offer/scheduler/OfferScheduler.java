@@ -11,7 +11,7 @@ class OfferScheduler {
 
     private final OfferService offerService;
 
-    @Scheduled(cron = "${job-offers.offer.scheduler.cron}")
+    @Scheduled(fixedRateString = "${job-offers.offer.scheduler.fixed-rate}")
     void fetchOffer() {
         offerService.fetchAllOffersAndSaveAllIfNotExists();
     }

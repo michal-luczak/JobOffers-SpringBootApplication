@@ -2,6 +2,7 @@ package pl.luczak.michal.joboffersapp;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,13 +40,19 @@ class SecurityConfig {
         httpSecurity.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("")
-                .permitAll()
+                .requestMatchers(HttpMethod.GET, "/offer/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/token").permitAll()
+                .requestMatchers(HttpMethod.POST, "/offer").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .headers().cacheControl().disable()
+                .frameOptions().disable()
+                .xssProtection().disable()
+                .contentTypeOptions().disable()
+                .and()
+                .httpBasic().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
                 .and()

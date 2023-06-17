@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp;
+package pl.luczak.michal.joboffersapp.controller.register;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import pl.luczak.michal.joboffersapp.ports.output.UserService;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
-class UserRestController implements UserController<ResponseEntity<?>, UserRegisterRequest> {
+class UserRegisterController implements UserController<ResponseEntity<?>, UserRegisterRequest> {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;

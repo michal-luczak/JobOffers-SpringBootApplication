@@ -8,10 +8,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 @AllArgsConstructor
 class JWTAuthenticator {
 
     private final AuthenticationManager authenticationManager;
+    private final Clock clock;
+    private final JWTConfigurationProperties properties;
 
     JWTResponseDTO authenticateAndGenerateToken(LoginRequestDTO loginRequestDTO) {
         Authentication authentication = authenticationManager.authenticate(
@@ -26,17 +33,16 @@ class JWTAuthenticator {
     }
 
     private String buildToken(User user) {
-//        String secretKey = properties.secret();
-        String secretKey = "test";
+        String secretKey = properties.secret();
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-//        Instant now = LocalDateTime.now(clock).toInstant(ZoneOffset.UTC);
-//        Instant expiresAt = now.plusMillis(properties.expirationTimeInMs());
-//        String issuer = properties.issuer();
+        Instant now = LocalDateTime.now(clock).toInstant(ZoneOffset.UTC);
+        Instant expiresAt = now.plusMillis(properties.expirationTimeInMs());
+        String issuer = properties.issuer();
         return JWT.create()
                 .withSubject(user.getUsername())
-//                .withIssuedAt(now)
-//                .withExpiresAt(expiresAt)
-//                .withIssuer(issuer)
+                .withIssuedAt(now)
+                .withExpiresAt(expiresAt)
+                .withIssuer(issuer)
                 .sign(algorithm);
     }
 }

@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp;
+package pl.luczak.michal.joboffersapp.controller.register;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

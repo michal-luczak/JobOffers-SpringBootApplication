@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.validation.controller;
+package pl.luczak.michal.joboffersapp.validation.controller.api;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -15,24 +15,24 @@ import java.util.Objects;
 @ControllerAdvice
 class APIValidationErrorHandler {
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    APIValidationErrorDTO handleValidationException(MethodArgumentNotValidException exception) {
+    APIValidationErrorResponseDTO handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         List<String> errors = exception.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .filter(Objects::nonNull)
                 .toList();
-        return new APIValidationErrorDTO(errors, HttpStatus.BAD_REQUEST);
+        return new APIValidationErrorResponseDTO(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseBody
-    APIValidationErrorDTO handleValidationException(MethodArgumentTypeMismatchException exception) {
-        return new APIValidationErrorDTO(
+    APIValidationErrorResponseDTO handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        return new APIValidationErrorResponseDTO(
                 List.of(exception.getMessage()),
                 HttpStatus.BAD_REQUEST
         );

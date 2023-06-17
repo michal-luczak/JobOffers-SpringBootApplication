@@ -18,7 +18,7 @@ class OfferRestControllerErrorHandler {
         );
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(OfferAlreadyExistsException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.CONFLICT)
     OfferAlreadyExistsResponse handle(OfferAlreadyExistsException exception) {

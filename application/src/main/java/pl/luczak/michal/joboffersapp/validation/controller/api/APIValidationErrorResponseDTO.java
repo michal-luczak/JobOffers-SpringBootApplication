@@ -1,10 +1,10 @@
-package pl.luczak.michal.joboffersapp.validation.controller;
+package pl.luczak.michal.joboffersapp.validation.controller.api;
 
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public record APIValidationErrorDTO(
+public record APIValidationErrorResponseDTO(
         List<String> messages,
         HttpStatus status
 ) {
