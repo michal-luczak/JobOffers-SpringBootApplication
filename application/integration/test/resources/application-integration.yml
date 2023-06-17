@@ -7,4 +7,4 @@ job-offers:
       connection-time-out: 5000
       read-time-out: 5000
     scheduler:
-      cron: '*/5 * * * * *'
+      cron: '*/1 * * * * *'

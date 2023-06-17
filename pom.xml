@@ -10,10 +10,11 @@
         <version>3.0.5</version>
     </parent>
 
-    <groupId>pl.luczak.michal</groupId>
+    <groupId>pl.luczak.michal.joboffersapp</groupId>
     <artifactId>JobOffers-SpringBootApplication</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>domain</module>
         <module>infrastructure</module>
@@ -61,11 +62,15 @@
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>3.0.5</version>
             </dependency>
-            <!-- LOMBOK -->
             <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.26</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-statrter-validation</artifactId>
+                <version>3.0.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>3.0.5</version>
             </dependency>
             <!-- UNIT TESTS -->
             <dependency>
@@ -89,4 +94,36 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <!-- LOMBOK -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

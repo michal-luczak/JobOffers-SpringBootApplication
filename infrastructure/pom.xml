@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>JobOffers-SpringBootApplication</artifactId>
-        <groupId>pl.luczak.michal</groupId>
+        <groupId>pl.luczak.michal.joboffersapp</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,8 +12,8 @@
     <artifactId>infrastructure</artifactId>
 
     <modules>
-        <module>offerDAO-mongodb-adapter</module>
-        <module>userDAO-jpa-adapter</module>
+        <module>adapters</module>
+        <module>security</module>
     </modules>
 
     <properties>
