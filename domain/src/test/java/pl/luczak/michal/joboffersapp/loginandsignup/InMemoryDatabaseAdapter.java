@@ -2,7 +2,7 @@ package pl.luczak.michal.joboffersapp.loginandsignup;
 
 import lombok.NonNull;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
-import pl.luczak.michal.joboffersapp.ports.input.UserDAOPort;
+import pl.luczak.michal.joboffersapp.ports.input.user.UserDAOPort;
 
 import java.util.HashMap;
 import java.util.Iterator;

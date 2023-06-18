@@ -1,6 +1,6 @@
 package pl.luczak.michal.joboffersapp.offer;
 
-import pl.luczak.michal.joboffersapp.ports.input.OfferDAOPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferDAOPort;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 
 import java.util.*;
@@ -11,6 +11,9 @@ class InMemoryOfferPersistenceAdapter implements OfferDAOPort {
 
     @Override
     public UUID saveOffer(OfferDTO offerDTO) {
+        if (offerDTO.uniqueID() == null) {
+            offerDTO = offerDTO.toBuilder().uniqueID(UUID.randomUUID()).build();
+        }
         offers.put(offerDTO.uniqueID(), offerDTO);
         return offerDTO.uniqueID();
     }
@@ -37,9 +40,13 @@ class InMemoryOfferPersistenceAdapter implements OfferDAOPort {
     @Override
     public List<UUID> saveAllOffers(List<OfferDTO> offerDTOs) {
         offerDTOs.forEach(offerDTO -> {
+            if (offerDTO.uniqueID() == null) {
+                offerDTO = offerDTO.toBuilder().uniqueID(UUID.randomUUID()).build();
+            }
             offers.put(offerDTO.uniqueID(), offerDTO);
         });
-        return offerDTOs.stream()
+        return offers.values()
+                .stream()
                 .map(OfferDTO::uniqueID)
                 .toList();
     }

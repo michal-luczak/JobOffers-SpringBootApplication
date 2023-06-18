@@ -1,6 +1,6 @@
 package pl.luczak.michal.joboffersapp;
 
-record JWTResponseDTO(
+public record JWTResponseDTO(
         String username,
         String token
 ) {

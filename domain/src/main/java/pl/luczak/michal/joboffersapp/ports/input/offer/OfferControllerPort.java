@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.ports.input;
+package pl.luczak.michal.joboffersapp.ports.input.offer;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ import java.util.UUID;
  * @param <RQ> Request
 **/
 
-public interface OfferController<RP, RQ> {
+public interface OfferControllerPort<RP, RQ> {
 
     RP saveOffer(RQ rq);
 

@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.ports.input;
+package pl.luczak.michal.joboffersapp.ports.input.offer;
 
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 

@@ -1,149 +1,254 @@
 package pl.luczak.michal.joboffersapp.typicalscenario;
 
-import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.luczak.michal.joboffersapp.BaseIntegrationTest;
-import pl.luczak.michal.joboffersapp.dto.OfferRequestDTO;
-import pl.luczak.michal.joboffersapp.validation.controller.api.APIValidationErrorResponseDTO;
-import pl.luczak.michal.joboffersapp.ports.input.OfferFetcherPort;
+import pl.luczak.michal.joboffersapp.JWTResponseDTO;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferSchedulerPort;
 import pl.luczak.michal.joboffersapp.ports.output.OfferService;
+import pl.luczak.michal.joboffersapp.utils.SamplesOffersResponse;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class TypicalScenarioTest extends BaseIntegrationTest {
+class TypicalScenarioTest extends BaseIntegrationTest implements SamplesOffersResponse {
 
-   /*
-        OfferUUID#1 - f3ac4da6-4bdf-4eaa-bfe2-f69dc4ccbe66
-        OfferUUID#2 - 39b6b873-4418-433b-ba99-0e705d204cc0
-        OfferUUID#3 - 92b131da-1491-4af1-8e99-ac4179016476
-        OfferUUID#4 - ca1bfb3d-c298-4a59-983d-8f23de10d372
+    private static final Pattern jwtRegex = Pattern.compile("^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$");
 
-        starter context:
-            there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
-
-        step 1: scheduler ran 1st time and made GET to external server and system added 0 offers to database
-        step 2: user made GET /offer with no jwt token and system returned OK(200) with 0 offers
-        step 3: user made POST /offer with offer and without token. Then system returned UNAUTHORIZED(401)
-        step 4: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
-        step 5: user made POST /register with username=someUser, password=somePassword and system registered user with status OK(200)
-        step 6: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned OK(200) and jwttoken=AAAA.BBBB.CCC
-        step 7: there are 2 new offers in external HTTP server
-        step 8: scheduler ran 2nd time and made GET to external server and system added 2 new offers with ids: ${OfferUUID#1} and ${OfferUUID#2} to database
-        step 9: user made GET /offer system returned OK(200) with 2 offers with ids: 1000 and 2000
-        step 10: user made GET /offer/${OfferUUID#3} and system returned NOT_FOUND(404) with message “Offer with id 9999 not found”
-        step 11: user made GET /offer/${OfferUUID#1} and system returned OK(200) with offer
-        step 12: there are 2 new offers in external HTTP server
-        step 13: scheduler ran 3rd time and made GET to external server and system added 2 new offers with ids: ${OfferUUID#3} and ${OfferUUID#4} to database
-        step 14: user made GET /offer and system returned OK(200) with 4 offers with ids: ${OfferUUID#1}, ${OfferUUID#2}, ${OfferUUID#3} and ${OfferUUID#4}
-        step 15: user made POST /offer with header “Authorization: Bearer AAAA.BBBB.CCC” and offer and system returned CREATED(201) with saved offer
-        step 16: user made GET /offer and system returned OK(200) with 5 offers
-    */
+    private UUID firstOfferUUID;
+    private UUID secondOfferUUID;
+    private UUID thirdOfferUUID;
+    private UUID fourthOfferUUID;
+    private final UUID randomUUID = UUID.randomUUID();
 
     @Autowired
-    private OfferFetcherPort<OfferRequestDTO> offerFetcherPort;
+    private OfferSchedulerPort offerScheduler;
 
     @Autowired
     private OfferService offerService;
 
+    /*
+        starter context:
+            there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
+
+        step 1: scheduler ran 1st time and made GET to external server and system added 0 offers to database
+        step 2: user made GET /offers with no jwt token and system returned OK(200) with 0 offers
+        step 3: user made POST /offers with offer and without token. Then system returned UNAUTHORIZED(401)
+        step 4: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
+        step 5: user made POST /register with username=someUser, password=somePassword and system registered user with status OK(200)
+        step 6: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned OK(200) and jwttoken=AAAA.BBBB.CCC
+        step 7: there are 2 new offers in external HTTP server
+        step 8: scheduler ran 2nd time and made GET to external server and system added 2 new offers with ids: ${firstOfferUUID} and ${secondOfferUUID} to database
+        step 9: user made GET /offers system returned OK(200) with 2 offers
+        step 10: user made GET /offers/${randomUUID} and system returned NOT_FOUND(404) with message “Offer with id ${randomUUID} not found”
+        step 11: user made GET /offers/${firstOfferUUID} and system returned OK(200) with offer
+        step 12: there are 2 new offers in external HTTP server
+        step 13: scheduler ran 3rd time and made GET to external server and system added 2 new offers with ids: ${thirdOfferUUID} and ${fourthOfferUUID} to database
+        step 14: user made GET /offers and system returned OK(200) with 4 offers with ids: ${firstOfferUUID}, ${secondOfferUUID}, ${thirdOfferUUID} and ${fourthOfferUUID}
+        step 15: user made POST /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and offer and system returned CREATED(201) with saved offer
+        step 16: user made GET /offers and system returned OK(200) with 5 offers
+    */
+
+
     @Test
     void typical_scenario() throws Exception {
 
-    //step 2:
-
-
-        //when
-        List<OfferDTO> offerDTOList = offerService.fetchAllOffersAndSaveAllIfNotExists();
-
-        //then
-        Assertions.assertTrue(offerDTOList.isEmpty());
-
-    //step 3:
-
-        //when
-
-    //step 5:
-
-        //when
-        ResultActions tokenUnauthorized = mockMvc.perform(post("/token")
-                .content("""
-                        {
-                            "username": "someUser",
-                            "password": "somePassword"
-                        }
-                        """.trim())
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-        );
-
-        //then
-        tokenUnauthorized.andExpect(status().isUnauthorized());
-
-    //step 4:
-
+    //step 1: scheduler ran 1st time and made GET to external server and system added 0 offers to database
         //given
-        UUID uniqueID = UUID.randomUUID();
+        wireMockServer.stubFor(WireMock.get("/offers")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("[]")));
+        // when
+        List<OfferDTO> emptyOfferList = offerScheduler.fetchOffers();
+        // then
+        assertThat(emptyOfferList).isEmpty();
 
-        //when
-        ResultActions offerBadRequestResult = mockMvc.perform(get("/offer/dsd")
+    //step 2: user made GET /offer with no jwt token and system returned OK(200) with 0 offers
+        //given && when
+        ResultActions getResultActions = mockMvc.perform(get("/offers"));
+        //then
+        String stringFromGetResultActions = getResultActions.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(stringFromGetResultActions).isEqualTo("[]");
+
+    //step 3: user made POST /offer with offer and without token. Then system returned UNAUTHORIZED(401)
+        //given && when
+        ResultActions postResultActions = mockMvc.perform(post("/offers")
+                .content(oneOffer())
                 .contentType(MediaType.APPLICATION_JSON)
         );
-
         //then
-        MvcResult mvcResult = offerBadRequestResult.andExpect(status().isBadRequest()).andReturn();
-        String json = mvcResult.getResponse().getContentAsString();
-        APIValidationErrorResponseDTO result = objectMapper.readValue(json, APIValidationErrorResponseDTO.class);
-        Assertions.assertTrue(result.messages().contains("Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; Invalid UUID string: dsd"));
+        postResultActions.andExpect(status().isUnauthorized());
 
-    //step 5:
+    // step 4: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
+        //given && when
+        ResultActions postTokenResultActions = mockMvc.perform(post("/token")
+                .content("""
+                        {
+                            "username" : "username",
+                            "password" : "password"
+                        }
+                        """)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+        //then
+        postTokenResultActions.andExpect(status().isUnauthorized());
 
-        //when
+    //step 5: user made POST /register with username=someUser, password=somePassword and system registered user with status CREATED(201)
+        //given && when
         ResultActions registerRequestOK = mockMvc.perform(post("/register")
                 .content("""
                         {
-                            "username": "someUser",
-                            "password": "somePassword"
+                            "username": "username",
+                            "password": "password"
                         }
                         """)
                 .contentType(MediaType.APPLICATION_JSON)
         );
-
         //then
-        registerRequestOK.andExpect(status().isOk());
+        registerRequestOK.andExpect(status().isCreated());
 
-
-
-
-
-
-
-        ResultActions tokenBadRequestResult = mockMvc.perform(post("/token")
+    //step 6: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned OK(200) and jwttoken=AAAA.BBBB.CCC
+        //given && when
+        ResultActions tokenPostOk = mockMvc.perform(post("/token")
                 .content("""
                         {
-                            "username": "",
-                            "password": ""
+                            "username": "username",
+                            "password": "password"
                         }
                         """)
                 .contentType(MediaType.APPLICATION_JSON)
         );
-
+        String tokenResponse = tokenPostOk.andReturn()
+                .getResponse()
+                .getContentAsString();
+        JWTResponseDTO jwtResponseDTO = objectMapper.readValue(tokenResponse, JWTResponseDTO.class);
         //then
-        MvcResult testMvcResult = tokenBadRequestResult.andExpect(status().isBadRequest()).andReturn();
-        String jsonTest = testMvcResult.getResponse().getContentAsString();
-        APIValidationErrorResponseDTO resultTest = objectMapper.readValue(jsonTest, APIValidationErrorResponseDTO.class);
-        Assertions.assertTrue(resultTest.messages().containsAll(List.of("Test2", "Test3")));
+        tokenPostOk.andExpect(status().isOk());
+        assertThat(jwtResponseDTO.token()).matches(jwtRegex);
+
+    //step 7: there are 2 new offers in external HTTP server
+        //given && when && then
+        wireMockServer.stubFor(WireMock.get("/offers")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(twoOffers())));
+
+    //step 8: scheduler ran 2nd time and made GET to external server and system added 2 new offers with ids: ${firstOfferUUID} and ${secondOfferUUID} to database
+        //given && when
+        List<OfferDTO> offerDTOList = offerScheduler.fetchOffers();
+        OfferDTO firstOffer = offerDTOList.get(0);
+        OfferDTO secondOffer = offerDTOList.get(1);
+        firstOfferUUID = firstOffer.uniqueID();
+        secondOfferUUID = secondOffer.uniqueID();
+        //then
+        assertThat(offerDTOList).hasSize(2);
+
+    //step 9: user made GET /offer system returned OK(200) with 2 offers
+        //given && when
+        ResultActions getResultActionsWithTwoOffers = mockMvc.perform(get("/offers"));
+        //then
+        String stringFromGetResultActionsWithTwoOffers = getResultActionsWithTwoOffers.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
+        List<OfferDTO> twoOffersList = objectMapper.readValue(stringFromGetResultActionsWithTwoOffers, new TypeReference<>(){});
+        assertThat(twoOffersList).containsExactlyInAnyOrderElementsOf(offerDTOList);
+
+    //step 10: user made GET /offer/${randomUUID} and system returned NOT_FOUND(404) with message “Offer with id ${randomUUID} not found”
+        //given && when
+        ResultActions getWithRandomUUID = mockMvc.perform(get("/offers/" + randomUUID));
+        //then
+        String notFoundResponse = getWithRandomUUID.andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
+        assertThat(notFoundResponse).contains("Offer with uniqueID: " + randomUUID);
+
+    //step 11: user made GET /offers/${firstOfferUUID} and system returned OK(200) with offer
+        //given && when
+        ResultActions getWithFirstOfferUUID = mockMvc.perform(get("/offers/" + firstOfferUUID));
+        //then
+        String okResponse = getWithFirstOfferUUID.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
+        OfferDTO firstFoundOfferDTO = objectMapper.readValue(okResponse, OfferDTO.class);
+        assertThat(firstFoundOfferDTO).isEqualTo(firstOffer);
+
+    //step 12: there are 2 new offers in external HTTP server
+        //given && when && then
+        wireMockServer.stubFor(WireMock.get("/offers")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(twoOtherOffers())));
+
+    //step 13: scheduler ran 3rd time and made GET to external server and system added 2 new offers with ids: ${thirdOfferUUID} and ${fourthOfferUUID} to database
+        //given && when
+        List<OfferDTO> offerListWith2NewOffers = offerScheduler.fetchOffers();
+        OfferDTO thirdOffer = offerListWith2NewOffers.get(0);
+        OfferDTO fourthOffer = offerListWith2NewOffers.get(1);
+        thirdOfferUUID = thirdOffer.uniqueID();
+        fourthOfferUUID = fourthOffer.uniqueID();
+        //then
+        assertThat(offerListWith2NewOffers).hasSize(2);
+
+    //step 14: user made GET /offers and system returned OK(200) with 4 offers with ids: ${firstOfferUUID}, ${secondOfferUUID}, ${thirdOfferUUID} and ${fourthOfferUUID}
+        //given && when
+        ResultActions getWithFourOffers = mockMvc.perform(get("/offers"));
+        //then
+        String getWithFourOffersResponse = getWithFourOffers.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
+        List<OfferDTO> fourOfferList = objectMapper.readValue(getWithFourOffersResponse, new TypeReference<>(){});
+        assertThat(fourOfferList).containsExactlyInAnyOrder(firstOffer, secondOffer, thirdOffer, fourthOffer);
+
+    //step 15: user made POST /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and offer and system returned CREATED(201) with saved offer
+        //given && when
+        ResultActions offerPostCreated = mockMvc.perform(post("/offers")
+                .content("""
+                        {
+                            "title": "Junior Java Developer",
+                            "company": "BlueSoft Sp. z o.o.",
+                            "salary": "7 000 – 9 000 PLN",
+                            "offerUrl": "https://nofluffjobs.com/pl/job/junior-java-developer-bluesoft-remote-hfuanrre"
+                        }
+                        """)
+                .header("Authorization", "Bearer " + jwtResponseDTO.token())
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+        //then
+        offerPostCreated.andExpect(status().isCreated());
+
+    //step 16: user made GET /offers and system returned OK(200) with 5 offers
+        //give && when
+        ResultActions getWithFiveOffers = mockMvc.perform(get("/offers"));
+        //then
+        String getWithFiveOffersResponse = getWithFiveOffers.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
+        List<OfferDTO> fiveOfferList = objectMapper.readValue(getWithFiveOffersResponse, new TypeReference<>(){});
+        assertThat(fiveOfferList).hasSize(5);
     }
 }

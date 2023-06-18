@@ -1,8 +1,8 @@
 package pl.luczak.michal.joboffersapp.offer;
 
 import lombok.AllArgsConstructor;
-import pl.luczak.michal.joboffersapp.ports.input.OfferDAOPort;
-import pl.luczak.michal.joboffersapp.ports.input.OfferFetcherPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferDAOPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferFetcherPort;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 import pl.luczak.michal.joboffersapp.ports.output.OfferService;
 
@@ -34,8 +34,8 @@ public class OfferFacade<T extends Fetchable> implements OfferService {
                 .map(Fetchable::toOfferDTO)
                 .filter(offerDTO -> offerDAO.findOfferByUrl(offerDTO.url()).isEmpty())
                 .toList();
-        offerDAO.saveAllOffers(offerDTOS);
-        return offerDTOS;
+        List<UUID> savedOffers = offerDAO.saveAllOffers(offerDTOS);
+        return savedOffers.stream().map(this::findOfferById).toList();
     }
 }
 

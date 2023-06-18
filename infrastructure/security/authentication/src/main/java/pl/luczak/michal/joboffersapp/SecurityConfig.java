@@ -3,6 +3,7 @@ package pl.luczak.michal.joboffersapp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.luczak.michal.joboffersapp.ports.output.UserService;
 
@@ -40,9 +42,9 @@ class SecurityConfig {
         httpSecurity.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, "/offer/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/offers/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/token").permitAll()
-                .requestMatchers(HttpMethod.POST, "/offer").authenticated()
+                .requestMatchers(HttpMethod.POST, "/register").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -54,7 +56,7 @@ class SecurityConfig {
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling()
+                .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

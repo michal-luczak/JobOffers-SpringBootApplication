@@ -1,6 +1,6 @@
 package pl.luczak.michal.joboffersapp.offer;
 
-import pl.luczak.michal.joboffersapp.ports.input.OfferFetcherPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferFetcherPort;
 
 import java.util.ArrayList;
 import java.util.List;

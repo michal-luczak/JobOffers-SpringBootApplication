@@ -14,7 +14,6 @@ import pl.luczak.michal.joboffersapp.resttemplate.RestTemplateConfigProperties;
         RestTemplateConfigProperties.class,
         JWTConfigurationProperties.class
 })
-@EnableScheduling
 @EnableMongoRepositories
 @EnableJpaRepositories
 public class JobOffersApplication {

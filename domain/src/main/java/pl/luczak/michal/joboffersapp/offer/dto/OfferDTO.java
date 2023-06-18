@@ -4,7 +4,7 @@ import lombok.Builder;
 
 import java.util.UUID;
 
-@Builder
+@Builder(toBuilder = true)
 public record OfferDTO(
         UUID uniqueID,
         String url,

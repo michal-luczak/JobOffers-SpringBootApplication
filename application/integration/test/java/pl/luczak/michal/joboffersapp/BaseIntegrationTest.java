@@ -1,5 +1,6 @@
 package pl.luczak.michal.joboffersapp;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -33,7 +34,7 @@ public abstract class BaseIntegrationTest {
             );
 
     @Container
-    protected static final PostgreSQLContainer<?> postgreSQLContainer =
+    protected static final PostgreSQLContainer<?> postgresContainer =
             new PostgreSQLContainer<>(
                     DockerImageName.parse("postgres:15.2")
             );
@@ -41,8 +42,8 @@ public abstract class BaseIntegrationTest {
     @DynamicPropertySource
     protected static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("job-offers.offer.fetcher.config.port", wireMockServer::getPort);
+        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+        registry.add("job-offers.offer.fetcher.port", wireMockServer::getPort);
     }
 
     @RegisterExtension
@@ -55,5 +56,4 @@ public abstract class BaseIntegrationTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
-
 }

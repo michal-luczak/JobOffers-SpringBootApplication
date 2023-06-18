@@ -3,7 +3,7 @@ package pl.luczak.michal.joboffersapp.offer;
 import lombok.AllArgsConstructor;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
-import pl.luczak.michal.joboffersapp.ports.input.OfferDAOPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferDAOPort;
 
 import java.util.LinkedList;
 import java.util.List;

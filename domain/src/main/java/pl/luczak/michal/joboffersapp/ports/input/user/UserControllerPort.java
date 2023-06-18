@@ -1,10 +1,10 @@
-package pl.luczak.michal.joboffersapp.ports.input;
+package pl.luczak.michal.joboffersapp.ports.input.user;
 
 /**
  * @param <RQ> request
  * @param <RP> response
 **/
-public interface UserController<RP, RQ> {
+public interface UserControllerPort<RP, RQ> {
 
     RP findByUsername(String username);
 

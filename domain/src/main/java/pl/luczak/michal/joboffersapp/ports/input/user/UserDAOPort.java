@@ -1,4 +1,4 @@
-package pl.luczak.michal.joboffersapp.ports.input;
+package pl.luczak.michal.joboffersapp.ports.input.user;
 
 import pl.luczak.michal.joboffersapp.loginandsignup.UserIdDuplicationException;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;

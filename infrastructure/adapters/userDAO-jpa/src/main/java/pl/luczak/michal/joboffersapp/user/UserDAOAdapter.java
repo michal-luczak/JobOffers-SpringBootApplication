@@ -3,7 +3,7 @@ package pl.luczak.michal.joboffersapp.user;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import pl.luczak.michal.joboffersapp.loginandsignup.UserIdDuplicationException;
-import pl.luczak.michal.joboffersapp.ports.input.UserDAOPort;
+import pl.luczak.michal.joboffersapp.ports.input.user.UserDAOPort;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 
 import java.util.Optional;
