@@ -6,7 +6,5 @@ package pl.luczak.michal.joboffersapp.ports.input.user;
 **/
 public interface UserControllerPort<RP, RQ> {
 
-    RP findByUsername(String username);
-
     RP register(RQ rq);
 }

@@ -58,10 +58,19 @@ public interface SamplesOffersResponse {
 
     default OfferDTO oneOfferDTO() {
         return OfferDTO.builder()
-                .url("https://nofluffjobs.com/pl/job/java-cms-developer-efigence-warszawa-b4qs8loh")
+                .url("https://nofluffjobs.com/pl/job/junior-java-developer-convista-poland-wroclaw-akfbyrfk")
                 .companyName("Efigence SA")
                 .salary("7 500 – 11 500 PLN")
                 .jobName("Junior Java Developer")
+                .build();
+    }
+
+    default OfferDTO oneOtherOfferDTO() {
+        return OfferDTO.builder()
+                .url("https://nofluffjobs.com/pl/job/java-cms-developer-efigence-warszawa-b4qs8loh")
+                .companyName("Centrum Percall Polska sp. z o.o.")
+                .salary("4 500 – 13 500 PLN")
+                .jobName("Java Developer")
                 .build();
     }
 

@@ -2,9 +2,13 @@ spring:
   datasource:
     username: test
     password: test
+  task:
+    scheduling:
+      enable: false
 job-offers:
   offer:
     fetcher:
       uri: http://localhost
     scheduler:
-      enable: false
+      fixed-rate: PT1S
+      enable: true

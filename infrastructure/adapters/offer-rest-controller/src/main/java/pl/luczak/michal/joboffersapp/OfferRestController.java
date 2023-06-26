@@ -1,6 +1,7 @@
 package pl.luczak.michal.joboffersapp;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,11 @@ class OfferRestController implements OfferControllerPort<ResponseEntity<?>, Offe
 
     @PostMapping
     @Override
-    public ResponseEntity<UUID> saveOffer(@RequestBody @Valid OfferSaveRequest offerSaveRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(offerService.saveOffer(
-                        offerSaveRequestToOfferDTOMapper.toOfferDTO(offerSaveRequest)
-                ));
+    public ResponseEntity<String> saveOffer(@RequestBody @Valid OfferSaveRequest offerSaveRequest) {
+        UUID uuid = offerService.saveOffer(
+                offerSaveRequestToOfferDTOMapper.toOfferDTO(offerSaveRequest)
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(uuid.toString());
     }
 
     @GetMapping

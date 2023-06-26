@@ -4,12 +4,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 record UserRegisterRequest(
-        @NotBlank
-        @NotNull
+        @NotBlank(message = "{not.blank}")
+        @NotNull(message = "{not.null}")
         String username,
 
-        @NotBlank
-        @NotNull
+        @NotBlank(message = "{not.blank}")
+        @NotNull(message = "{not.null}")
         String password
 ) {
 }

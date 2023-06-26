@@ -72,6 +72,11 @@
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>3.0.5</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-security-test</artifactId>
+                <version>3.0.5</version>
+            </dependency>
             <!-- UNIT TESTS -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
@@ -100,6 +105,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>

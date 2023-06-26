@@ -6,21 +6,21 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-record OfferSaveRequest(
-        @NotNull(message = "{message.test1}")
-        @NotBlank
+public record OfferSaveRequest(
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("offerUrl")
         String url,
-        @NotNull
-        @NotBlank
-        @JsonProperty("company")
-        String companyName,
-        @NotNull
-        @NotBlank
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("title")
         String jobName,
-        @NotNull
-        @NotBlank
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
+        @JsonProperty("company")
+        String companyName,
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("salary")
         String salary
 ) { }

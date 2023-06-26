@@ -9,7 +9,6 @@ import pl.luczak.michal.joboffersapp.ports.output.OfferService;
 
 import java.util.List;
 
-@Component
 @AllArgsConstructor
 class OfferScheduler implements OfferSchedulerPort {
 

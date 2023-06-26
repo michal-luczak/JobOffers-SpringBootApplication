@@ -22,7 +22,7 @@ class OfferSaveRequestToOfferDTOMapper implements IOfferDTOMapper<OfferSaveReque
     @Override
     public OfferDTO apply(OfferSaveRequest offerSaveRequest) {
         return OfferDTO.builder()
-                .uniqueID(UUID.randomUUID())
+                .uniqueID(null)
                 .companyName(offerSaveRequest.companyName())
                 .jobName(offerSaveRequest.jobName())
                 .salary(offerSaveRequest.salary())

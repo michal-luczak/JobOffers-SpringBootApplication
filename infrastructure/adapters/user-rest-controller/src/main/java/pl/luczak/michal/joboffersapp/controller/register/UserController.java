@@ -17,12 +17,6 @@ class UserController implements UserControllerPort<ResponseEntity<?>, UserRegist
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/users/{username}")
-    @Override
-    public ResponseEntity<UserDTO> findByUsername(@PathVariable @Valid String username) {
-        return ResponseEntity.ok(userService.findByUsername(username));
-    }
-
     @PostMapping("/register")
     @Override
     public ResponseEntity<Long> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {

@@ -31,4 +31,8 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <directory>../../../target/adapter-user-rest-controller-target-jar</directory>
+    </build>
 </project>

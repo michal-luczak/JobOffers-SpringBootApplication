@@ -1,12 +1,12 @@
 package pl.luczak.michal.joboffersapp;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -25,31 +25,32 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @AutoConfigureMockMvc
 @Testcontainers
 @ContextConfiguration
-public abstract class BaseIntegrationTest {
+@PropertySource("classpath:validationMessages.properties")
+public abstract class AbstractIntegrationTest {
 
     @Container
-    protected static final MongoDBContainer mongoDbContainer =
+    protected static MongoDBContainer mongoDbContainer =
             new MongoDBContainer(
                     DockerImageName.parse("mongo:4.0.10")
             );
 
     @Container
-    protected static final PostgreSQLContainer<?> postgresContainer =
+    protected static PostgreSQLContainer<?> postgresContainer =
             new PostgreSQLContainer<>(
                     DockerImageName.parse("postgres:15.2")
             );
 
+    @RegisterExtension
+    protected static WireMockExtension wireMockServer = WireMockExtension.newInstance()
+            .options(wireMockConfig().dynamicPort())
+            .build();
+
     @DynamicPropertySource
-    protected static void propertyOverride(DynamicPropertyRegistry registry) {
+    private static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
         registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
         registry.add("job-offers.offer.fetcher.port", wireMockServer::getPort);
     }
-
-    @RegisterExtension
-    protected static final WireMockExtension wireMockServer = WireMockExtension.newInstance()
-            .options(wireMockConfig().dynamicPort())
-            .build();
 
     @Autowired
     protected MockMvc mockMvc;

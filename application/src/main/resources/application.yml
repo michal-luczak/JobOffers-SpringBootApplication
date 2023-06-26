@@ -16,6 +16,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  task:
+    scheduling:
+      enable: true
 
 job-offers:
   offer:

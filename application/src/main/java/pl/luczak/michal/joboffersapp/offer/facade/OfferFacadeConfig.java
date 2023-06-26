@@ -12,7 +12,7 @@ import pl.luczak.michal.joboffersapp.ports.output.OfferService;
 class OfferFacadeConfig {
 
     @Bean
-    OfferService offerFacade(
+    OfferService offerService(
             OfferDAOPort offerDAO,
             OfferFetcherPort<OfferRequestDTO> offerFetcherPort
     ) {
