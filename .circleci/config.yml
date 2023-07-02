@@ -35,7 +35,7 @@ jobs:
           command: mvn clean install -f application/pom.xml
       - run:
           name: Install integration tests
-          command: mvn clean install -pl integration
+          command: mvn clean install -f integration/pom.xml
       - save_cache: # saves the project dependencies
           name: Save cache
           paths:
