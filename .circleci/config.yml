@@ -29,7 +29,7 @@ jobs:
           command: mvn clean install -pl domain
       - run:
           name: Install infrastructure dependencies
-          command: mvn clean install -pl offer-rest-controller
+          command: mvn clean install -pl infrastructure -am
       - run:
           name: Install application
           command: mvn clean install -pl application
