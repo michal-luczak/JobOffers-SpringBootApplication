@@ -1,9 +1,8 @@
 package pl.luczak.michal.joboffersapp.validation.controller.api;
 
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,7 +42,13 @@ class APIValidationErrorHandler {
     @ResponseBody
     APIValidationErrorDTO handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
         return new APIValidationErrorDTO(
-                Collections.singletonList(exception.getMessage())
+                Collections.singletonList(
+                        String.format(
+                                "Failed to convert input: %s to %s",
+                                exception.getValue(),
+                                Objects.requireNonNull(exception.getRequiredType()).getSimpleName()
+                        )
+                )
         );
     }
 }

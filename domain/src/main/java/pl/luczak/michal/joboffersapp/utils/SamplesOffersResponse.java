@@ -4,6 +4,7 @@ import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public interface SamplesOffersResponse {
 
@@ -35,6 +36,21 @@ public interface SamplesOffersResponse {
                     }
               ]
               """.trim();
+    }
+
+    default List<OfferDTO> twoOfferDTOs() {
+        return List.of(OfferDTO.builder()
+                        .url("https://nofluffjobs.com/pl/job/junior-java-developer-convista-poland-wroclaw-akfbyrfk")
+                        .companyName("Efigence SA")
+                        .salary("7 200 – 11 500 PLN")
+                        .jobName("Junior Java Developer")
+                        .build(),
+                OfferDTO.builder()
+                        .url("https://nofluffjobs.com/pl/job/junior-java-developer-sollers-consulting-warszawa-s6et1ucc")
+                        .companyName("Convista Poland")
+                        .salary("12 500 – 14 500 PLN")
+                        .jobName("Junior Java Back-end Developer")
+                        .build());
     }
 
     default String twoOtherOffers() {
@@ -94,5 +110,14 @@ public interface SamplesOffersResponse {
                     .salary("12 500 – 14 500 PLN")
                     .jobName("Junior Java Back-end Developer")
                     .build()}).toList();
+    }
+
+    default List<OfferDTO> addUniqueIDToList(List<OfferDTO> list) {
+        return list.stream()
+                .map(o -> o.toBuilder()
+                        .uniqueID(UUID.randomUUID())
+                        .build()
+                )
+                .toList();
     }
 }

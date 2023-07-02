@@ -10,7 +10,7 @@ final class OfferDTOMapper implements IOfferDTOMapper<OfferDocument>, Function<O
     @Override
     public OfferDocument fromOfferDTO(OfferDTO offerDTO) {
         UUID uniqueID = offerDTO.uniqueID();
-        if (offerDTO.isNew()) {
+        if (uniqueID == null) {
             uniqueID = UUID.randomUUID();
         }
         return OfferDocument.builder()
