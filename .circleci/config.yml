@@ -26,10 +26,10 @@ jobs:
 
       - run:
           name: Install domain
-          command: mvn clean install -pl domain
+          command: mvn clean install -pl domain -am
       - run:
           name: Install infrastructure
-          command: mvn clean install -pl infrastructure
+          command: mvn clean install -pl infrastructure -am
       - run:
           name: Install application
           command: mvn clean install -pl application -am
