@@ -25,9 +25,11 @@ jobs:
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
 
       - run:
-          name: Install dependencies
-          command: mvn dependency:go-offline # gets the project dependencies
-
+          name: Install domain dependency
+          command: mvn clean install -pl domain
+      - run:
+          name: Install infrastructure dependency
+          command: mvn clean install -pl infrastructure
       - run:
           name: Install application dependency
           command: mvn clean install -pl application
@@ -49,12 +51,6 @@ jobs:
       - store_artifacts: # store the uberjar as an artifact
           # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: target/jobOffers-Application-0.0.1-SNAPSHOT.jar
-#      - run:
-#          name: Install domain dependency
-#          command: mvn clean install -pl domain
-#      - run:
-#          name: Install infrastructure dependency
-#          command: mvn clean install -pl infrastructure
       - store_test_results:
           path: target/surefire-reports
 
