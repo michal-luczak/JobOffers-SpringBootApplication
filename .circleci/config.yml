@@ -31,8 +31,8 @@ jobs:
           name: Install infrastructure
           command: mvn clean install -pl infrastructure
       - run:
-          name: Install Dependencies
-          command: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
+          name: Install application
+          command: mvn clean install -pl application -am
       - run:
           name: Install integration tests
           command: mvn clean install -pl integration
