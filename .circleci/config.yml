@@ -30,15 +30,14 @@ jobs:
       - run:
           name: Install infrastructure dependency
           command: mvn clean install -pl infrastructure
-      - run:
-          name: Install application dependency
-          command: mvn clean install -pl application
-
       - save_cache: # saves the project dependencies
           name: Save cache
           paths:
             - ~/.m2
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+      - run:
+          name: Install application dependency
+          command: mvn clean install -pl application
 
       - run:
           name: Run Tests
@@ -46,12 +45,6 @@ jobs:
 
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
           # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: target/surefire-reports
-
-      - store_artifacts: # store the uberjar as an artifact
-          # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: target/jobOffers-Application-0.0.1-SNAPSHOT.jar
-      - store_test_results:
           path: target/surefire-reports
 
 # Invoke jobs via workflows
