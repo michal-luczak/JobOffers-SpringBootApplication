@@ -25,19 +25,22 @@ jobs:
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
 
       - run:
-          name: Install domain dependency
+          name: Install domain
           command: mvn clean install -pl domain
       - run:
-          name: Install infrastructure dependency
+          name: Install infrastructure
           command: mvn clean install -pl infrastructure
+      - run:
+          name: Install application
+          command: mvn clean install -pl application
+      - run:
+          name: Install integration tests
+          command: mvn clean install -pl integration
       - save_cache: # saves the project dependencies
           name: Save cache
           paths:
             - ~/.m2
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-      - run:
-          name: Install application dependency
-          command: mvn clean install -pl application
 
       - run:
           name: Run Tests
