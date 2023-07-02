@@ -32,7 +32,7 @@ jobs:
           command: mvn clean install -pl infrastructure -am
       - run:
           name: Install application
-          command: mvn clean install -pl -f application/pom.xml -am
+          command: mvn clean install -f application/pom.xml -am
       - run:
           name: Install integration tests
           command: mvn clean install -pl integration
