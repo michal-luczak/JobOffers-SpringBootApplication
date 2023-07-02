@@ -28,6 +28,10 @@ jobs:
           name: Install dependencies
           command: mvn dependency:go-offline # gets the project dependencies
 
+      - run:
+          name: Install application dependency
+          command: mvn clean install -pl application
+
       - save_cache: # saves the project dependencies
           name: Save cache
           paths:
