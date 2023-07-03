@@ -27,6 +27,9 @@ jobs:
           version: 20.10.14
           docker_layer_caching: true
       - run:
+          name: Install project
+          command: mvn install -DskipTests
+      - run:
           name: Run Tests
           command: mvn verify # run the actual tests
       - save_cache: # saves the project dependencies
