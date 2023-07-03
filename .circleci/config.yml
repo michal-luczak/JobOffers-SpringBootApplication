@@ -33,15 +33,11 @@ jobs:
       - run:
           name: Install application
           command: mvn clean install -f application/pom.xml
-      - run:
-          name: Install integration tests
-          command: mvn clean install -f integration/pom.xml
       - save_cache: # saves the project dependencies
           name: Save cache
           paths:
             - ~/.m2
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-
       - run:
           name: Run Tests
           command: mvn test # run the actual tests
