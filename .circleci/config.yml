@@ -29,6 +29,10 @@ jobs:
       - run:
           name: Install project
           command: mvn install -DskipTests
+          store_artifacts:
+            expire_in: 2 min
+            paths:
+              - "*/target"
       - run:
           name: Run Tests
           command: mvn verify # run the actual tests

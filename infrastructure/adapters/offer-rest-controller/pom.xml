@@ -39,10 +39,5 @@
 
     <build>
         <directory>../../../target/adapter-offer-rest-controller-target-jar</directory>
-        <resources>
-            <resource>
-                <directory>application/src/main/resources</directory>
-            </resource>
-        </resources>
     </build>
 </project>
