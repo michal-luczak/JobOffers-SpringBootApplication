@@ -26,15 +26,6 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      # - run:
-      #     name: Install domain
-      #     command: mvn clean install -pl domain -am
-      # - run:
-      #     name: Install infrastructure
-      #     command: mvn clean install -f infrastructure/pom.xml
-      # - run:
-      #     name: Install application
-      #     command: mvn clean install -f application/pom.xml
       - run:
           name: Run Tests
           command: mvn verify # run the actual tests

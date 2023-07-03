@@ -24,6 +24,7 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureMockMvc
 @Testcontainers
 @ContextConfiguration
+@PropertySource("classpath:validationMessages.properties")
 public abstract class AbstractIntegrationTest {
 
     @Container
