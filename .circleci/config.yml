@@ -33,6 +33,9 @@ jobs:
           name: install infrastructure
           command: mvn clean install -f infrastructure/pom.xml
       - run:
+          name: install application
+          command: mvn clean install -f application/pom.xml
+      - run:
           name: Run Tests
           command: mvn verify # run the actual tests
       - save_cache: # saves the project dependencies
