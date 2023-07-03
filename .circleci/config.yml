@@ -29,10 +29,9 @@ jobs:
       - run:
           name: Install project
           command: mvn install -DskipTests
-          store_artifacts:
-            expire_in: 2 min
-            paths:
-              - "*/target"
+      - run:
+          name: Copy validationMessages.properties
+          command: cp application/src/main/resources/validationMessages.properties infrastructure/adapters/offer-rest-controller/src/main/resources/
       - run:
           name: Run Tests
           command: mvn verify # run the actual tests
@@ -41,7 +40,6 @@ jobs:
           paths:
             - ~/.m2
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
           # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: target/surefire-reports
