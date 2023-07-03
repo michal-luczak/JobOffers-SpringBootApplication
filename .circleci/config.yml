@@ -26,23 +26,23 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
+      # - run:
+      #     name: Install domain
+      #     command: mvn clean install -pl domain -am
+      # - run:
+      #     name: Install infrastructure
+      #     command: mvn clean install -f infrastructure/pom.xml
+      # - run:
+      #     name: Install application
+      #     command: mvn clean install -f application/pom.xml
       - run:
-          name: Install domain
-          command: mvn clean install -pl domain -am
-      - run:
-          name: Install infrastructure
-          command: mvn clean install -f infrastructure/pom.xml
-      - run:
-          name: Install application
-          command: mvn clean install -f application/pom.xml
+          name: Run Tests
+          command: mvn verify # run the actual tests
       - save_cache: # saves the project dependencies
           name: Save cache
           paths:
             - ~/.m2
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-      - run:
-          name: Run Tests
-          command: mvn verify # run the actual tests
 
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
           # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
