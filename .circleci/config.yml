@@ -27,6 +27,9 @@ jobs:
           version: 20.10.14
           docker_layer_caching: true
       - run:
+          name: install domain
+          command: mvn clean install -pl domain -am
+      - run:
           name: install infrastructure
           command: mvn clean install -f infrastructure/pom.xml
       - run:
