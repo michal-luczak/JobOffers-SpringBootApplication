@@ -30,12 +30,6 @@ jobs:
           name: Install project
           command: mvn install -DskipTests
       - run:
-          name: Create resources directory
-          command: mkdir -p infrastructure/adapters/offer-rest-controller/src/main/resources
-      - run:
-          name: Copy validationMessages.properties
-          command: cp application/src/main/resources/validationMessages.properties infrastructure/adapters/offer-rest-controller/src/main/resources
-      - run:
           name: Run Tests
           command: mvn verify # run the actual tests
       - save_cache: # saves the project dependencies
