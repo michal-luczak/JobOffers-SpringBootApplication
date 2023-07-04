@@ -4,10 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 record LoginRequestDTO(
-        @NotBlank(message = "{not.blank}")
-        @NotNull(message = "{not.null}")
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
         String username,
-        @NotBlank(message = "{not.blank}")
-        @NotNull(message = "{not.null}")
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
         String password
 ) { }
