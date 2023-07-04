@@ -1,12 +1,12 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://admin:password@localhost:27017/job-offers
+      uri: mongodb://root:root@localhost:27017/job-offers
       auto-index-creation: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/job-offers
-    username: test
-    password: test
+    url: jdbc:postgresql://localhost:9999/job-offers-users
+    username: postgres
+    password: password
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -16,13 +16,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  task:
+    scheduling:
+      enable: true
 
 job-offers:
   offer:
     fetcher:
-      config:
-        port: 5057
-        uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
+      port: 5057
+      uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
     rest-template-config:
       connection-time-out: 5000
       read-time-out: 5000

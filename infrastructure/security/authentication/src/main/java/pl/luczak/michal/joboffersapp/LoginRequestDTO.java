@@ -1,8 +1,13 @@
 package pl.luczak.michal.joboffersapp;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public record LoginRequestDTO(
-        @NotBlank(message = "{username.not.blank}") String username,
-        @NotBlank(message = "{password.not.blank}") String password
+record LoginRequestDTO(
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
+        String username,
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
+        String password
 ) { }

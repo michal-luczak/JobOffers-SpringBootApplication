@@ -15,20 +15,30 @@ jobs:
       - image: cimg/openjdk:17.0
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+
     steps:
       # Checkout the code as the first step.
       - checkout
       # installing the local dependencies
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
-          name: Install domain dependency
-          command: mvn clean install -pl domain
-      - run:
-          name: Install infrastructure dependency
-          command: mvn clean install -pl infrastructure
+          name: Install project
+          command: mvn install -DskipTests
       - run:
           name: Run Tests
-          command: mvn verify
-      - store_test_results:
+          command: mvn verify # run the actual tests
+      - save_cache: # saves the project dependencies
+          name: Save cache
+          paths:
+            - ~/.m2
+          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+      - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
+          # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: target/surefire-reports
 
 # Invoke jobs via workflows

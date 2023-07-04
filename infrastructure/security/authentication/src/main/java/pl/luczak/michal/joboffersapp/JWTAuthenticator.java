@@ -4,9 +4,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import pl.luczak.michal.joboffersapp.loginandsignup.UserNotFoundException;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -21,12 +25,17 @@ class JWTAuthenticator {
     private final JWTConfigurationProperties properties;
 
     JWTResponseDTO authenticateAndGenerateToken(LoginRequestDTO loginRequestDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequestDTO.username(),
-                        loginRequestDTO.password()
-                )
-        );
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequestDTO.username(),
+                            loginRequestDTO.password()
+                    )
+            );
+        } catch (BadCredentialsException ex) {
+            throw new AuthenticationException("Wrong password for user with username: " + loginRequestDTO.username()) {};
+        }
         User user = (User) authentication.getPrincipal();
         String token = buildToken(user);
         return new JWTResponseDTO(user.getUsername(), token);

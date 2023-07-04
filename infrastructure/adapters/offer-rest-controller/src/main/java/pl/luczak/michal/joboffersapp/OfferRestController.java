@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
-import pl.luczak.michal.joboffersapp.ports.input.OfferController;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferControllerPort;
 import pl.luczak.michal.joboffersapp.ports.output.OfferService;
 
 import java.util.List;
@@ -14,19 +14,19 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/offer")
-class OfferRestController implements OfferController<ResponseEntity<?>, OfferSaveRequest> {
+@RequestMapping("/offers")
+class OfferRestController implements OfferControllerPort<ResponseEntity<?>, OfferSaveRequest> {
 
     private final OfferService offerService;
     private OfferSaveRequestToOfferDTOMapper offerSaveRequestToOfferDTOMapper;
 
     @PostMapping
     @Override
-    public ResponseEntity<UUID> saveOffer(@RequestBody @Valid OfferSaveRequest offerSaveRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(offerService.saveOffer(
-                        offerSaveRequestToOfferDTOMapper.toOfferDTO(offerSaveRequest)
-                ));
+    public ResponseEntity<String> saveOffer(@RequestBody @Valid OfferSaveRequest offerSaveRequest) {
+        UUID uuid = offerService.saveOffer(
+                offerSaveRequestToOfferDTOMapper.toOfferDTO(offerSaveRequest)
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(uuid.toString());
     }
 
     @GetMapping

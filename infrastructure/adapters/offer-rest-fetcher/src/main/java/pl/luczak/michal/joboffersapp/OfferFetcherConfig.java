@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import pl.luczak.michal.joboffersapp.dto.OfferRequestDTO;
-import pl.luczak.michal.joboffersapp.ports.input.OfferFetcherPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferFetcherPort;
 
 @Configuration
 class OfferFetcherConfig {

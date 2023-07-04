@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.luczak.michal.joboffersapp.dto.OfferRequestDTO;
-import pl.luczak.michal.joboffersapp.ports.input.OfferFetcherPort;
+import pl.luczak.michal.joboffersapp.ports.input.offer.OfferFetcherPort;
 
 import java.util.List;
 

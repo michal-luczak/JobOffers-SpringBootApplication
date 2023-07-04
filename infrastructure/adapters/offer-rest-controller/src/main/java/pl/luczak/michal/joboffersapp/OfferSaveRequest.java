@@ -1,22 +1,26 @@
 package pl.luczak.michal.joboffersapp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-record OfferSaveRequest(
-        @NotNull(message = "{message.test1}")
-        @NotBlank
+public record OfferSaveRequest(
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
+        @JsonProperty("offerUrl")
         String url,
-        @NotNull
-        @NotBlank
-        String companyName,
-        @NotNull
-        @NotBlank
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
+        @JsonProperty("title")
         String jobName,
-        @NotNull
-        @NotBlank
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
+        @JsonProperty("company")
+        String companyName,
+        @NotNull(message = "Field %s must not be null")
+        @NotBlank(message = "Field %s must not be blank")
+        @JsonProperty("salary")
         String salary
 ) { }

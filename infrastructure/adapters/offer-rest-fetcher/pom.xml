@@ -26,4 +26,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <directory>../../../target/adapter-offer-rest-fetcher-target-jar</directory>
+    </build>
 </project>

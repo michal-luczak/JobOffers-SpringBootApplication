@@ -11,8 +11,8 @@ class OfferRestControllerErrorHandler {
     @ExceptionHandler(OfferNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    OfferNotFoundResponse handle(OfferNotFoundException exception) {
-        return new OfferNotFoundResponse(
+    OfferErrorResponseDTO handle(OfferNotFoundException exception) {
+        return new OfferErrorResponseDTO(
                 exception.getMessage(),
                 HttpStatus.NOT_FOUND
         );
@@ -21,8 +21,8 @@ class OfferRestControllerErrorHandler {
     @ExceptionHandler(OfferAlreadyExistsException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.CONFLICT)
-    OfferAlreadyExistsResponse handle(OfferAlreadyExistsException exception) {
-        return new OfferAlreadyExistsResponse(
+    OfferErrorResponseDTO handle(OfferAlreadyExistsException exception) {
+        return new OfferErrorResponseDTO(
                 exception.getMessage(),
                 HttpStatus.CONFLICT
         );

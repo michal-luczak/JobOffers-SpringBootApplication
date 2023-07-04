@@ -1,25 +1,29 @@
 package pl.luczak.michal.joboffersapp;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import pl.luczak.michal.joboffersapp.loginandsignup.IUserDTOMapper;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 
+import java.util.Collections;
+
 @AllArgsConstructor
-class UserDTOMapper implements IUserDTOMapper<UserDetailsDTO> {
+class UserDTOMapper implements IUserDTOMapper<User> {
 
     @Override
-    public UserDetailsDTO fromUserDTO(UserDTO offerDTO) {
-        return new UserDetailsDTO(
+    public User fromUserDTO(UserDTO offerDTO) {
+        return new User(
                 offerDTO.username(),
-                offerDTO.password()
+                offerDTO.password(),
+                Collections.emptyList()
         );
     }
 
     @Override
-    public UserDTO apply(UserDetailsDTO userDetailsDTO) {
+    public UserDTO apply(User userDetailsDTO) {
         return UserDTO.builder()
-                .username(userDetailsDTO.username())
-                .password(userDetailsDTO.password())
+                .username(userDetailsDTO.getUsername())
+                .password(userDetailsDTO.getPassword())
                 .build();
     }
 }
