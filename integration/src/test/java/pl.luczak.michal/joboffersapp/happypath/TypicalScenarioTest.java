@@ -29,9 +29,9 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
 
     @DynamicPropertySource
     static void propertyOverride(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", AbstractIntegrationTest.mongoDbContainer::getReplicaSetUrl);
-        registry.add("spring.datasource.url", AbstractIntegrationTest.postgresContainer::getJdbcUrl);
-        registry.add("job-offers.offer.fetcher.port", AbstractIntegrationTest.wireMockServer::getPort);
+        registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+        registry.add("job-offers.offer.fetcher.port", wireMockServer::getPort);
     }
 
     private static final Pattern jwtRegex = Pattern.compile("^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*$");
@@ -66,7 +66,7 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
     void typical_scenario() throws Exception {
     //step 1: scheduler ran 1st time and made GET to external server and system added 0 offers to database
         // given
-        AbstractIntegrationTest.wireMockServer.stubFor(WireMock.get("/offers")
+        wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
@@ -144,7 +144,7 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
 
     //step 7: there are 2 new offers in external HTTP server
         // given && when && then
-        AbstractIntegrationTest.wireMockServer.stubFor(WireMock.get("/offers")
+        wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")

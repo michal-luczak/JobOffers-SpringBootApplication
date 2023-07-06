@@ -18,9 +18,9 @@ class TokenControllerErrorHandlerTest extends AbstractIntegrationTest {
 
     @DynamicPropertySource
     protected static void propertyOverride(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", AbstractIntegrationTest.mongoDbContainer::getReplicaSetUrl);
-        registry.add("spring.datasource.url", AbstractIntegrationTest.postgresContainer::getJdbcUrl);
-        registry.add("job-offers.offer.fetcher.port", AbstractIntegrationTest.wireMockServer::getPort);
+        registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+        registry.add("job-offers.offer.fetcher.port", wireMockServer::getPort);
     }
 
     @Autowired

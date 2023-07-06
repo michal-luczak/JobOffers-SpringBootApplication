@@ -12,7 +12,7 @@ import java.util.UUID;
 class TestController {
 
     @PostMapping("/test-exception")
-    OfferErrorResponseDTO testEndpointToTestValidationHandler(@RequestBody OfferSaveRequest offerSaveRequest) {
+    OfferErrorResponseDTO testEndpointToTestValidationHandler() {
         throw new OfferAlreadyExistsException("Test response message");
     }
 
