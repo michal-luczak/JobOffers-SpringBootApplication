@@ -3,7 +3,7 @@ package pl.luczak.michal.joboffersapp;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-record LoginRequestDTO(
+public record LoginRequestDTO(
         @NotNull(message = "Field %s must not be null")
         @NotBlank(message = "Field %s must not be blank")
         String username,

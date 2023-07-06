@@ -30,9 +30,9 @@ class UserControllerTest extends AbstractIntegrationTest {
 
     @DynamicPropertySource
     protected static void propertyOverride(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", AbstractIntegrationTest.mongoDbContainer::getReplicaSetUrl);
-        registry.add("spring.datasource.url", AbstractIntegrationTest.postgresContainer::getJdbcUrl);
-        registry.add("job-offers.offer.fetcher.port", AbstractIntegrationTest.wireMockServer::getPort);
+        registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
+        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+        registry.add("job-offers.offer.fetcher.port", wireMockServer::getPort);
     }
 
     @Test
@@ -60,16 +60,14 @@ class UserControllerTest extends AbstractIntegrationTest {
         UserDTO foundUser = userService.findByUsername(username);
         String foundEncodedPass = foundUser.password();
 
-        assertAll(
-                () -> assertThat(contentAsString).isEqualTo("1"),
-                () -> assertThat(foundUser).isNotNull(),
-                () -> assertThat(passwordEncoder.matches(password, foundEncodedPass)).isTrue(),
-                () -> assertThat(foundUser.id()).isEqualTo(1),
-                () -> assertThat(foundUser.username()).isEqualTo(username),
-                () -> {
-                    assertThat(userDAO.findByUsername(username).isPresent()).isTrue();
-                    assertThat(userDAO.findByUsername(username).get()).isEqualTo(foundUser);
-                }
-        );
+        assertAll(() -> {
+            assertThat(contentAsString).isEqualTo("1");
+            assertThat(foundUser).isNotNull();
+            assertThat(passwordEncoder.matches(password, foundEncodedPass)).isTrue();
+            assertThat(foundUser.id()).isEqualTo(1);
+            assertThat(foundUser.username()).isEqualTo(username);
+            assertThat(userDAO.findByUsername(username).isPresent()).isTrue();
+            assertThat(userDAO.findByUsername(username).get()).isEqualTo(foundUser);
+        });
     }
 }

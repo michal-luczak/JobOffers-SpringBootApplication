@@ -51,17 +51,14 @@ class OfferRestControllerErrorHandlerTest {
                 .getResponse()
                 .getContentAsString();
         OfferErrorResponseDTO offerErrorResponseDTO = objectMapper.readValue(contentAsString, OfferErrorResponseDTO.class);
-        assertAll(
-                () -> assertThat(offerErrorResponseDTO.message())
-                        .isEqualTo(String.format("Offer with uniqueID: %s not found", uniqueID)),
-                () -> assertThat(offerErrorResponseDTO.status())
-                        .isEqualTo(HttpStatus.NOT_FOUND),
-                () -> assertThat(
-                        resultActions.andReturn()
-                                .getResponse()
-                                .getStatus()
-                ).isEqualTo(404)
-        );
+        assertAll(() -> {
+            assertThat(offerErrorResponseDTO.message()).isEqualTo(String.format("Offer with uniqueID: %s not found", uniqueID));
+            assertThat(offerErrorResponseDTO.status()).isEqualTo(HttpStatus.NOT_FOUND);
+            assertThat(resultActions.andReturn()
+                            .getResponse()
+                            .getStatus()
+            ).isEqualTo(404);
+        });
     }
 
     @Test
@@ -79,16 +76,13 @@ class OfferRestControllerErrorHandlerTest {
                 .getResponse()
                 .getContentAsString(StandardCharsets.UTF_8);
         OfferErrorResponseDTO offerErrorResponseDTO = objectMapper.readValue(responseContent, OfferErrorResponseDTO.class);
-        assertAll(
-                () -> assertThat(offerErrorResponseDTO.message())
-                        .isEqualTo("Test response message"),
-                () -> assertThat(offerErrorResponseDTO.status())
-                        .isEqualTo(HttpStatus.CONFLICT),
-                () -> assertThat(
-                        resultActions.andReturn()
-                                .getResponse()
-                                .getStatus()
-                ).isEqualTo(409)
-        );
+        assertAll(() -> {
+            assertThat(offerErrorResponseDTO.message()).isEqualTo("Test response message");
+            assertThat(offerErrorResponseDTO.status()).isEqualTo(HttpStatus.CONFLICT);
+            assertThat(resultActions.andReturn()
+                            .getResponse()
+                            .getStatus()
+            ).isEqualTo(409);
+        });
     }
 }

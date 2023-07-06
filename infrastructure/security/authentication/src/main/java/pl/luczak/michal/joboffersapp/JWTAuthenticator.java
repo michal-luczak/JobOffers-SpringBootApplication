@@ -9,13 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import pl.luczak.michal.joboffersapp.loginandsignup.UserNotFoundException;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @AllArgsConstructor
 class JWTAuthenticator {
@@ -44,7 +40,7 @@ class JWTAuthenticator {
     private String buildToken(User user) {
         String secretKey = properties.secret();
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        Instant now = LocalDateTime.now(clock).toInstant(ZoneOffset.UTC);
+        Instant now = clock.instant();
         Instant expiresAt = now.plusMillis(properties.expirationTimeInMs());
         String issuer = properties.issuer();
         return JWT.create()
