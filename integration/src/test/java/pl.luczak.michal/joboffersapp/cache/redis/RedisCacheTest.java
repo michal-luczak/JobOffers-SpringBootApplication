@@ -2,11 +2,9 @@ package pl.luczak.michal.joboffersapp.cache.redis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cache.CacheManager;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
@@ -38,6 +36,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
     private static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
         registry.add("spring.data.redis.port", () -> REDIS.getFirstMappedPort().toString());
+        registry.add("spring.data.redis.host", REDIS::getHost);
         registry.add("spring.data.redis.time-to-live", () -> "PT1S");
         registry.add("spring.cache.type", () -> "redis");
     }
@@ -56,7 +55,8 @@ class RedisCacheTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/offers"));
         verify(cacheableFacade, times(1))
                 .getCacheableOffers();
-        assertThat(cacheManager.getCacheNames().contains("offers")).isTrue();
+        assertThat(cacheManager.getCacheNames().contains("offers"))
+                .isTrue();
         await().atMost(Duration.ofSeconds(4))
                 .pollInterval(Duration.ofSeconds(1))
                 .untilAsserted(() -> {
@@ -75,7 +75,8 @@ class RedisCacheTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/offers/" + uniqueID));
         verify(cacheableFacade, times(1))
                 .getCacheableOffer(uniqueID);
-        assertThat(cacheManager.getCacheNames().contains("offers")).isTrue();
+        assertThat(cacheManager.getCacheNames().contains("offers"))
+                .isTrue();
         await().atMost(Duration.ofSeconds(4))
                 .pollInterval(Duration.ofSeconds(1))
                 .untilAsserted(() -> {
