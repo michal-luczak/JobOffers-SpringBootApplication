@@ -25,7 +25,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @SpringBootTest(properties = "spring.cache.type=redis")
-@ContextConfiguration
 class RedisCacheTest extends AbstractIntegrationTest {
 
     @Container
