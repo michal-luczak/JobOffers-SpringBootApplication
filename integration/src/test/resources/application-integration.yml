@@ -2,6 +2,7 @@ spring:
   cache:
     redis:
       time-to-live: PT1S
+    type: none
   datasource:
     username: test
     password: test
