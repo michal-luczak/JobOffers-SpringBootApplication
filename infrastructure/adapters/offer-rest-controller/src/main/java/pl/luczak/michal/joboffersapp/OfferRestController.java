@@ -18,7 +18,8 @@ import java.util.UUID;
 class OfferRestController implements OfferControllerPort<ResponseEntity<?>, OfferSaveRequest> {
 
     private final OfferService offerService;
-    private OfferSaveRequestToOfferDTOMapper offerSaveRequestToOfferDTOMapper;
+    private final OfferSaveRequestToOfferDTOMapper offerSaveRequestToOfferDTOMapper;
+    private final CacheableFacade cacheableFacade;
 
     @PostMapping
     @Override
@@ -32,12 +33,12 @@ class OfferRestController implements OfferControllerPort<ResponseEntity<?>, Offe
     @GetMapping
     @Override
     public ResponseEntity<List<OfferDTO>> findAllOffers() {
-        return ResponseEntity.ok(offerService.findAllOffers());
+        return ResponseEntity.ok(cacheableFacade.getCacheableOffers());
     }
 
     @GetMapping("/{uniqueID}")
     @Override
     public ResponseEntity<OfferDTO> findOfferById(@PathVariable @Valid UUID uniqueID) {
-        return ResponseEntity.ok(offerService.findOfferById(uniqueID));
+        return ResponseEntity.ok(cacheableFacade.getCacheableOffer(uniqueID));
     }
 }
