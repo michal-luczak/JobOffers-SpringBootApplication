@@ -24,7 +24,6 @@ import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-@SpringBootTest(properties = "spring.cache.type=redis")
 class RedisCacheTest extends AbstractIntegrationTest {
 
     @Container
@@ -40,7 +39,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
         registry.add("spring.data.mongodb.uri", mongoDbContainer::getReplicaSetUrl);
         registry.add("spring.data.redis.port", () -> REDIS.getFirstMappedPort().toString());
         registry.add("spring.data.redis.time-to-live", () -> "PT1S");
-        registry.add("spring.data.redis.type", () -> "redis");
+        registry.add("spring.cache.type", () -> "redis");
     }
 
     @SpyBean
