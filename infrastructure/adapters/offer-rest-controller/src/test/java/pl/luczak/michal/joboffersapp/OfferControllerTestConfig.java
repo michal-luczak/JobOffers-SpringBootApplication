@@ -17,9 +17,10 @@ abstract class OfferControllerTestConfig implements SamplesOffersResponse {
     @Bean
     OfferRestController offerRestController(
             OfferSaveRequestToOfferDTOMapper offerSaveRequestToOfferDTOMapper,
-            OfferService offerService
+            OfferService offerService,
+            CacheableFacade cacheableFacade
     ) {
-        return new OfferRestController(offerService, offerSaveRequestToOfferDTOMapper);
+        return new OfferRestController(offerService, offerSaveRequestToOfferDTOMapper, cacheableFacade);
     }
 
     @Bean
