@@ -47,11 +47,6 @@
             <artifactId>user-rest-controller</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>pl.luczak.michal.joboffersapp</groupId>
-            <artifactId>cache-redis</artifactId>
-            <version>1.0</version>
-        </dependency>
         <!-- SPRING BOOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
