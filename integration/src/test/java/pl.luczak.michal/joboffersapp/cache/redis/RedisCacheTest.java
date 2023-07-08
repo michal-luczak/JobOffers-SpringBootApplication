@@ -2,7 +2,6 @@ package pl.luczak.michal.joboffersapp.cache.redis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -10,7 +9,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import pl.luczak.michal.joboffersapp.AbstractIntegrationTest;
-import pl.luczak.michal.joboffersapp.CacheableFacade;
+import pl.luczak.michal.joboffersapp.OfferServiceCacheableWrapper;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 import pl.luczak.michal.joboffersapp.ports.output.OfferService;
 
@@ -42,7 +41,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
     }
 
     @SpyBean
-    private CacheableFacade cacheableFacade;
+    private OfferServiceCacheableWrapper offerServiceCacheableWrapper;
 
     @Autowired
     private CacheManager cacheManager;
@@ -53,7 +52,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
     @Test
     void should_successfully_cache_offers_and_then_remove_from_cache() throws Exception {
         mockMvc.perform(get("/offers"));
-        verify(cacheableFacade, times(1))
+        verify(offerServiceCacheableWrapper, times(1))
                 .getCacheableOffers();
         assertThat(cacheManager.getCacheNames().contains("offers"))
                 .isTrue();
@@ -61,7 +60,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
                 .pollInterval(Duration.ofSeconds(1))
                 .untilAsserted(() -> {
                             mockMvc.perform(get("/offers"));
-                            verify(cacheableFacade, atLeast(3))
+                            verify(offerServiceCacheableWrapper, atLeast(3))
                                     .getCacheableOffers();
                         }
                 );
@@ -73,7 +72,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
         OfferDTO offerDTO = OfferDTO.builder().uniqueID(uniqueID).build();
         offerService.saveOffer(offerDTO);
         mockMvc.perform(get("/offers/" + uniqueID));
-        verify(cacheableFacade, times(1))
+        verify(offerServiceCacheableWrapper, times(1))
                 .getCacheableOffer(uniqueID);
         assertThat(cacheManager.getCacheNames().contains("offers"))
                 .isTrue();
@@ -81,7 +80,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
                 .pollInterval(Duration.ofSeconds(1))
                 .untilAsserted(() -> {
                             mockMvc.perform(get("/offers/" + uniqueID));
-                            verify(cacheableFacade, atLeast(3))
+                            verify(offerServiceCacheableWrapper, atLeast(3))
                                     .getCacheableOffer(uniqueID);
                         }
                 );

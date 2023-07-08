@@ -19,7 +19,7 @@ class OfferRestController implements OfferControllerPort<ResponseEntity<?>, Offe
 
     private final OfferService offerService;
     private final OfferSaveRequestToOfferDTOMapper offerSaveRequestToOfferDTOMapper;
-    private final CacheableFacade cacheableFacade;
+    private final OfferServiceCacheableWrapper offerServiceCacheableWrapper;
 
     @PostMapping
     @Override
@@ -33,12 +33,12 @@ class OfferRestController implements OfferControllerPort<ResponseEntity<?>, Offe
     @GetMapping
     @Override
     public ResponseEntity<List<OfferDTO>> findAllOffers() {
-        return ResponseEntity.ok(cacheableFacade.getCacheableOffers());
+        return ResponseEntity.ok(offerServiceCacheableWrapper.getCacheableOffers());
     }
 
     @GetMapping("/{uniqueID}")
     @Override
     public ResponseEntity<OfferDTO> findOfferById(@PathVariable @Valid UUID uniqueID) {
-        return ResponseEntity.ok(cacheableFacade.getCacheableOffer(uniqueID));
+        return ResponseEntity.ok(offerServiceCacheableWrapper.getCacheableOffer(uniqueID));
     }
 }
