@@ -1,9 +1,7 @@
 package pl.luczak.michal.joboffersapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
@@ -17,17 +15,17 @@ import java.util.UUID;
 abstract class OfferControllerTestConfig implements SamplesOffersResponse {
 
     @Bean
-    CacheableFacade cacheableFacade(OfferService offerService) {
-        return new CacheableFacade(offerService);
+    OfferServiceCacheableWrapper cacheableFacade(OfferService offerService) {
+        return new OfferServiceCacheableWrapper(offerService);
     }
 
     @Bean
     OfferRestController offerRestController(
             OfferSaveRequestToOfferDTOMapper offerSaveRequestToOfferDTOMapper,
             OfferService offerService,
-            CacheableFacade cacheableFacade
+            OfferServiceCacheableWrapper offerServiceCacheableWrapper
     ) {
-        return new OfferRestController(offerService, offerSaveRequestToOfferDTOMapper, cacheableFacade);
+        return new OfferRestController(offerService, offerSaveRequestToOfferDTOMapper, offerServiceCacheableWrapper);
     }
 
     @Bean

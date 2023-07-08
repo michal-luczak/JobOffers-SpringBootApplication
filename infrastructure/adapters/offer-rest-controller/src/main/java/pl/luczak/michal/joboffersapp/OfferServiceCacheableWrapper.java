@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class CacheableFacade {
+public class OfferServiceCacheableWrapper {
 
     private final OfferService offerService;
 
