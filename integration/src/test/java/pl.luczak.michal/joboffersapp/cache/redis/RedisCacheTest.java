@@ -51,7 +51,10 @@ class RedisCacheTest extends AbstractIntegrationTest {
 
     @Test
     void should_successfully_cache_offers_and_then_remove_from_cache() throws Exception {
+        // GIVEN && WHEN
         mockMvc.perform(get("/offers"));
+
+        // THEN
         verify(offerServiceCacheableWrapper, times(1))
                 .getCacheableOffers();
         assertThat(cacheManager.getCacheNames().contains("offers"))
@@ -68,10 +71,15 @@ class RedisCacheTest extends AbstractIntegrationTest {
 
     @Test
     void should_successfully_cache_offer_and_then_remove_from_cache() throws Exception {
+        // GIVEN
         UUID uniqueID = UUID.randomUUID();
         OfferDTO offerDTO = OfferDTO.builder().uniqueID(uniqueID).build();
+
+        // WHEN
         offerService.saveOffer(offerDTO);
         mockMvc.perform(get("/offers/" + uniqueID));
+
+        // THEN
         verify(offerServiceCacheableWrapper, times(1))
                 .getCacheableOffer(uniqueID);
         assertThat(cacheManager.getCacheNames().contains("offers"))

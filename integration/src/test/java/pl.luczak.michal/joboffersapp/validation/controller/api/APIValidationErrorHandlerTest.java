@@ -35,52 +35,56 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
 
     @Test
     void should_handle_BAD_REQUEST_caused_by_empty_content() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(""));
-        //then
         String message = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
     }
 
     @Test
     void should_handle_BAD_REQUEST_caused_by_wrong_format_content() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("Invalid JSON Format"));
-        //then
         String message = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
     }
 
     @Test
     void should_handle_BAD_REQUEST_caused_by_missing_parameters_of_user_register_request() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions responseWithEmptyContent = mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"));
-        //then
         String message = responseWithEmptyContent.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors())
                 .containsExactlyInAnyOrder(
                         String.format(fieldMustBeNotNull, "password"),
                         String.format(fieldMustBeNotNull, "username"),
                         String.format(fieldMustBeNotBlank, "password"),
-                        String.format(fieldMustBeNotBlank, "username"));
+                        String.format(fieldMustBeNotBlank, "username")
+                );
     }
 
     // Tests for /offers endpoint
@@ -89,31 +93,33 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
 
     @Test
     void should_handle_BAD_REQUEST_caused_by_wrong_type_of_endpoint_parameter() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(get("/offers/123"));
-        //then
         String message = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
         String expectedError = "Failed to convert input: 123 to UUID";
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains(expectedError);
     }
 
     @Test
     @WithMockUser
     void should_handle_BAD_REQUEST_caused_by_missing_parameters_of_offer_post_request() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/offers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"));
-        //then
         String responseAsString = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(responseAsString, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors())
                 .containsExactlyInAnyOrder(
                         String.format(fieldMustBeNotNull, "jobName"),
@@ -123,22 +129,24 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                         String.format(fieldMustBeNotNull, "url"),
                         String.format(fieldMustBeNotBlank, "url"),
                         String.format(fieldMustBeNotNull, "salary"),
-                        String.format(fieldMustBeNotBlank, "salary"));
+                        String.format(fieldMustBeNotBlank, "salary")
+                );
     }
 
     @Test
     @WithMockUser
     void should_handle_BAD_REQUEST_caused_by_invalid_json_format_of_request_on_offers_endpoint() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/offers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("Invalid JSON Format"));
-        //then
         String responseAsString = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(responseAsString, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
     }
 
@@ -147,34 +155,37 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
     //     \/           \/
     @Test
     void should_handle_BAD_REQUEST_caused_by_invalid_json_format_of_request_on_token_endpoint() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/token"));
-        //then
         String message = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
     }
 
     @Test
     void should_handle_BAD_REQUEST_caused_by_missing_parameters_of_token_request() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"));
-        //then
         String responseAsString = response.andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(responseAsString, APIValidationErrorDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors())
                 .containsExactlyInAnyOrder(
                         String.format(fieldMustBeNotNull, "username"),
                         String.format(fieldMustBeNotBlank, "username"),
                         String.format(fieldMustBeNotNull, "password"),
-                        String.format(fieldMustBeNotBlank, "password"));
+                        String.format(fieldMustBeNotBlank, "password")
+                );
     }
 }

@@ -31,6 +31,7 @@ class OfferDTOMapperTest implements SamplesOffersResponse {
 
     @Test
     void fromOfferDTO() {
+        // GIVEN && WHEN && THEN
         assertThat(offerDTOMapper.fromOfferDTO(offerDTO))
                 .usingRecursiveComparison()
                 .ignoringFields("uniqueID")
@@ -39,6 +40,7 @@ class OfferDTOMapperTest implements SamplesOffersResponse {
 
     @Test
     void apply() {
+        // GIVEN && WHEN && THEN
         assertThat(offerDTOMapper.apply(offerDocument))
                 .usingRecursiveComparison()
                 .ignoringFields("uniqueID")

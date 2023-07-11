@@ -14,7 +14,7 @@ class LoginAndSignUpFacadeTest {
 
     @Test
     public void should_successfully_find_user() {
-        //given
+        // GIVEN
         UserDTO userDTO = UserDTO.builder()
                 .id(1L)
                 .password("password")
@@ -22,16 +22,16 @@ class LoginAndSignUpFacadeTest {
                 .build();
         inMemoryDatabaseAdapter.save(userDTO);
 
-        //when
+        // WHEN
         UserDTO user = loginAndSignUpFacade.findByUsername("username");
 
-        //then
+        // THEN
         Assertions.assertEquals(userDTO, user);
     }
 
     @Test
     public void should_unsuccessfully_find_user_and_throw_UserNotFoundException() {
-        //then
+        // GIVEN && WHEN && THEN
         Assertions.assertThrows(
                 UserNotFoundException.class,
                 () -> loginAndSignUpFacade.findByUsername("username")
@@ -40,15 +40,15 @@ class LoginAndSignUpFacadeTest {
 
     @Test
     public void should_successfully_register_user() {
-        //given
+        // GIVEN
         String username = "username";
         String password = "password";
 
-        //when
+        // WHEN
         Long idRegisteredUser = loginAndSignUpFacade.register(username, password);
         UserDTO foundUserDTO = loginAndSignUpFacade.findByUsername(username);
 
-        //then
+        // THEN
         Assertions.assertEquals(idRegisteredUser, foundUserDTO.id());
         Assertions.assertEquals(username, foundUserDTO.username());
         Assertions.assertEquals(password, foundUserDTO.password());
@@ -56,17 +56,17 @@ class LoginAndSignUpFacadeTest {
 
     @Test
     public void should_throw_UserAlreadyExistsException() {
-        //given
+        // GIVEN
         UserDTO userDTO = UserDTO.builder()
                 .id(1L)
                 .password("password")
                 .username("username")
                 .build();
 
-        //when
+        // WHEN
         inMemoryDatabaseAdapter.save(userDTO);
 
-        //then
+        // THEN
         Assertions.assertThrows(
                 UsernameDuplicationException.class,
                 () -> loginAndSignUpFacade.register(userDTO.username(), userDTO.password())

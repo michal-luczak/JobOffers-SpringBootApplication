@@ -30,13 +30,19 @@ class UserDTOMapperTest {
 
     @Test
     void fromUserDTO() {
+        // GIVEN && WHEN
         User fromUserDTO = userDTOMapper.fromUserDTO(userDTO);
+
+        // THEN
         assertThat(fromUserDTO).isEqualTo(user);
     }
 
     @Test
     void apply() {
+        // GIVEN && WHEN
         UserDTO fromUser = userDTOMapper.apply(user);
+
+        // THEN
         assertThat(fromUser).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(userDTO);

@@ -29,13 +29,19 @@ class UserEntityMapperTest {
 
     @Test
     void should_successfully_apply_to_UserDTO() {
+        // GIVEN && WHEN
         UserEntity applied = userEntityMapper.apply(userDTO);
+
+        // THEN
         assertThat(applied).isEqualTo(userEntity);
     }
 
     @Test
     void should_successfully_map_to_UserDTO() {
+        // GIVEN && WHEN
         UserEntity applied = userEntityMapper.map(userDTO);
+
+        // THEN
         assertThat(applied).isEqualTo(userEntity);
     }
 }

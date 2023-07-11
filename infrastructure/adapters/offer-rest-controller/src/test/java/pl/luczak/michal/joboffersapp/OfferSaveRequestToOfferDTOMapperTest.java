@@ -39,13 +39,19 @@ class OfferSaveRequestToOfferDTOMapperTest {
 
     @Test
     void fromOfferDTO() {
+        // GIVEN && WHEN
         OfferSaveRequest fromOfferDTO = offerDTOMapper.fromOfferDTO(offerDTO);
+
+        // THEN
         assertThat(fromOfferDTO).isEqualTo(offerSaveRequest);
     }
 
     @Test
     void apply() {
+        // GIVEN && WHEN
         OfferDTO applied = offerDTOMapper.apply(offerSaveRequest);
+
+        // THEN
         assertThat(applied)
                 .usingRecursiveComparison()
                 .ignoringFields("uniqueID")

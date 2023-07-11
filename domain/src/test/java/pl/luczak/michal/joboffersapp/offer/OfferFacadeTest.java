@@ -21,29 +21,29 @@ class OfferFacadeTest implements SamplesOffersResponse {
 
     @Test
     void should_return_all_offers() {
-        //given
+        // GIVEN
         List<OfferDTO> randomOfferDTOS = threeOfferDTO();
         offerPersistenceAdapter.saveAllOffers(randomOfferDTOS);
 
-        //when
+        // WHEN
         List<OfferDTO> foundOffers = offerFacade.findAllOffers();
 
-        //then
+        // THEN
         assertThat(foundOffers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("uniqueID")
                 .containsExactlyInAnyOrderElementsOf(randomOfferDTOS);
     }
 
     @Test
     void should_successfully_save_offer() {
-        //given
+        // GIVEN
         OfferDTO offerDTO = oneOfferDTO();
 
-        //when
+        // WHEN
         UUID savedOfferUUID = offerFacade.saveOffer(offerDTO);
         OfferDTO foundOfferDTO = offerPersistenceAdapter.findOfferById(savedOfferUUID)
                 .orElseThrow();
 
-        //then
+        // THEN
         assertEquals(0,
                 new OfferComparator().compare(
                         offerDTO,
@@ -53,19 +53,20 @@ class OfferFacadeTest implements SamplesOffersResponse {
 
     @Test
     void should_successfully_find_offer_by_id() {
-        //given
+        // GIVEN
         OfferDTO offerDTO = oneOfferDTO();
 
-        //when
+        // WHEN
         UUID uniqueID = offerPersistenceAdapter.saveOffer(offerDTO);
         OfferDTO foundOffer = offerFacade.findOfferById(uniqueID);
 
-        //then
+        // THEN
         assertEquals(0,
                 new OfferComparator().compare(
                         offerDTO,
                         foundOffer
-                ));
+                )
+        );
     }
 
     @Test
@@ -79,7 +80,7 @@ class OfferFacadeTest implements SamplesOffersResponse {
 
     @Test
     void should_successfully_fetch_offers_from_fetcher_and_save_all_offers_which_not_exists() {
-        //given
+        // GIVEN
         List<OfferDTO> randomOffers = threeOfferDTO();
         List<OfferFetchedDTO> randomOfferRequests = randomOffers.stream()
                         .map(offerDTO -> OfferFetchedDTO.builder()
@@ -91,10 +92,10 @@ class OfferFacadeTest implements SamplesOffersResponse {
                         .toList();
         randomOfferRequests.forEach(offerFetcherAdapter::addOffer);
 
-        //when
+        // WHEN
         List<OfferDTO> foundOffer = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
 
-        //then
+        // THEN
         assertThat(foundOffer).usingRecursiveFieldByFieldElementComparatorIgnoringFields("uniqueID")
                 .containsExactlyInAnyOrderElementsOf(randomOffers);
     }

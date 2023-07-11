@@ -28,7 +28,7 @@ class TokenControllerErrorHandlerTest extends AbstractIntegrationTest {
 
     @Test
     void should_return_UNAUTHORIZED_because_of_nonexistent_user_in_database() throws Exception {
-        //given && when
+        // GIVEN && WHEN
         ResultActions response = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -37,20 +37,22 @@ class TokenControllerErrorHandlerTest extends AbstractIntegrationTest {
                         "password": "password"
                     }
                 """.trim()));
-        //then
         String responseAsString = response.andExpect(status().isUnauthorized())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         BadCredentialsResponseDTO apiErrorDTO = objectMapper.readValue(responseAsString, BadCredentialsResponseDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains("User with username: username not found");
     }
 
     @Test
     void should_return_UNAUTHORIZED_because_of_wrong_password_to_given_user() throws Exception {
-        //given
+        // GIVEN
         userService.register("testUser", "testPassword");
-        //when
+
+        // WHEN
         ResultActions response = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -59,12 +61,13 @@ class TokenControllerErrorHandlerTest extends AbstractIntegrationTest {
                         "password": "wrongPassword"
                     }
                 """.trim()));
-        //then
         String responseAsString = response.andExpect(status().isUnauthorized())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
         BadCredentialsResponseDTO apiErrorDTO = objectMapper.readValue(responseAsString, BadCredentialsResponseDTO.class);
+
+        // THEN
         assertThat(apiErrorDTO.errors()).contains("Wrong password for user with username: testUser");
     }
 }

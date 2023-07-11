@@ -40,10 +40,13 @@ class TokenControllerErrorHandlerTest {
 
     @Test
     void should_successfully_handle_AuthenticationException() throws Exception {
+        // GIVEN
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "nonexistentUser",
                 "nonexistentPassword"
         );
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequestDTO)));
@@ -55,16 +58,21 @@ class TokenControllerErrorHandlerTest {
                         contentAsString,
                         BadCredentialsResponseDTO.class
                 );
+
+        // THEN
         assertThat(badCredentialsResponseDTO.errors())
                 .containsExactlyInAnyOrder("User with username: nonexistentUser not found");
     }
 
     @Test
     void should_successfully_handle_BadCredentialsException() throws Exception {
+        //GIVEN
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "testUsername",
                 "wrongPassword"
         );
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequestDTO)));
@@ -76,6 +84,8 @@ class TokenControllerErrorHandlerTest {
                         contentAsString,
                         BadCredentialsResponseDTO.class
                 );
+
+        // THEN
         assertThat(badCredentialsResponseDTO.errors())
                 .containsExactlyInAnyOrder("Wrong password");
     }

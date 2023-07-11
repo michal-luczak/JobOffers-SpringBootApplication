@@ -37,6 +37,7 @@ class OfferRepositoryTest {
 
     @Test
     void should_successfully_save_offer() {
+        // GIVEN
         String url = "testUrl";
         OfferDocument offerDocument = OfferDocument.builder()
                 .url(url)
@@ -45,8 +46,12 @@ class OfferRepositoryTest {
                 .salary("testSalary")
                 .uniqueID(null)
                 .build();
+
+        // WHEN
         offerRepository.save(offerDocument);
         Optional<OfferDocument> document = offerRepository.findByUrl(url);
+
+        // THEN
         assertAll(() -> {
             assertThat(document).isPresent();
             assertThat(document.get()).usingRecursiveComparison()
@@ -57,6 +62,7 @@ class OfferRepositoryTest {
 
     @Test
     void should_throw_an_exception_because_of_duplication() {
+        // GIVEN
         String url = "testUrl";
         OfferDocument offerDocument = OfferDocument.builder()
                 .url(url)
@@ -65,8 +71,12 @@ class OfferRepositoryTest {
                 .salary("testSalary")
                 .uniqueID(null)
                 .build();
+
+        // WHEN
         offerRepository.save(offerDocument);
         offerRepository.save(offerDocument);
+
+        // THEN
         assertThrows(
                 DuplicateKeyException.class,
                 () -> offerRepository.save(offerDocument)
@@ -75,6 +85,7 @@ class OfferRepositoryTest {
 
     @Test
     void should_successfully_find_offer_by_url() {
+        // GIVEN
         String url = "testUrl";
         OfferDocument offerDocument = OfferDocument.builder()
                 .url(url)
@@ -83,8 +94,12 @@ class OfferRepositoryTest {
                 .salary("testSalary")
                 .uniqueID(null)
                 .build();
+
+        // WHEN
         offerRepository.save(offerDocument);
         Optional<OfferDocument> document = offerRepository.findByUrl(url);
+
+        // THEN
         assertAll(() -> {
             assertThat(document).isPresent();
             assertThat(document.get())
@@ -96,8 +111,13 @@ class OfferRepositoryTest {
 
     @Test
     void should_not_find_offer() {
+        // GIVEN
         String url = "testUrl";
+
+        // WHEN
         Optional<OfferDocument> document = offerRepository.findByUrl(url);
+
+        // THEN
         assertThat(document).isEmpty();
     }
 }

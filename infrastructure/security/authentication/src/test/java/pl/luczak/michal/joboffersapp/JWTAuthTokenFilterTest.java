@@ -44,7 +44,10 @@ class JWTAuthTokenFilterTest {
 
     @Test
     void doFilterInternal() throws ServletException, IOException {
+        // GIVEN && WHEN
         jwtAuthTokenFilter.doFilterInternal(request, response, filterChain);
+
+        // THEN
         verify(filterChain, times(1))
                 .doFilter(request, response);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
@@ -52,12 +55,17 @@ class JWTAuthTokenFilterTest {
 
     @Test
     void test() throws ServletException, IOException {
+        // GIVEN
         request.addHeader("Authorization", "Bearer testToken");
         JWTVerifier jwtVerifier = Mockito.mock(JWTVerifier.class);
         DecodedJWT decodedJWTMock = mock(DecodedJWT.class);
+
+        // WHEN
         when(jwtVerifier.verify("testToken")).thenReturn(decodedJWTMock);
         ReflectionTestUtils.setField(jwtAuthTokenFilter, "jwtVerifier", jwtVerifier);
         jwtAuthTokenFilter.doFilterInternal(request, response, filterChain);
+
+        // THEN
         verify(filterChain).doFilter(request, response);
         assertEquals(decodedJWTMock.getSubject(), SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         assertNull(SecurityContextHolder.getContext().getAuthentication().getCredentials());

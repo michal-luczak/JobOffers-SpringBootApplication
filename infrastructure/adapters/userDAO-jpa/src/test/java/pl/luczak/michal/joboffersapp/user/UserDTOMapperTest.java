@@ -29,13 +29,19 @@ class UserDTOMapperTest {
 
     @Test
     void apply() {
+        // GIVEN && WHEN
         UserDTO applied = userDTOMapper.apply(userEntity);
+
+        // THEN
         assertThat(applied).isEqualTo(userDTO);
     }
 
     @Test
     void map() {
+        // GIVEN && WHEN
         UserDTO mapped = userDTOMapper.map(userEntity);
+
+        // THEN
         assertThat(mapped).isEqualTo(userDTO);
     }
 }

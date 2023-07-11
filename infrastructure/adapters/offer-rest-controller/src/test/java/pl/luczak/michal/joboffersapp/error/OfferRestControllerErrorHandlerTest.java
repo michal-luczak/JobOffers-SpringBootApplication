@@ -45,12 +45,17 @@ class OfferRestControllerErrorHandlerTest {
 
     @Test
     void handle() throws Exception {
+        // GIVEN
         UUID uniqueID = UUID.randomUUID();
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(get("/test-exception/" + uniqueID));
         String contentAsString = resultActions.andReturn()
                 .getResponse()
                 .getContentAsString();
         OfferErrorResponseDTO offerErrorResponseDTO = objectMapper.readValue(contentAsString, OfferErrorResponseDTO.class);
+
+        // THEN
         assertAll(() -> {
             assertThat(offerErrorResponseDTO.message()).isEqualTo(String.format("Offer with uniqueID: %s not found", uniqueID));
             assertThat(offerErrorResponseDTO.status()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -63,12 +68,15 @@ class OfferRestControllerErrorHandlerTest {
 
     @Test
     void testHandle() throws Exception {
+        // GIVEN
         OfferSaveRequest offerSaveRequest = OfferSaveRequest.builder()
                 .url("testUrl")
                 .jobName("testJobName")
                 .salary("testSalary")
                 .companyName("testCompanyName")
                 .build();
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(post("/test-exception")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(offerSaveRequest)));
@@ -76,6 +84,8 @@ class OfferRestControllerErrorHandlerTest {
                 .getResponse()
                 .getContentAsString(StandardCharsets.UTF_8);
         OfferErrorResponseDTO offerErrorResponseDTO = objectMapper.readValue(responseContent, OfferErrorResponseDTO.class);
+
+        // THEN
         assertAll(() -> {
             assertThat(offerErrorResponseDTO.message()).isEqualTo("Test response message");
             assertThat(offerErrorResponseDTO.status()).isEqualTo(HttpStatus.CONFLICT);

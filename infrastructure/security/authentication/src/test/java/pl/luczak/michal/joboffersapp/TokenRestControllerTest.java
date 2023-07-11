@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,15 +34,22 @@ class TokenRestControllerTest {
     private JWTAuthenticator jwtAuthenticator;
 
     @Test
-    void should_successfully() throws Exception {
+    void should_successfully_return_token() throws Exception {
+        // GIVEN
         LoginRequestDTO offerSaveRequest = new LoginRequestDTO(
                 "testUsername",
                 "testPassword"
         );
-        mockMvc.perform(post("/token")
+
+        // WHEN
+        ResultActions resultActions = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(offerSaveRequest))
                 .characterEncoding(StandardCharsets.UTF_8));
+
+        // THEN
+        assertThat(resultActions.andReturn().getResponse().getStatus())
+                .isEqualTo(200);
         verify(jwtAuthenticator, times(1))
                 .authenticateAndGenerateToken(Mockito.any());
     }

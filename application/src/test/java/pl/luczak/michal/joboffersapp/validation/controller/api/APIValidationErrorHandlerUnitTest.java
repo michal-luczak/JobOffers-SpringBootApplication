@@ -34,32 +34,41 @@ class APIValidationErrorHandlerUnitTest {
 
     @Test
     void should_handle_MethodArgumentNotValidException() throws Exception {
+        // GIVEN && WHEN
         String contentAsString = mockMvc.perform(post("/test-exception")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+
+        // THEN
         assertThat(contentAsString).contains("testMessage for testValue field");
     }
 
     @Test
     void should_handle_HttpMessageNotReadableException() throws Exception {
+        // GIVEN && WHEN
         String contentAsString = mockMvc.perform(post("/test-exception")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(""))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+
+        // THEN
         assertThat(contentAsString).contains("Unreadable request content. Please use JSON format");
     }
 
     @Test
     void should_handle_MethodArgumentTypeMismatchException() throws Exception {
+        // GIVEN && WHEN
         String contentAsString = mockMvc.perform(get("/test-exception/abc"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+
+        // THEN
         assertThat(contentAsString).contains("Failed to convert input: abc to Integer");
     }
 }

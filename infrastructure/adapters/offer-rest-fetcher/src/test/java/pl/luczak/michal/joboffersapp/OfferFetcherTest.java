@@ -60,7 +60,10 @@ class OfferFetcherTest implements SamplesOffersResponse {
 
     @Test
     void fetchOffers() {
+        // GIVEN && WHEN
         List<OfferRequestDTO> offerRequestDTOS = offerFetcher.fetchOffers();
+
+        // THEN
         assertThat(offerRequestDTOS)
                 .containsExactlyInAnyOrderElementsOf(offerRequestDTOList);
     }
