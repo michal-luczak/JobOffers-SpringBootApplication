@@ -7,7 +7,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 @Configuration
 public class MessageConfig {
-    private static final String MESSAGE_SOURCE_PATH = "classpath:/messages";
+    private static final String MESSAGE_SOURCE_PATH = "classpath:messages/messages";
 
     @Bean
     public MessageSource messageSource() {

@@ -1,13 +1,18 @@
 package pl.luczak.michal.joboffersapp.validation.controller.api;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.luczak.michal.joboffersapp.AbstractIntegrationTest;
+
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,11 +28,22 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         registry.add("job-offers.offer.fetcher.port", wireMockServer::getPort);
     }
 
-    @Value("${not.null}")
+    @Autowired
+    private MessageSource messageSource;
+
     private String fieldMustBeNotNull;
 
-    @Value("${not.blank}")
     private String fieldMustBeNotBlank;
+
+    @BeforeEach
+    void setUp() {
+        this.fieldMustBeNotBlank = messageSource.getMessage(
+                "not.blank", null, Locale.ENGLISH
+        );
+        this.fieldMustBeNotNull = messageSource.getMessage(
+                "not.null", null, Locale.ENGLISH
+        );
+    }
 
     // Tests for /register endpoint
     //     ||           ||
