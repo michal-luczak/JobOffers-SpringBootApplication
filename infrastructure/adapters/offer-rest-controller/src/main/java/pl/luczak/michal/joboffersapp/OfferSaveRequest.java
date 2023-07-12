@@ -7,20 +7,20 @@ import lombok.Builder;
 
 @Builder
 public record OfferSaveRequest(
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("offerUrl")
         String url,
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("title")
         String jobName,
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("company")
         String companyName,
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("salary")
         String salary
 ) { }
