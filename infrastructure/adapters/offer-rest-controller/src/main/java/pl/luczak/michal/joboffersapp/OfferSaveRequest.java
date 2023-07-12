@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import org.springframework.context.annotation.PropertySource;
 
 @Builder
+@PropertySource("classpath:validationMessages.properties")
 public record OfferSaveRequest(
         @NotNull(message = "{not.null}")
         @NotBlank(message = "{not.blank}")
