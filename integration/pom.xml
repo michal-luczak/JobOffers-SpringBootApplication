@@ -53,6 +53,6 @@
     </dependencies>
 
     <build>
-        <directory>../target/</directory>
+        <directory>../target/integration-tests-target-jar</directory>
     </build>
 </project>
