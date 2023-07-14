@@ -7,7 +7,6 @@ import lombok.Builder;
 import org.springframework.context.annotation.PropertySource;
 
 @Builder
-@PropertySource("classpath:validationMessages.properties")
 public record OfferSaveRequest(
         @NotNull(message = "{not.null}")
         @NotBlank(message = "{not.blank}")

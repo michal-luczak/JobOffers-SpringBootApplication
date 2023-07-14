@@ -7,11 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ContextConfiguration(classes = APIValidationErrorHandlerUnitTestConfig.class)
 @SpringBootTest
@@ -35,15 +38,17 @@ class APIValidationErrorHandlerUnitTest {
     @Test
     void should_handle_MethodArgumentNotValidException() throws Exception {
         // GIVEN && WHEN
-        String contentAsString = mockMvc.perform(post("/test-exception")
+        ResultActions response = mockMvc.perform(post("/test-exception")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{}"))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .content("{}"));
 
         // THEN
-        assertThat(contentAsString).contains("testMessage for testValue field");
+        response.andExpect(
+                jsonPath(
+                        "$.errors[?(@.field=='testValue')].messages[*]",
+                        containsInAnyOrder("testMessage")
+                )
+        );
     }
 
     @Test
@@ -69,6 +74,6 @@ class APIValidationErrorHandlerUnitTest {
                 .getContentAsString();
 
         // THEN
-        assertThat(contentAsString).contains("Failed to convert input: abc to Integer");
+        assertThat(contentAsString).contains("Invalid type for input abc. Cannot cast to Integer.");
     }
 }

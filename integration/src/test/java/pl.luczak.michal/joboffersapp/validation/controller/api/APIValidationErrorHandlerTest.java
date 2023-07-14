@@ -3,7 +3,6 @@ package pl.luczak.michal.joboffersapp.validation.controller.api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -15,8 +14,10 @@ import pl.luczak.michal.joboffersapp.AbstractIntegrationTest;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
@@ -59,10 +60,9 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
+        assertThat(message).isEqualTo("Unreadable request content. Please use JSON format");
     }
 
     @Test
@@ -75,32 +75,30 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
+        assertThat(message)
+                .isEqualTo("Unreadable request content. Please use JSON format");
     }
 
     @Test
     void should_handle_BAD_REQUEST_caused_by_missing_parameters_of_user_register_request() throws Exception {
         // GIVEN && WHEN
-        ResultActions responseWithEmptyContent = mockMvc.perform(post("/register")
+        ResultActions response = mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"));
-        String message = responseWithEmptyContent.andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors())
-                .containsExactlyInAnyOrder(
-                        String.format(fieldMustBeNotNull, "password"),
-                        String.format(fieldMustBeNotNull, "username"),
-                        String.format(fieldMustBeNotBlank, "password"),
-                        String.format(fieldMustBeNotBlank, "username")
-                );
+        response.andExpectAll(
+                jsonPath(
+                        "$.errors[?(@.field=='username')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='password')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                )
+        );
     }
 
     // Tests for /offers endpoint
@@ -115,11 +113,10 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
-        String expectedError = "Failed to convert input: 123 to UUID";
+        String expectedError = "Invalid type for input 123. Cannot cast to UUID.";
 
         // THEN
-        assertThat(apiErrorDTO.errors()).contains(expectedError);
+        assertThat(message).isEqualTo(expectedError);
     }
 
     @Test
@@ -129,24 +126,26 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         ResultActions response = mockMvc.perform(post("/offers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"));
-        String responseAsString = response.andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(responseAsString, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors())
-                .containsExactlyInAnyOrder(
-                        String.format(fieldMustBeNotNull, "jobName"),
-                        String.format(fieldMustBeNotBlank, "jobName"),
-                        String.format(fieldMustBeNotNull, "companyName"),
-                        String.format(fieldMustBeNotBlank, "companyName"),
-                        String.format(fieldMustBeNotNull, "url"),
-                        String.format(fieldMustBeNotBlank, "url"),
-                        String.format(fieldMustBeNotNull, "salary"),
-                        String.format(fieldMustBeNotBlank, "salary")
-                );
+        response.andExpectAll(
+                jsonPath(
+                        "$.errors[?(@.field=='url')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='salary')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='companyName')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='jobName')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                )
+        );
     }
 
     @Test
@@ -160,10 +159,10 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(responseAsString, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
+        assertThat(responseAsString)
+                .isEqualTo("Unreadable request content. Please use JSON format");
     }
 
     // Tests for /token endpoint
@@ -177,10 +176,10 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(message, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors()).contains("Unreadable request content. Please use JSON format");
+        assertThat(message)
+                .isEqualTo("Unreadable request content. Please use JSON format");
     }
 
     @Test
@@ -189,19 +188,17 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         ResultActions response = mockMvc.perform(post("/token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"));
-        String responseAsString = response.andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        APIValidationErrorDTO apiErrorDTO = objectMapper.readValue(responseAsString, APIValidationErrorDTO.class);
 
         // THEN
-        assertThat(apiErrorDTO.errors())
-                .containsExactlyInAnyOrder(
-                        String.format(fieldMustBeNotNull, "username"),
-                        String.format(fieldMustBeNotBlank, "username"),
-                        String.format(fieldMustBeNotNull, "password"),
-                        String.format(fieldMustBeNotBlank, "password")
-                );
+        response.andExpectAll(
+                jsonPath(
+                        "$.errors[?(@.field=='username')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='password')].messages[*]",
+                        containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                )
+        );
     }
 }
