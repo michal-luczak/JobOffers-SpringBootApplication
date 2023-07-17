@@ -5,15 +5,15 @@ spring:
       time-to-live: PT1H
   data:
     mongodb:
-      uri: mongodb://root:root@localhost:27017/job-offers
+      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}/${MONGODB_NAME}
       auto-index-creation: true
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOSTNAME:localhost}
+      port: ${REDIS_PORT:63792}
   datasource:
-    url: jdbc:postgresql://localhost:9999/job-offers-users
-    username: postgres
-    password: password
+    url: jdbc:postgresql://${POSTGRES_HOSTNAME}:${POSTGRES_PORT}/${POSTGRES_DB_NAME}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -22,7 +22,6 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update
-    show-sql: true
   task:
     scheduling:
       enable: true
@@ -42,5 +41,5 @@ job-offers:
     auth:
       jwt:
         expirationTimeInMs: 1209600000
-        secret: test
+        secret: ${JWT_SECRET}
         issuer: job-offers-backend

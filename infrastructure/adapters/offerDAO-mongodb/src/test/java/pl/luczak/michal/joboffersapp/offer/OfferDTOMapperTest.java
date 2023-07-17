@@ -30,7 +30,7 @@ class OfferDTOMapperTest implements SamplesOffersResponse {
     }
 
     @Test
-    void fromOfferDTO() {
+    void should_map_OfferDTO_to_OfferDocument() {
         // GIVEN && WHEN && THEN
         assertThat(offerDTOMapper.fromOfferDTO(offerDTO))
                 .usingRecursiveComparison()
@@ -39,7 +39,7 @@ class OfferDTOMapperTest implements SamplesOffersResponse {
     }
 
     @Test
-    void apply() {
+    void should_map_OfferDocument_to_OfferDTO() {
         // GIVEN && WHEN && THEN
         assertThat(offerDTOMapper.apply(offerDocument))
                 .usingRecursiveComparison()

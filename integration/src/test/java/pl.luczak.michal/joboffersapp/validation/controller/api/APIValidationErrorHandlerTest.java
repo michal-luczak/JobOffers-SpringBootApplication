@@ -36,6 +36,8 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
 
     private String fieldMustBeNotBlank;
 
+    private String invalidFormat;
+
     @BeforeEach
     void setUp() {
         this.fieldMustBeNotBlank = messageSource.getMessage(
@@ -43,6 +45,9 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         );
         this.fieldMustBeNotNull = messageSource.getMessage(
                 "not.null", null, Locale.ENGLISH
+        );
+        this.invalidFormat = messageSource.getMessage(
+                "invalid.format", null, Locale.ENGLISH
         );
     }
 
@@ -62,7 +67,7 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .getContentAsString();
 
         // THEN
-        assertThat(message).isEqualTo("Unreadable request content. Please use JSON format");
+        assertThat(message).isEqualTo(invalidFormat);
     }
 
     @Test
@@ -77,8 +82,7 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .getContentAsString();
 
         // THEN
-        assertThat(message)
-                .isEqualTo("Unreadable request content. Please use JSON format");
+        assertThat(message).isEqualTo(invalidFormat);
     }
 
     @Test
@@ -113,7 +117,11 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        String expectedError = "Invalid type for input 123. Cannot cast to UUID.";
+        String expectedError = messageSource.getMessage(
+                "invalid.type",
+                new Object[] {"123", "UUID"},
+                Locale.ENGLISH
+        );
 
         // THEN
         assertThat(message).isEqualTo(expectedError);
@@ -161,8 +169,7 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .getContentAsString();
 
         // THEN
-        assertThat(responseAsString)
-                .isEqualTo("Unreadable request content. Please use JSON format");
+        assertThat(responseAsString).isEqualTo(invalidFormat);
     }
 
     // Tests for /token endpoint
@@ -178,8 +185,7 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 .getContentAsString();
 
         // THEN
-        assertThat(message)
-                .isEqualTo("Unreadable request content. Please use JSON format");
+        assertThat(message).isEqualTo(invalidFormat);
     }
 
     @Test

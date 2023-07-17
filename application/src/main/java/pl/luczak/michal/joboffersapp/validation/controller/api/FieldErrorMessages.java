@@ -10,10 +10,12 @@ public record FieldErrorMessages(
         List<String> messages
 ) {
 
+    private final static ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public String toString() {
         try {
-            return new ObjectMapper().writeValueAsString(this);
+            return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

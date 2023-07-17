@@ -38,7 +38,7 @@ class OfferSaveRequestToOfferDTOMapperTest {
     }
 
     @Test
-    void fromOfferDTO() {
+    void should_map_OfferDTO_to_OfferSaveRequest() {
         // GIVEN && WHEN
         OfferSaveRequest fromOfferDTO = offerDTOMapper.fromOfferDTO(offerDTO);
 
@@ -47,7 +47,7 @@ class OfferSaveRequestToOfferDTOMapperTest {
     }
 
     @Test
-    void apply() {
+    void should_map_OfferSaveRequest_to_OfferDTO() {
         // GIVEN && WHEN
         OfferDTO applied = offerDTOMapper.apply(offerSaveRequest);
 

@@ -59,7 +59,7 @@ class OfferFetcherTest implements SamplesOffersResponse {
     }
 
     @Test
-    void fetchOffers() {
+    void should_fetch_offers() {
         // GIVEN && WHEN
         List<OfferRequestDTO> offerRequestDTOS = offerFetcher.fetchOffers();
 

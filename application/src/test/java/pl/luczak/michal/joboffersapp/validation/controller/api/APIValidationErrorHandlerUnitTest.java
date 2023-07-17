@@ -4,11 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.luczak.michal.joboffersapp.message.MessageConfig;
+
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -16,12 +20,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@ContextConfiguration(classes = APIValidationErrorHandlerUnitTestConfig.class)
+@ContextConfiguration(classes = {
+        APIValidationErrorHandlerUnitTestConfig.class,
+        MessageConfig.class
+})
 @SpringBootTest
 class APIValidationErrorHandlerUnitTest {
 
     @Autowired
     private TestController testController;
+
+    @Autowired
+    private MessageSource messageSource;
 
     private MockMvc mockMvc;
 
@@ -62,7 +72,8 @@ class APIValidationErrorHandlerUnitTest {
                 .getContentAsString();
 
         // THEN
-        assertThat(contentAsString).contains("Unreadable request content. Please use JSON format");
+        assertThat(contentAsString)
+                .contains(messageSource.getMessage("invalid.format", null, Locale.ENGLISH));
     }
 
     @Test
@@ -72,8 +83,12 @@ class APIValidationErrorHandlerUnitTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+        Object firstArg = "abc";
+        Object secondArg = "Integer";
+        Object[] args = new Object[] {firstArg, secondArg};
 
         // THEN
-        assertThat(contentAsString).contains("Invalid type for input abc. Cannot cast to Integer.");
+        assertThat(contentAsString)
+                .contains(messageSource.getMessage("invalid.type", args, Locale.ENGLISH));
     }
 }

@@ -18,13 +18,14 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <domain.version>1.0</domain.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>domain</artifactId>
-            <version>1.0</version>
+            <version>${domain.version}</version>
         </dependency>
     </dependencies>
 </project>

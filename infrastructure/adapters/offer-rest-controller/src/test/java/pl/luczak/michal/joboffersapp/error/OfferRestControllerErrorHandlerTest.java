@@ -44,7 +44,7 @@ class OfferRestControllerErrorHandlerTest {
     }
 
     @Test
-    void handle() throws Exception {
+    void should_handle_OfferNotFoundException() throws Exception {
         // GIVEN
         UUID uniqueID = UUID.randomUUID();
 
@@ -67,7 +67,7 @@ class OfferRestControllerErrorHandlerTest {
     }
 
     @Test
-    void testHandle() throws Exception {
+    void should_handle_OfferAlreadyExistsException() throws Exception {
         // GIVEN
         OfferSaveRequest offerSaveRequest = OfferSaveRequest.builder()
                 .url("testUrl")

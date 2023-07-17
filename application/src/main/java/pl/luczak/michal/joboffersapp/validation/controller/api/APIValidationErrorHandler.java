@@ -54,9 +54,9 @@ class APIValidationErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ResponseEntity<String> handleHttpMessageNotReadableException() {
+    ResponseEntity<String> handleHttpMessageNotReadableException(WebRequest request) {
         return ResponseEntity.badRequest()
-                .body("Unreadable request content. Please use JSON format");
+                .body(messageSource.getMessage("invalid.format", null, request.getLocale()));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -66,10 +66,13 @@ class APIValidationErrorHandler {
             WebRequest request
     ) {
         Locale locale = request.getLocale();
-        Object[] args = new Object[2];
-        args[0] = exception.getValue();
-        args[1] = Objects.requireNonNull(exception.getRequiredType())
+        Object firstArg = exception.getValue();
+        Object secondArg = Objects.requireNonNull(exception.getRequiredType())
                 .getSimpleName();
+        Object[] args = new Object[] {
+                firstArg,
+                secondArg
+        };
         return ResponseEntity.badRequest()
                 .body(messageSource.getMessage("invalid.type", args, locale));
     }
