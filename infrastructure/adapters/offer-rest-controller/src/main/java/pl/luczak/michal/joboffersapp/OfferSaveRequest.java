@@ -4,23 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import org.springframework.context.annotation.PropertySource;
 
 @Builder
 public record OfferSaveRequest(
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("offerUrl")
         String url,
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("title")
         String jobName,
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("company")
         String companyName,
-        @NotNull(message = "Field %s must not be null")
-        @NotBlank(message = "Field %s must not be blank")
+        @NotNull(message = "{not.null}")
+        @NotBlank(message = "{not.blank}")
         @JsonProperty("salary")
         String salary
 ) { }

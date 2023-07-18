@@ -37,12 +37,17 @@ class JWTAuthenticatorTest {
 
     @Test
     void should_successfully_return_token() {
+        // GIVEN
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "testUsername",
                 "testPassword"
         );
+
+        // WHEN
         JWTResponseDTO jwtResponseDTO = jwtAuthenticator.authenticateAndGenerateToken(loginRequestDTO);
         DecodedJWT decodedJWT = JWT.decode(jwtResponseDTO.token());
+
+        // THEN
         assertAll(() -> {
             assertThat(jwtResponseDTO.username())
                     .isEqualTo(loginRequestDTO.username());
@@ -59,10 +64,13 @@ class JWTAuthenticatorTest {
 
     @Test
     void should_throw_AuthenticationException() {
+        // GIVEN
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "wrongUsername",
                 "testPassword"
         );
+
+        // WHEN && THEN
         AuthenticationException exception = assertThrows(
                 AuthenticationException.class,
                 () -> jwtAuthenticator.authenticateAndGenerateToken(loginRequestDTO)
@@ -78,10 +86,14 @@ class JWTAuthenticatorTest {
 
     @Test
     void should_throw_BadCredentialsException() {
+
+        // GIVEN
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "testUsername",
                 "wrongPassword"
         );
+
+        // WHEN && THEN
         AuthenticationException exception = assertThrows(
                 AuthenticationException.class,
                 () -> jwtAuthenticator.authenticateAndGenerateToken(loginRequestDTO)

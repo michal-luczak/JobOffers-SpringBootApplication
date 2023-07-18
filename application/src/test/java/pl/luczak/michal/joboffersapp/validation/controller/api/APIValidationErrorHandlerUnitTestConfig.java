@@ -1,5 +1,6 @@
 package pl.luczak.michal.joboffersapp.validation.controller.api;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 abstract class APIValidationErrorHandlerUnitTestConfig {
 
     @Bean
-    APIValidationErrorHandler apiValidationErrorHandler() {
-        return new APIValidationErrorHandler();
+    APIValidationErrorHandler apiValidationErrorHandler(MessageSource messageSource) {
+        return new APIValidationErrorHandler(messageSource);
     }
 
     @Bean

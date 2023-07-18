@@ -5,14 +5,13 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -42,24 +41,47 @@ class JWTAuthTokenFilterTest {
         jwtAuthTokenFilter = new JWTAuthTokenFilter(jwtConfigurationProperties);
     }
 
+    @AfterEach
+    void tearDown() {
+        SecurityContextHolder.getContext()
+                .setAuthentication(null);
+    }
+
     @Test
-    void doFilterInternal() throws ServletException, IOException {
+    void should_invoke_filter_method_with_no_authentication_header() throws ServletException, IOException {
+        // GIVEN && WHEN
         jwtAuthTokenFilter.doFilterInternal(request, response, filterChain);
+
+        // THEN
         verify(filterChain, times(1))
                 .doFilter(request, response);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
     @Test
-    void test() throws ServletException, IOException {
+    void should_authorize_and_return_JWT_token() throws ServletException, IOException {
+        // GIVEN
         request.addHeader("Authorization", "Bearer testToken");
         JWTVerifier jwtVerifier = Mockito.mock(JWTVerifier.class);
         DecodedJWT decodedJWTMock = mock(DecodedJWT.class);
+
+        // WHEN
         when(jwtVerifier.verify("testToken")).thenReturn(decodedJWTMock);
         ReflectionTestUtils.setField(jwtAuthTokenFilter, "jwtVerifier", jwtVerifier);
         jwtAuthTokenFilter.doFilterInternal(request, response, filterChain);
+
+        // THEN
         verify(filterChain).doFilter(request, response);
-        assertEquals(decodedJWTMock.getSubject(), SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        assertNull(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+        assertEquals(
+                decodedJWTMock.getSubject(),
+                SecurityContextHolder.getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+        );
+        assertNull(
+                SecurityContextHolder.getContext()
+                    .getAuthentication()
+                    .getCredentials()
+        );
     }
 }

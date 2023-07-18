@@ -26,8 +26,11 @@ class RestTemplateResponseErrorHandlerTest {
 
     @Test
     void should_handle_5xx_http_code() {
+        // GIVEN
         EnumSet<HttpStatus> enumSet = createEnumSet(HttpStatus::is5xxServerError);
         String expectedMessage = "Error while using https client";
+
+        // WHEN && THEN
         enumSet.forEach(status ->
                 testTemplate(
                     status,
@@ -39,18 +42,27 @@ class RestTemplateResponseErrorHandlerTest {
 
     @Test
     void should_handle_404_http_code() {
+        // GIVEN
         EnumSet<HttpStatus> enumSet = EnumSet.of(HttpStatus.NOT_FOUND);
+
+        // WHEN && THEN
         enumSet.forEach(status -> testTemplate(status, "", HttpStatus.NOT_FOUND));
     }
 
     @Test
     void should_handle_401_http_code() {
+        // GIVEN
         EnumSet<HttpStatus> enumSet = EnumSet.of(HttpStatus.UNAUTHORIZED);
+
+        // WHEN && THEN
         enumSet.forEach(status -> testTemplate(status, "", HttpStatus.UNAUTHORIZED));
     }
 
     private void testTemplate(HttpStatus status, String message, HttpStatus responseStatus) {
+        // GIVEN
         ClientHttpResponse response = Mockito.mock(ClientHttpResponse.class);
+
+        // WHEN && THEN
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
                 () -> restTemplateResponseErrorHandler.handleError(response, status)

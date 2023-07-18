@@ -27,20 +27,30 @@ class OfferServiceCacheableWrapperTest {
 
     @Test
     void getCacheableOffers() throws NoSuchMethodException {
+        // GIVEN
         Method method = OfferServiceCacheableWrapper.class
                 .getMethod("getCacheableOffers");
         boolean isAnnotationInCacheable = method.isAnnotationPresent(Cacheable.class);
+
+        // WHEN
         offerServiceCacheableWrapper.getCacheableOffers();
+
+        // THEN
         verify(offerService, times(1)).findAllOffers();
         assertThat(isAnnotationInCacheable).isTrue();
     }
 
     @Test
     void getCacheableOffer() throws NoSuchMethodException {
+        // GIVEN
         Method method = OfferServiceCacheableWrapper.class
                 .getMethod("getCacheableOffer", UUID.class);
         boolean isAnnotationInCacheable = method.isAnnotationPresent(Cacheable.class);
+
+        // WHEN
         offerServiceCacheableWrapper.getCacheableOffer(UUID.randomUUID());
+
+        // THEN
         verify(offerService, times(1)).findOfferById(Mockito.any());
         assertThat(isAnnotationInCacheable).isTrue();
     }

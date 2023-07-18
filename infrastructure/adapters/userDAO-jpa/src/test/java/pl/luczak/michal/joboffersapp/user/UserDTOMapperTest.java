@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import pl.luczak.michal.joboffersapp.loginandsignup.dto.UserDTO;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserDTOMapperTest {
 
@@ -28,14 +27,20 @@ class UserDTOMapperTest {
     }
 
     @Test
-    void apply() {
+    void should_map_UserDTO_to_UserEntity() {
+        // GIVEN && WHEN
         UserDTO applied = userDTOMapper.apply(userEntity);
+
+        // THEN
         assertThat(applied).isEqualTo(userDTO);
     }
 
     @Test
-    void map() {
+    void should_map_UserEntity_to_UserDTO() {
+        // GIVEN && WHEN
         UserDTO mapped = userDTOMapper.map(userEntity);
+
+        // THEN
         assertThat(mapped).isEqualTo(userDTO);
     }
 }

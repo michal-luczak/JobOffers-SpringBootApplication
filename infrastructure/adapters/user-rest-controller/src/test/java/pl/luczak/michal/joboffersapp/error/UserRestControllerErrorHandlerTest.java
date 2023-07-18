@@ -39,6 +39,7 @@ class UserRestControllerErrorHandlerTest {
 
     @Test
     void should_handle_UserIdDuplicationException() throws Exception {
+        // GIVEN && WHEN
         ResultActions resultActions = mockMvc.perform(post("/test-exception"));
         String contentAsString = resultActions.andReturn()
                 .getResponse()
@@ -48,6 +49,8 @@ class UserRestControllerErrorHandlerTest {
                     contentAsString,
                     UserAlreadyExistsResponse.class
                 );
+
+        // THEN
         assertThat(offerErrorResponseDTO.status()).isEqualTo(HttpStatus.CONFLICT);
         assertThat(offerErrorResponseDTO.message()).isEqualTo("Test response message");
     }

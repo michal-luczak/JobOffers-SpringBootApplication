@@ -25,6 +25,7 @@ class OfferSchedulerTest {
 
     @Test
     void scheduler_should_invoke_scheduled_method_one_time_at_least() {
+        // GIVEN && WHEN && THEN
         await().atMost(Duration.ofSeconds(2))
                 .untilAsserted(() -> verify(offerScheduler, atLeast(1)).fetchOffers());
     }

@@ -14,38 +14,45 @@
 
     <properties>
         <java.version>17</java.version>
+        <offer-rest-fetcher.version>1.0</offer-rest-fetcher.version>
+        <offerDAO-mongodb.version>1.0</offerDAO-mongodb.version>
+        <userDAO-jpa.version>1.0</userDAO-jpa.version>
+        <authentication.version>1.0</authentication.version>
+        <offer-rest-controller.version>1.0</offer-rest-controller.version>
+        <user-rest-controller.version>1.0</user-rest-controller.version>
+        <awaitility.version>4.2.0</awaitility.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>offer-rest-fetcher</artifactId>
-            <version>1.0</version>
+            <version>${offer-rest-fetcher.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>offerDAO-mongodb</artifactId>
-            <version>1.0</version>
+            <version>${offerDAO-mongodb.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>userDAO-jpa</artifactId>
-            <version>1.0</version>
+            <version>${userDAO-jpa.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>authentication</artifactId>
-            <version>1.0</version>
+            <version>${authentication.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>offer-rest-controller</artifactId>
-            <version>1.0</version>
+            <version>${offer-rest-controller.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>user-rest-controller</artifactId>
-            <version>1.0</version>
+            <version>${user-rest-controller.version}</version>
         </dependency>
         <!-- SPRING BOOT -->
         <dependency>
@@ -69,7 +76,7 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
-            <version>4.2.0</version>
+            <version>${awaitility.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>

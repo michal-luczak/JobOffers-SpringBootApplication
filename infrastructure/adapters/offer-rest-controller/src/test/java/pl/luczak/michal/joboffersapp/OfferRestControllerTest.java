@@ -44,12 +44,15 @@ class OfferRestControllerTest implements SamplesOffersResponse {
 
     @Test
     void should_successfully_saveOffer() throws Exception {
+        // GIVEN
         OfferSaveRequest offerSaveRequest = OfferSaveRequest.builder()
                 .url("testUrl")
                 .jobName("testJobName")
                 .salary("testSalary")
                 .companyName("testCompanyName")
                 .build();
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(post("/offers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(offerSaveRequest)));
@@ -57,12 +60,15 @@ class OfferRestControllerTest implements SamplesOffersResponse {
                 .getResponse()
                 .getContentAsString(StandardCharsets.UTF_8);
         UUID uniqueID = UUID.fromString(responseContent);
+
+        // THEN
         verify(offerService, times(1)).saveOffer(Mockito.any());
         assertThat(exemplaryOffer.uniqueID()).isEqualTo(uniqueID);
     }
 
     @Test
     void should_successfully_findAllOffers() throws Exception {
+        // GIVEN && WHEN
         ResultActions resultActions = mockMvc.perform(get("/offers"));
         List<OfferDTO> offerDTOList = objectMapper.readValue(
                 resultActions.andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8),
@@ -70,6 +76,8 @@ class OfferRestControllerTest implements SamplesOffersResponse {
         );
         List<OfferDTO> offerListWithUUID = addUniqueIDToList(offerDTOList);
         List<OfferDTO> offerList = addUniqueIDToList(threeOfferDTO());
+
+        // THEN
         verify(offerService, times(1)).findAllOffers();
         assertThat(offerListWithUUID)
                 .usingRecursiveComparison()
@@ -79,12 +87,17 @@ class OfferRestControllerTest implements SamplesOffersResponse {
 
     @Test
     void should_successfully_findOfferById() throws Exception {
+        // GIVEN
         UUID uniqueID = exemplaryOffer.uniqueID();
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(get("/offers/" + uniqueID));
         OfferDTO foundOfferDTO = objectMapper.readValue(
                 resultActions.andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8),
                 new TypeReference<>() {}
         );
+
+        // THEN
         verify(offerService, times(1)).findOfferById(Mockito.any());
         assertThat(foundOfferDTO).usingRecursiveComparison()
                 .ignoringFields("uniqueID")

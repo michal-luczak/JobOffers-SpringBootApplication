@@ -37,11 +37,11 @@ class UserControllerTest extends AbstractIntegrationTest {
 
     @Test
     void should_successfully_save_user_to_database() throws Exception {
-        // given
+        // GIVEN
         String username = "testUser";
         String password = "testPassword";
 
-        // when
+        // WHEN
         ResultActions response = mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.format("""
@@ -50,16 +50,14 @@ class UserControllerTest extends AbstractIntegrationTest {
                         "password": "%s"
                     }
                 """.trim(), username, password)));
-
-        // then
         String contentAsString = response.andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-
         UserDTO foundUser = userService.findByUsername(username);
         String foundEncodedPass = foundUser.password();
 
+        // THEN
         assertAll(() -> {
             assertThat(contentAsString).isEqualTo("1");
             assertThat(foundUser).isNotNull();

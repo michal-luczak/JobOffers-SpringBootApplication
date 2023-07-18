@@ -33,13 +33,18 @@ class UserControllerTest {
 
     @Test
     void should_successfully_register_user_by_invoking_register_method_in_UserService() throws Exception {
+        // GIVEN
         UserRegisterRequest offerSaveRequest = new UserRegisterRequest(
                 "testUsername",
                 "testPassword"
         );
+
+        // WHEN
         ResultActions resultActions = mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(offerSaveRequest)));
+
+        // THEN
         verify(userService, times(1))
                 .register(Mockito.any(), Mockito.any());
         assertThat(resultActions.andReturn()

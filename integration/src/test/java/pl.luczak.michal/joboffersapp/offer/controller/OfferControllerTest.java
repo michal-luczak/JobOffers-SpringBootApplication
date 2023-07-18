@@ -48,7 +48,7 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
     @Test
     @WithMockUser
     void should_successfully_save_offer_to_database() throws Exception {
-        // given && when
+        // GIVEN && WHEN
         ResultActions resultActions = mockMvc.perform(
                 post("/offers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,17 +57,15 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
         String resultAsString = resultActions.andReturn()
                 .getResponse()
                 .getContentAsString();
+        OfferDTO foundOffer = offerService.findOfferById(UUID.fromString(resultAsString));
+        OfferRequestDTO offerRequestDTO = objectMapper.readValue(oneOffer(), OfferRequestDTO.class);
 
-        // then
+        // THEN
         assertThat(
                 resultActions.andReturn()
                         .getResponse()
                         .getStatus()
         ).isEqualTo(201);
-
-        OfferDTO foundOffer = offerService.findOfferById(UUID.fromString(resultAsString));
-        OfferRequestDTO offerRequestDTO = objectMapper.readValue(oneOffer(), OfferRequestDTO.class);
-
         assertThat(foundOffer).isNotNull();
         assertThat(foundOffer).usingRecursiveComparison()
                 .ignoringFields("uniqueID")
@@ -77,18 +75,18 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
     @Test
     @WithMockUser
     void should_return_CONFLICT_caused_by_offer_duplication() throws Exception {
-        // given
+        // GIVEN
         OfferDTO offerDTO = objectMapper.readValue(oneOffer(), OfferRequestDTO.class).toOfferDTO();
-        offerService.saveOffer(offerDTO);
 
-        // when
+        // WHEN
+        offerService.saveOffer(offerDTO);
         ResultActions resultActions = mockMvc.perform(
                 post("/offers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(oneOffer().trim())
         );
 
-        // then
+        // THEN
         assertThat(
                 resultActions.andReturn()
                         .getResponse()
@@ -98,15 +96,15 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
 
     @Test
     void should_return_NOT_FOUND_caused_by_nonexistent_offer() throws Exception {
-        // given
+        // GIVEN
         UUID uniqueID = UUID.randomUUID();
 
-        // when
+        // WHEN
         ResultActions resultActions = mockMvc.perform(
                 get("/offers/" + uniqueID)
         );
 
-        // then
+        // THEN
         assertThat(
                 resultActions.andReturn()
                         .getResponse()
@@ -116,27 +114,25 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
 
     @Test
     void should_successfully_return_offer_with_specific_UUID() throws Exception {
-        // given
+        // GIVEN
         OfferDTO offerDTO = oneOfferDTO();
-        UUID uniqueIDOfSavedOffer = offerService.saveOffer(offerDTO);
 
-        // when
+        // WHEN
+        UUID uniqueIDOfSavedOffer = offerService.saveOffer(offerDTO);
         ResultActions resultActions = mockMvc.perform(
                 get("/offers/" + uniqueIDOfSavedOffer)
         );
         String resultAsString = resultActions.andReturn()
                 .getResponse()
                 .getContentAsString(StandardCharsets.UTF_8);
+        OfferDTO foundOffer = objectMapper.readValue(resultAsString, OfferDTO.class);
 
-        // then
+        // THEN
         assertThat(
                 resultActions.andReturn()
                         .getResponse()
                         .getStatus()
         ).isEqualTo(200);
-
-        OfferDTO foundOffer = objectMapper.readValue(resultAsString, OfferDTO.class);
-
         assertThat(foundOffer).isNotNull();
         assertThat(foundOffer).usingRecursiveComparison()
                 .ignoringFields("uniqueID")
@@ -145,7 +141,7 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
 
     @Test
     void should_successfully_return_empty_array_because_of_empty_offer_database() throws Exception {
-        // given && when
+        // GIVEN && WHEN
         ResultActions resultActionWithEmptyDB = mockMvc.perform(
                 get("/offers")
         );
@@ -153,7 +149,7 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
                 .getResponse()
                 .getContentAsString();
 
-        // then
+        // THEN
         assertThat(
                 resultActionWithEmptyDB.andReturn()
                         .getResponse()
@@ -164,9 +160,11 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
 
     @Test
     void should_successfully_return_all_offers_from_database() throws Exception {
-        // given
+        // GIVEN
         OfferDTO firstOfferDTO = oneOfferDTO();
         OfferDTO secondOfferDTO = oneOtherOfferDTO();
+
+        // WHEN
         UUID uniqueIDOfFirstOffer = offerService.saveOffer(firstOfferDTO);
         UUID uniqueIDOfSecondOffer = offerService.saveOffer(secondOfferDTO);
         firstOfferDTO = firstOfferDTO.toBuilder()
@@ -175,8 +173,6 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
         secondOfferDTO = secondOfferDTO.toBuilder()
                 .uniqueID(uniqueIDOfSecondOffer)
                 .build();
-
-        // && when
         ResultActions resultAction = mockMvc.perform(
                 get("/offers")
         );
@@ -184,7 +180,7 @@ class OfferControllerTest extends AbstractIntegrationTest implements SamplesOffe
                 .getResponse()
                 .getContentAsString(StandardCharsets.UTF_8);
 
-        // then
+        // THEN
         assertThat(
                 resultAction.andReturn()
                         .getResponse()

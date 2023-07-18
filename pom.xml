@@ -27,6 +27,14 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jackson-module-parameter-names.version>2.14.2</jackson-module-parameter-names.version>
+        <spring-boot-dependencies.version>3.0.5</spring-boot-dependencies.version>
+        <de.flapdoodle.embed.mongo.spring30x.version>4.7.0</de.flapdoodle.embed.mongo.spring30x.version>
+        <swagger.version>2.0.4</swagger.version>
+        <jedis.version>4.3.1</jedis.version>
+        <lombok.version>1.18.26</lombok.version>
+        <assertj-core.version>3.23.1</assertj-core.version>
+        <junit-jupiter-api.version>5.9.2</junit-jupiter-api.version>
+        <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
     </properties>
 
     <dependencyManagement>
@@ -35,66 +43,59 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-mongodb</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <optional>true</optional>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-statrter-validation</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-security-test</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
-            <!-- UNIT TESTS -->
             <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>5.9.2</version>
-                <scope>test</scope>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
             </dependency>
+            <!-- EMBED MONGO DATABASE FOR UNIT TESTS -->
             <dependency>
                 <groupId>de.flapdoodle.embed</groupId>
                 <artifactId>de.flapdoodle.embed.mongo.spring30x</artifactId>
-                <version>4.7.0</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.9.2</version>
+                <version>${de.flapdoodle.embed.mongo.spring30x.version}</version>
                 <scope>test</scope>
             </dependency>
             <!-- JACKSON -->
@@ -103,20 +104,17 @@
                 <artifactId>jackson-module-parameter-names</artifactId>
                 <version>${jackson-module-parameter-names.version}</version>
             </dependency>
+            <!-- SWAGGER UI -->
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>2.0.4</version>
+                <version>${swagger.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-redis</artifactId>
-                <version>3.0.5</version>
-            </dependency>
+            <!-- REDIS -->
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
-                <version>4.3.1</version>
+                <version>${jedis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -126,24 +124,25 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>${lombok.version}</version>
         </dependency>
+        <!-- UNIT TESTS -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.2</version>
+            <version>${junit-jupiter-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.2</version>
+            <version>${junit-jupiter-engine.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.23.1</version>
+            <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

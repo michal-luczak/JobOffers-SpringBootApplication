@@ -29,14 +29,20 @@ class UserDTOMapperTest {
     }
 
     @Test
-    void fromUserDTO() {
+    void should_map_UserDTO_to_User() {
+        // GIVEN && WHEN
         User fromUserDTO = userDTOMapper.fromUserDTO(userDTO);
+
+        // THEN
         assertThat(fromUserDTO).isEqualTo(user);
     }
 
     @Test
-    void apply() {
+    void should_map_User_to_UserDTO() {
+        // GIVEN && WHEN
         UserDTO fromUser = userDTOMapper.apply(user);
+
+        // THEN
         assertThat(fromUser).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(userDTO);
