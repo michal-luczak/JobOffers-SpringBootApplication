@@ -1,6 +1,7 @@
 package pl.luczak.michal.joboffersapp.offer;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import pl.luczak.michal.joboffersapp.ports.input.offer.OfferDAOPort;
 import pl.luczak.michal.joboffersapp.ports.input.offer.OfferFetcherPort;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;

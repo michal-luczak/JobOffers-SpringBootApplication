@@ -21,6 +21,7 @@
         <offer-rest-controller.version>1.0</offer-rest-controller.version>
         <user-rest-controller.version>1.0</user-rest-controller.version>
         <awaitility.version>4.2.0</awaitility.version>
+        <AOP.version>1.0</AOP.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,11 @@
             <groupId>pl.luczak.michal.joboffersapp</groupId>
             <artifactId>offerDAO-mongodb</artifactId>
             <version>${offerDAO-mongodb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>AOP</artifactId>
+            <version>${AOP.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.luczak.michal.joboffersapp</groupId>

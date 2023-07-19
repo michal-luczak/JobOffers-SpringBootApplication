@@ -28,7 +28,7 @@ class RestTemplateResponseErrorHandlerTest {
     void should_handle_5xx_http_code() {
         // GIVEN
         EnumSet<HttpStatus> enumSet = createEnumSet(HttpStatus::is5xxServerError);
-        String expectedMessage = "Error while using https client";
+        String expectedMessage = "Error while using http client";
 
         // WHEN && THEN
         enumSet.forEach(status ->

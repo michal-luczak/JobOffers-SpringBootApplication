@@ -3,6 +3,7 @@ package pl.luczak.michal.joboffersapp;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +15,7 @@ import java.time.Clock;
 import java.time.Instant;
 
 @AllArgsConstructor
+@Log4j2
 class JWTAuthenticator {
 
     private final AuthenticationManager authenticationManager;
@@ -23,6 +25,7 @@ class JWTAuthenticator {
     JWTResponseDTO authenticateAndGenerateToken(LoginRequestDTO loginRequestDTO) {
         Authentication authentication;
         try {
+            log.warn("User with username: {} is trying to authenticate", loginRequestDTO.username());
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequestDTO.username(),
@@ -30,8 +33,17 @@ class JWTAuthenticator {
                     )
             );
         } catch (BadCredentialsException ex) {
+            log.error(
+                    "User with username: {} has used wrong password: {} to authenticate",
+                    loginRequestDTO.username(),
+                    loginRequestDTO.password()
+            );
             throw new AuthenticationException("Wrong password for user with username: " + loginRequestDTO.username()) {};
         }
+        log.info(
+                "User with username: {} authenticate successfully",
+                loginRequestDTO.username()
+        );
         User user = (User) authentication.getPrincipal();
         String token = buildToken(user);
         return new JWTResponseDTO(user.getUsername(), token);

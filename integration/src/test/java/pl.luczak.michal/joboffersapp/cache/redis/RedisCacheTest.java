@@ -81,7 +81,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
 
         // THEN
         verify(offerServiceCacheableWrapper, times(1))
-                .getCacheableOffer(uniqueID);
+                .getCacheableOfferById(uniqueID);
         assertThat(cacheManager.getCacheNames().contains("offers"))
                 .isTrue();
         await().atMost(Duration.ofSeconds(4))
@@ -89,7 +89,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
                 .untilAsserted(() -> {
                             mockMvc.perform(get("/offers/" + uniqueID));
                             verify(offerServiceCacheableWrapper, atLeast(3))
-                                    .getCacheableOffer(uniqueID);
+                                    .getCacheableOfferById(uniqueID);
                         }
                 );
     }

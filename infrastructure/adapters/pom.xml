@@ -37,5 +37,10 @@
             <artifactId>spring-context</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>AOP</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

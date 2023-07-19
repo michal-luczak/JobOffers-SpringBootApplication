@@ -1,7 +1,7 @@
 package pl.luczak.michal.joboffersapp.validation.controller.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,26 +14,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import pl.luczak.michal.joboffersapp.LogHandlerMethodExec;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @ControllerAdvice
 @AllArgsConstructor
+@Log4j2
 class APIValidationErrorHandler {
 
     private final MessageSource messageSource;
+    private static final String loggerName = "APIValidationErrorHandler";
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
+    @LogHandlerMethodExec(
+            value = loggerName,
+            handlerClazz = APIValidationErrorHandler.class,
+            caughtException = MethodArgumentNotValidException.class
+    )
     APIValidationErrorDTO handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception,
             WebRequest request
     ) {
-
         Locale locale = request.getLocale();
         Set<String> errorsFields = exception.getFieldErrors()
                 .stream()
@@ -54,6 +63,11 @@ class APIValidationErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
+    @LogHandlerMethodExec(
+            value = loggerName,
+            handlerClazz = APIValidationErrorHandler.class,
+            caughtException = HttpMessageNotReadableException.class
+    )
     ResponseEntity<String> handleHttpMessageNotReadableException(WebRequest request) {
         return ResponseEntity.badRequest()
                 .body(messageSource.getMessage("invalid.format", null, request.getLocale()));
@@ -61,6 +75,11 @@ class APIValidationErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @LogHandlerMethodExec(
+            value = loggerName,
+            handlerClazz = APIValidationErrorHandler.class,
+            caughtException = MethodArgumentTypeMismatchException.class
+    )
     ResponseEntity<String> handleMethodArgumentTypeMismatchException(
             MethodArgumentTypeMismatchException exception,
             WebRequest request

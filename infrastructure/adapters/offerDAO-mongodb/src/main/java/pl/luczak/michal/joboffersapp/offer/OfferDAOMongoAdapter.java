@@ -1,6 +1,7 @@
 package pl.luczak.michal.joboffersapp.offer;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DuplicateKeyException;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 import pl.luczak.michal.joboffersapp.ports.input.offer.OfferDAOPort;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
+@Log4j2
 class OfferDAOMongoAdapter implements OfferDAOPort {
 
     private final OfferRepository offerRepository;
@@ -21,8 +23,10 @@ class OfferDAOMongoAdapter implements OfferDAOPort {
         OfferDocument offerDocument = offerDTOMapper.fromOfferDTO(offerDTO);
         String uniqueID;
         try {
+            log.warn("Trying to save offer: {}", offerDTO);
             uniqueID = offerRepository.save(offerDocument).uniqueID();
         } catch (DuplicateKeyException exception) {
+            log.error("Offer: {} is already exists", offerDTO);
             throw new OfferAlreadyExistsException(exception.getMessage());
         }
         return UUID.fromString(uniqueID);
@@ -31,18 +35,24 @@ class OfferDAOMongoAdapter implements OfferDAOPort {
     @Override
     public UUID deleteOffer(OfferDTO offerDTO) {
         OfferDocument offerDocument = offerDTOMapper.fromOfferDTO(offerDTO);
+        log.warn("Trying to delete offer: {}", offerDTO);
         offerRepository.delete(offerDocument);
+        log.info("Successfully deleted offer: {}", offerDTO);
         return UUID.fromString(offerDocument.uniqueID());
     }
 
     @Override
     public Optional<OfferDTO> findOfferById(UUID uniqueID) {
-        return offerRepository.findById(uniqueID.toString())
+        log.warn("Trying to find offer with UUID: {}...", uniqueID);
+        Optional<OfferDTO> offerDTO = offerRepository.findById(uniqueID.toString())
                 .map(offerDTOMapper);
+        log.info("Successfully found offer with uniqueID: {}", uniqueID);
+        return offerDTO;
     }
 
     @Override
     public List<OfferDTO> findAllOffers() {
+        log.warn("Trying to find all offers...");
         return offerRepository.findAll()
                 .stream()
                 .map(offerDTOMapper)
@@ -60,7 +70,10 @@ class OfferDAOMongoAdapter implements OfferDAOPort {
 
     @Override
     public Optional<OfferDTO> findOfferByUrl(String url) {
-        return offerRepository.findByUrl(url)
+        log.warn("Trying to find offer with url: {}...", url);
+        Optional<OfferDTO> offerDTO = offerRepository.findByUrl(url)
                 .map(offerDTOMapper);
+        log.info("Successfully find offer with url: {}", url);
+        return offerDTO;
     }
 }
