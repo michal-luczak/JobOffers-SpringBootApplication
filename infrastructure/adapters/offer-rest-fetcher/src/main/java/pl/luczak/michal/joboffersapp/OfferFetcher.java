@@ -1,6 +1,7 @@
 package pl.luczak.michal.joboffersapp;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import pl.luczak.michal.joboffersapp.ports.input.offer.OfferFetcherPort;
 import java.util.List;
 
 @AllArgsConstructor
+@Log4j2
 class OfferFetcher implements OfferFetcherPort<OfferRequestDTO> {
 
     private final RestTemplate restTemplate;
@@ -21,6 +23,7 @@ class OfferFetcher implements OfferFetcherPort<OfferRequestDTO> {
 
     @Override
     public List<OfferRequestDTO> fetchOffers() {
+        log.warn("Fetching offers from external server...");
         String url = UriComponentsBuilder.fromHttpUrl(getUrlService("/offers"))
                 .toUriString();
         ResponseEntity<List<OfferRequestDTO>> response = restTemplate.exchange(
@@ -31,6 +34,7 @@ class OfferFetcher implements OfferFetcherPort<OfferRequestDTO> {
                 ),
                 new ParameterizedTypeReference<>() {
                 });
+        log.info("Successfully fetched offers from external server");
         return response.getBody();
     }
 

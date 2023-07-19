@@ -27,5 +27,10 @@
             <artifactId>domain</artifactId>
             <version>${domain.version}</version>
         </dependency>
+        <dependency>
+            <groupId>pl.luczak.michal.joboffersapp</groupId>
+            <artifactId>AOP</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

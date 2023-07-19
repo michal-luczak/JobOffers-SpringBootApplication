@@ -21,7 +21,7 @@ public class OfferServiceCacheableWrapper {
     }
 
     @Cacheable("offers")
-    public OfferDTO getCacheableOffer(UUID uniqueID) {
+    public OfferDTO getCacheableOfferById(UUID uniqueID) {
         return offerService.findOfferById(uniqueID);
     }
 }

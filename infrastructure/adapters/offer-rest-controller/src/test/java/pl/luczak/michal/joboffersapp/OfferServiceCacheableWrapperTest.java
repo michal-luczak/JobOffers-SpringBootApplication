@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -44,11 +43,11 @@ class OfferServiceCacheableWrapperTest {
     void getCacheableOffer() throws NoSuchMethodException {
         // GIVEN
         Method method = OfferServiceCacheableWrapper.class
-                .getMethod("getCacheableOffer", UUID.class);
+                .getMethod("getCacheableOfferById", UUID.class);
         boolean isAnnotationInCacheable = method.isAnnotationPresent(Cacheable.class);
 
         // WHEN
-        offerServiceCacheableWrapper.getCacheableOffer(UUID.randomUUID());
+        offerServiceCacheableWrapper.getCacheableOfferById(UUID.randomUUID());
 
         // THEN
         verify(offerService, times(1)).findOfferById(Mockito.any());
