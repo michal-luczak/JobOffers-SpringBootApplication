@@ -49,7 +49,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - context: aws-dev
       - aws-ecr/build-and-push-image:
           dockerfile: Dockerfile
           path: .
