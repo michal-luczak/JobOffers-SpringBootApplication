@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     machine:
-      image: cimg/openjdk:17.0
+      image: ubuntu-2004:current
     steps:
       - checkout
       - run:
