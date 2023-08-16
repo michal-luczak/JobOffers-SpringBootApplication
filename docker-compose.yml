@@ -34,7 +34,7 @@ services:
 
   job-offers:
     container_name: job-offers
-#    build: .
+    build: .
     image: 509192113520.dkr.ecr.eu-central-1.amazonaws.com/job-offers:latest
     restart: always
     ports:

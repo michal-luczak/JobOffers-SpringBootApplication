@@ -41,6 +41,17 @@ jobs:
           paths:
             - .
 
+  deploy:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - run: |
+          docker-compose build
+          docker push 509192113520.dkr.ecr.eu-central-1.amazonaws.com/job-offers:latest 
+
 workflows:
   sample:
     jobs:
@@ -48,11 +59,6 @@ workflows:
       - test:
           requires:
             - build
-      - aws-ecr/build-and-push-image:
-          context: aws-dev
+      - deploy:
           requires:
             - test
-          dockerfile: Dockerfile
-          path: .
-          repo: job-offers
-          tag: "$CIRCLE_SHA1" # default - latest
