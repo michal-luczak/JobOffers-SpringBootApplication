@@ -2,47 +2,56 @@ version: '3.1'
 
 services:
   mongo:
+    container_name: mongo
     image: mongo:4.0.10
     restart: always
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: job-offers
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
-      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
-
   postgres:
+    container_name: postgres
     image: postgres:15.2
     restart: always
     ports:
-      - "9999:5432"
+      - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: p0stgr3s_us3rn4m3
+      POSTGRES_PASSWORD: SEagFcLVG7UAdbnttC
       POSTGRES_DB: job-offers-users
 
   redis:
+    container_name: redis
     image: redis
     ports:
       - "6379:6379"
     restart: always
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
+  job-offers:
+    container_name: job-offers
+#    build: .
+    image: 509192113520.dkr.ecr.eu-central-1.amazonaws.com/job-offers:latest
     restart: always
-    environment:
-      - REDIS_HOSTS=local:redis:6379
     ports:
-      - "8082:8081"
+      - "8000:8080"
+    environment:
+#      MONGODB_USERNAME: m0ng0_us3rn4m3
+#      MONGODB_PASSWORD: ueoSeCWeGcvqschuJc
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_HOSTNAME: ${MONGODB_HOSTNAME}
+      MONGODB_PORT: ${MONGODB_PORT}
+      MONGODB_NAME: ${MONGODB_NAME}
+      REDIS_HOSTNAME: ${REDIS_HOSTNAME}
+      REDIS_PORT: ${REDIS_PORT}
+      POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB_NAME: ${POSTGRES_DB_NAME}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
