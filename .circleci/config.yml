@@ -5,8 +5,8 @@ orbs:
 
 jobs:
   build:
-    machine:
-      image: ubuntu-2004:current
+    docker:
+      - image: cimg/openjdk:17.0
     steps:
       - checkout
       - run:
@@ -17,7 +17,7 @@ jobs:
             sudo pip3 install awsebcli --upgrade
       - run:
           name: Installing Project by Maven
-          command: mvn clean install -DskipTests
+          command: mvn install -DskipTests
       - persist_to_workspace:
           root: .
           paths:
