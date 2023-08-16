@@ -49,9 +49,13 @@ workflows:
           requires:
             - build
       - aws-ecr/build-and-push-image:
+          steps:
+            - attach_workspace:
+                at: .
           context: aws-dev
           requires:
             - test
+            - build
           dockerfile: Dockerfile
           path: .
           repo: job-offers
