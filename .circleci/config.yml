@@ -40,14 +40,10 @@ jobs:
           root: .
           paths:
             - .
-
-workflows:
-  build-test-deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+  deploy:
+    machine:
+      image: ubuntu-2204:2022.07.1
+    steps:
       - aws-ecr/build-and-push-image:
           context: aws-dev
           requires:
@@ -56,5 +52,14 @@ workflows:
           dockerfile: Dockerfile
           path: .
           repo: job-offers
-          attach_workspace:
-            at: .
+          attach_workspace: true
+workflows:
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
