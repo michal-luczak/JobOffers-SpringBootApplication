@@ -42,7 +42,7 @@ jobs:
             - .
 
 workflows:
-  sample:
+  build-test-deploy:
     jobs:
       - build
       - test:
@@ -56,3 +56,5 @@ workflows:
           dockerfile: Dockerfile
           path: .
           repo: job-offers
+          attach_workspace:
+            at: .
