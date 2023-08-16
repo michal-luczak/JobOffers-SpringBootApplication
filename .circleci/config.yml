@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@8.1.3
+  aws-ecr: circleci/aws-ecr@9.0
+  aws-cli: circleci/aws-cli@4.0
 
 jobs:
   build:
@@ -45,7 +46,8 @@ jobs:
     machine:
       image: ubuntu-2204:2022.07.1
     steps:
-      - aws-ecr/build-and-push-image:
+      - aws-ecr/build_and_push_image:
+          attach_workspace: true
           context: aws-dev
           requires:
             - test
@@ -53,7 +55,7 @@ jobs:
           dockerfile: Dockerfile
           path: .
           repo: job-offers
-          attach_workspace: true
+          workspace_root: .
 
 workflows:
   build-test-deploy:
