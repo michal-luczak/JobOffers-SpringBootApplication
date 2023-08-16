@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@8.2.1
+  aws-ecr: circleci/aws-ecr@8.1.3
 #  aws-cli: circleci/aws-cli@4.0
 
 jobs:
@@ -51,8 +51,6 @@ jobs:
           at: .
       - aws-ecr/build-and-push-image:
           context: aws-dev
-          requires:
-            - test
           dockerfile: Dockerfile
           path: .
           repo: job-offers
