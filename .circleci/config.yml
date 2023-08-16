@@ -49,7 +49,7 @@ workflows:
       - test:
           requires:
             - build
-      - aws-ecr/build_and_push_image:
+      - aws-ecr/build-and-push-image:
           context: aws-dev
           requires:
             - test
