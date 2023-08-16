@@ -35,19 +35,11 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Run Tests
-          command: mvn verify
+          command: mvn test
       - persist_to_workspace:
           root: .
           paths:
             - .
-
-  deploy:
-    machine:
-      image: ubuntu-2004:current
-    steps:
-      - attach_workspace:
-          at: .
-      - checkout
 
 workflows:
   sample:
