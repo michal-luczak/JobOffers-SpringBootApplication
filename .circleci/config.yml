@@ -42,13 +42,13 @@ jobs:
           paths:
             - .
 
-workflows:
-  build-test-deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+  deploy:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - aws-ecr/build-and-push-image:
           context: aws-dev
           requires:
@@ -56,3 +56,13 @@ workflows:
           dockerfile: Dockerfile
           path: .
           repo: job-offers
+workflows:
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
