@@ -26,8 +26,9 @@ class UserDAOAdapter implements UserDAOPort {
             log.warn("Trying to save user: {}...", userDTO);
             savedUser = userRepository.save(userEntity);
         } catch (DataIntegrityViolationException exception) {
-            log.error("Cannot save user because this user is existing");
-            throw new UserIdDuplicationException(exception.getMessage());
+            String message = "Cannot save user because this user is existing";
+            log.error(message);
+            throw new UserIdDuplicationException(message);
         }
         log.info("Successfully saved user: {}", userDTO);
         return savedUser.getId();
