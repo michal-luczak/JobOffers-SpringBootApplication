@@ -1,3 +1,6 @@
+springdoc:
+  api-docs:
+    path: /job-offers/v3/api-docs
 spring:
   cache:
     type: redis
