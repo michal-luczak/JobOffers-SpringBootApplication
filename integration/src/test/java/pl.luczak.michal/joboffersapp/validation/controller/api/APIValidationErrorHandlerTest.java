@@ -14,6 +14,7 @@ import pl.luczak.michal.joboffersapp.AbstractIntegrationTest;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,6 +39,8 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
 
     private String invalidFormat;
 
+    private String wrongLinkPattern;
+
     @BeforeEach
     void setUp() {
         this.fieldMustBeNotBlank = messageSource.getMessage(
@@ -48,6 +51,9 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         );
         this.invalidFormat = messageSource.getMessage(
                 "invalid.format", null, Locale.ENGLISH
+        );
+        this.wrongLinkPattern = messageSource.getMessage(
+                "wrong.link.pattern", null, Locale.ENGLISH
         );
     }
 
@@ -204,6 +210,37 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
                 jsonPath(
                         "$.errors[?(@.field=='password')].messages[*]",
                         containsInAnyOrder(fieldMustBeNotBlank, fieldMustBeNotNull)
+                )
+        );
+    }
+
+    @Test
+    @WithMockUser
+    void should_handle_BAD_REQUEST_caused_by_wrong_link_format() throws Exception {
+        // GIVEN
+        String content = """
+                    {
+                        "offerUrl" : "wrong url format",
+                        "salary" : "test",
+                        "company" : "test",
+                        "title" : "test"
+                    }
+                """.trim();
+
+        // WHEN
+        ResultActions response = mockMvc.perform(post("/offers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+        String message = response.andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        // THEN
+        response.andExpectAll(
+                jsonPath(
+                        "$.errors[?(@.field=='url')].messages[*]",
+                        contains(wrongLinkPattern)
                 )
         );
     }

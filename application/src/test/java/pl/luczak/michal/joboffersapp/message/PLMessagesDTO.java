@@ -14,12 +14,14 @@ class PLMessagesDTO {
     private final String notBlankMessage;
     private final String invalidTypeMessage;
     private final String invalidFormatMessage;
+    private final String wrongLinkPatternMessage;
 
     public PLMessagesDTO() {
         this.notNullMessage = getMessageFromProperties("not.null");
         this.notBlankMessage = getMessageFromProperties("not.blank");
         this.invalidTypeMessage = getMessageFromProperties("invalid.type");
         this.invalidFormatMessage = getMessageFromProperties("invalid.format");
+        this.wrongLinkPatternMessage = getMessageFromProperties("wrong.link.pattern");
     }
 
     private String getMessageFromProperties(String key) {

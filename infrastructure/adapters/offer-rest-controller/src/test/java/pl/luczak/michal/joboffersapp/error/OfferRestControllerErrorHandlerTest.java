@@ -70,7 +70,7 @@ class OfferRestControllerErrorHandlerTest {
     void should_handle_OfferAlreadyExistsException() throws Exception {
         // GIVEN
         OfferSaveRequest offerSaveRequest = OfferSaveRequest.builder()
-                .url("testUrl")
+                .url("https://testJobUrl.pl")
                 .jobName("testJobName")
                 .salary("testSalary")
                 .companyName("testCompanyName")

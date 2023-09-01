@@ -5,8 +5,9 @@ spring:
       time-to-live: PT1H
   data:
     mongodb:
-      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}/${MONGODB_NAME}
+      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}/${MONGODB_NAME}?authSource=admin
       auto-index-creation: true
+      authentication-database: admin
     redis:
       host: ${REDIS_HOSTNAME:localhost}
       port: ${REDIS_PORT:63792}

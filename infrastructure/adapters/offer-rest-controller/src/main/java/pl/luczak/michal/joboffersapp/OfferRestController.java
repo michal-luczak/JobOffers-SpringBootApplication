@@ -31,6 +31,7 @@ class OfferRestController implements OfferControllerPort<ResponseEntity<?>, Offe
                 offerSaveRequestToOfferDTOMapper.toOfferDTO(offerSaveRequest)
         );
         log.info("Offer: {} has been successfully saved", offerSaveRequest);
+        offerServiceCacheableWrapper.clearOffersCache();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(uuid.toString());
     }

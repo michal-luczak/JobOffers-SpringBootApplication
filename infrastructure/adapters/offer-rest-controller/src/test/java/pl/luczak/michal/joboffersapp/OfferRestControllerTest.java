@@ -46,7 +46,7 @@ class OfferRestControllerTest implements SamplesOffersResponse {
     void should_successfully_saveOffer() throws Exception {
         // GIVEN
         OfferSaveRequest offerSaveRequest = OfferSaveRequest.builder()
-                .url("testUrl")
+                .url("https://abc.pl")
                 .jobName("testJobName")
                 .salary("testSalary")
                 .companyName("testCompanyName")
