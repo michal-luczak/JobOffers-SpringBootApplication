@@ -39,7 +39,8 @@ class MessageSourceTest {
             String notNullErrorMessage,
             String notBlankErrorMessage,
             String invalidTypeErrorMessage,
-            String invalidFormatErrorMessage
+            String invalidFormatErrorMessage,
+            String wrongLinkPatternMessage
     ) {
         // GIVEN && WHEN
         String notNullResolvedMessage = messageSource.getMessage(
@@ -54,6 +55,9 @@ class MessageSourceTest {
         String invalidFormatResolvedMessage = messageSource.getMessage(
                 "invalid.format", null, local
         );
+        String wrongLinkPatternResolvedMessage = messageSource.getMessage(
+                "wrong.link.pattern", null, local
+        );
 
         // THEN
         assertThat(notNullResolvedMessage)
@@ -67,6 +71,8 @@ class MessageSourceTest {
                 );
         assertThat(invalidFormatResolvedMessage)
                 .isEqualTo(invalidFormatErrorMessage);
+        assertThat(wrongLinkPatternResolvedMessage)
+                .isEqualTo(wrongLinkPatternMessage);
     }
 
     private Stream<Arguments> getMessages() {
@@ -76,14 +82,16 @@ class MessageSourceTest {
                         plMessagesDTO.getNotNullMessage(),
                         plMessagesDTO.getNotBlankMessage(),
                         plMessagesDTO.getInvalidTypeMessage(),
-                        plMessagesDTO.getInvalidFormatMessage()
+                        plMessagesDTO.getInvalidFormatMessage(),
+                        plMessagesDTO.getWrongLinkPatternMessage()
                 ),
                 Arguments.of(
                         Locale.ENGLISH,
                         enMessagesDTO.getNotNullMessage(),
                         enMessagesDTO.getNotBlankMessage(),
                         enMessagesDTO.getInvalidTypeMessage(),
-                        enMessagesDTO.getInvalidFormatMessage()
+                        enMessagesDTO.getInvalidFormatMessage(),
+                        enMessagesDTO.getWrongLinkPatternMessage()
                 )
         );
     }

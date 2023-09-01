@@ -78,17 +78,46 @@ class APIValidationErrorHandlerUnitTest {
 
     @Test
     void should_handle_MethodArgumentTypeMismatchException() throws Exception {
-        // GIVEN && WHEN
+        // GIVEN
+        Object firstArg = "abc";
+        Object secondArg = "Integer";
+        Object[] args = new Object[] {firstArg, secondArg};
+        String message = messageSource.getMessage("invalid.type", args, Locale.ENGLISH);
+
+        // WHEN
         String contentAsString = mockMvc.perform(get("/test-exception/abc"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        Object firstArg = "abc";
-        Object secondArg = "Integer";
-        Object[] args = new Object[] {firstArg, secondArg};
 
         // THEN
-        assertThat(contentAsString)
-                .contains(messageSource.getMessage("invalid.type", args, Locale.ENGLISH));
+        assertThat(contentAsString).contains(message);
+    }
+
+    @Test
+    void should_handle_ConstraintViolationException() throws Exception {
+        // GIVEN
+        ResultActions response = mockMvc.perform(post("/test-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                        "testValue" : "abc"
+                    }
+                """)
+        );
+        String message = messageSource.getMessage("wrong.link.pattern", new Object[]{}, Locale.ENGLISH);
+
+        // WHEN
+        String contentAsString = response.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        // THEN
+        response.andExpect(
+                jsonPath(
+                        "$.errors[?(@.field=='testValue')].messages[*]",
+                        containsInAnyOrder("wrongPattern")
+                )
+        );
     }
 }
