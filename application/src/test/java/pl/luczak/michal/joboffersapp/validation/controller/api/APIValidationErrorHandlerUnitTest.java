@@ -95,7 +95,28 @@ class APIValidationErrorHandlerUnitTest {
     }
 
     @Test
-    void should_handle_ConstraintViolationException() throws Exception {
+    void should_handle_wrong_pattern() throws Exception {
+        // GIVEN && WHEN
+        ResultActions response = mockMvc.perform(post("/test-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                        "testValue" : "abcabcab"
+                    }
+                """)
+        );
+
+        // THEN
+        response.andExpect(
+                jsonPath(
+                        "$.errors[?(@.field=='testValue')].messages[*]",
+                        containsInAnyOrder("wrongPattern")
+                )
+        );
+    }
+
+    @Test
+    void should_handle_to_short_arg() throws Exception {
         // GIVEN
         ResultActions response = mockMvc.perform(post("/test-exception")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -105,19 +126,34 @@ class APIValidationErrorHandlerUnitTest {
                     }
                 """)
         );
-        String message = messageSource.getMessage("wrong.link.pattern", new Object[]{}, Locale.ENGLISH);
 
         // WHEN
-        String contentAsString = response.andReturn()
+        String message = response.andReturn()
                 .getResponse()
                 .getContentAsString();
 
         // THEN
-        response.andExpect(
-                jsonPath(
-                        "$.errors[?(@.field=='testValue')].messages[*]",
-                        containsInAnyOrder("wrongPattern")
-                )
+        assertThat(message).contains("wrongSize");
+    }
+
+    @Test
+    void should_handle_to_long_arg() throws Exception {
+        // GIVEN && WHEN
+        ResultActions response = mockMvc.perform(post("/test-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                        "testValue" : "abcabcabcbacasc"
+                    }
+                """)
         );
+
+        // WHEN
+        String message = response.andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        // THEN
+        assertThat(message).contains("wrongSize");
     }
 }

@@ -15,6 +15,7 @@ class ENMessagesDTO {
     private final String invalidTypeMessage;
     private final String invalidFormatMessage;
     private final String wrongLinkPatternMessage;
+    private final String wrongSize;
 
     public ENMessagesDTO() {
         this.notNullMessage = getMessageFromProperties("not.null");
@@ -22,6 +23,7 @@ class ENMessagesDTO {
         this.invalidTypeMessage = getMessageFromProperties("invalid.type");
         this.invalidFormatMessage = getMessageFromProperties("invalid.format");
         this.wrongLinkPatternMessage = getMessageFromProperties("wrong.link.pattern");
+        this.wrongSize = getMessageFromProperties("wrong.size");
     }
 
     private String getMessageFromProperties(String key) {
