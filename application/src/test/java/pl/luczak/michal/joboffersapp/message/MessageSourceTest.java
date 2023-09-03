@@ -40,7 +40,8 @@ class MessageSourceTest {
             String notBlankErrorMessage,
             String invalidTypeErrorMessage,
             String invalidFormatErrorMessage,
-            String wrongLinkPatternMessage
+            String wrongLinkPatternMessage,
+            String wrongSize
     ) {
         // GIVEN && WHEN
         String notNullResolvedMessage = messageSource.getMessage(
@@ -58,6 +59,9 @@ class MessageSourceTest {
         String wrongLinkPatternResolvedMessage = messageSource.getMessage(
                 "wrong.link.pattern", null, local
         );
+        String wrongSizeOfParameterMessage = messageSource.getMessage(
+                "wrong.size", null, local
+        );
 
         // THEN
         assertThat(notNullResolvedMessage)
@@ -73,6 +77,11 @@ class MessageSourceTest {
                 .isEqualTo(invalidFormatErrorMessage);
         assertThat(wrongLinkPatternResolvedMessage)
                 .isEqualTo(wrongLinkPatternMessage);
+        assertThat(wrongSizeOfParameterMessage)
+                .isEqualTo(wrongSize
+                        .replace("{0}", "5")
+                        .replace("{1}", "25")
+                );
     }
 
     private Stream<Arguments> getMessages() {
@@ -83,7 +92,8 @@ class MessageSourceTest {
                         plMessagesDTO.getNotBlankMessage(),
                         plMessagesDTO.getInvalidTypeMessage(),
                         plMessagesDTO.getInvalidFormatMessage(),
-                        plMessagesDTO.getWrongLinkPatternMessage()
+                        plMessagesDTO.getWrongLinkPatternMessage(),
+                        plMessagesDTO.getWrongSize()
                 ),
                 Arguments.of(
                         Locale.ENGLISH,
@@ -91,7 +101,8 @@ class MessageSourceTest {
                         enMessagesDTO.getNotBlankMessage(),
                         enMessagesDTO.getInvalidTypeMessage(),
                         enMessagesDTO.getInvalidFormatMessage(),
-                        enMessagesDTO.getWrongLinkPatternMessage()
+                        enMessagesDTO.getWrongLinkPatternMessage(),
+                        enMessagesDTO.getWrongSize()
                 )
         );
     }

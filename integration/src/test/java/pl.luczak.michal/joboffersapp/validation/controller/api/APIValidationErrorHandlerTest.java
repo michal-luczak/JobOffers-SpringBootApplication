@@ -41,6 +41,10 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
 
     private String wrongLinkPattern;
 
+    private String wrongUsernameSize;
+
+    private String wrongPasswordSize;
+
     @BeforeEach
     void setUp() {
         this.fieldMustBeNotBlank = messageSource.getMessage(
@@ -55,6 +59,17 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         this.wrongLinkPattern = messageSource.getMessage(
                 "wrong.link.pattern", null, Locale.ENGLISH
         );
+        this.wrongUsernameSize = messageSource.getMessage(
+                "wrong.size", null, Locale.ENGLISH
+        );
+        this.wrongPasswordSize = messageSource.getMessage(
+                "wrong.size", null, Locale.ENGLISH
+        );
+
+        this.wrongUsernameSize = wrongUsernameSize.replace("{min}", "5")
+                .replace("{max}", "25");
+        this.wrongPasswordSize = wrongPasswordSize.replace("{min}", "8")
+                .replace("{max}", "24");
     }
 
     // Tests for /register endpoint
@@ -231,16 +246,60 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
         ResultActions response = mockMvc.perform(post("/offers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
-        String message = response.andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
 
         // THEN
         response.andExpectAll(
                 jsonPath(
                         "$.errors[?(@.field=='url')].messages[*]",
                         contains(wrongLinkPattern)
+                )
+        );
+    }
+
+    @Test
+    @WithMockUser
+    void should_handle_BAD_REQUEST_caused_by_wrong_argument_size() throws Exception {
+        // GIVEN
+        String tooShortContent = """
+                {
+                    "username" : "abc",
+                    "password" : "abc"
+                }
+                """.trim();
+        String tooLongContent = """
+                {
+                    "username" : "tooLongUsernameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                    "password" : "tooLongPasswordddddddddddddddddddddddddddddddddddd"
+                }
+                """.trim();
+
+        // WHEN
+        ResultActions tooShortResponse = mockMvc.perform(post("/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(tooShortContent));
+        ResultActions tooLongResponse = mockMvc.perform(post("/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(tooLongContent));
+
+        // THEN
+        tooShortResponse.andExpectAll(
+                jsonPath(
+                        "$.errors[?(@.field=='username')].messages[*]",
+                        contains(wrongUsernameSize)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='password')].messages[*]",
+                        contains(wrongPasswordSize)
+                )
+        );
+        tooLongResponse.andExpectAll(
+                jsonPath(
+                        "$.errors[?(@.field=='username')].messages[*]",
+                        contains(wrongUsernameSize)
+                ),
+                jsonPath(
+                        "$.errors[?(@.field=='password')].messages[*]",
+                        contains(wrongPasswordSize)
                 )
         );
     }
