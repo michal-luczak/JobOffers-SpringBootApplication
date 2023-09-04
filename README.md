@@ -1,5 +1,6 @@
-<h1 align="center">Job Offers - Backend</h1>
-## About
+<h1 align="center">Job Offers - Backend
+</h1>
+
 This project is a web application created in Spring Boot
 which allows users to search for and add new job offers. 
 To build the architecture of the project, I used the Ports-and-Adapters pattern.
