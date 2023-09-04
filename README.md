@@ -1,4 +1,4 @@
-# Job Offers - Backend
+<h1 align="center">Job Offers - Backend</h1>
 ## About
 This project is a web application created in Spring Boot
 which allows users to search for and add new job offers. 
