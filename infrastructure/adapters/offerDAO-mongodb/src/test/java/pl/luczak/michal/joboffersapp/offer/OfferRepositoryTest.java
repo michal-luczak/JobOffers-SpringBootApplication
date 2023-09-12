@@ -17,12 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
-/* TODO change embed mongodb lib for test units
-    * This implementation doesn't throw DuplicateKeyException
-    * and overwrites objects when id is the same
-*/
-@Disabled
 @DataMongoTest
 @ContextConfiguration(classes = OfferRepositoryTestConfig.class)
 class OfferRepositoryTest {
@@ -60,7 +54,12 @@ class OfferRepositoryTest {
         });
     }
 
+    /* TODO change embed mongodb lib for test units
+      * This implementation doesn't throw DuplicateKeyException
+      * and overwrites objects when id is the same
+     */
     @Test
+    @Disabled
     void should_throw_an_exception_because_of_duplication() {
         // GIVEN
         String url = "testUrl";
