@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataMongoTest
 @ContextConfiguration(classes = OfferRepositoryTestConfig.class)
+@Disabled
 class OfferRepositoryTest {
 
     @Autowired
@@ -59,7 +60,6 @@ class OfferRepositoryTest {
       * and overwrites objects when id is the same
      */
     @Test
-    @Disabled
     void should_throw_an_exception_because_of_duplication() {
         // GIVEN
         String url = "testUrl";

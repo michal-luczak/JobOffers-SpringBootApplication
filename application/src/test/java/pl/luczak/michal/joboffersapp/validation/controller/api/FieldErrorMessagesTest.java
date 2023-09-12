@@ -1,6 +1,5 @@
 package pl.luczak.michal.joboffersapp.validation.controller.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
