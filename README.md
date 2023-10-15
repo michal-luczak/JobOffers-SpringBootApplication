@@ -13,6 +13,14 @@ To see full version of app deployed on AWS click [here](https://michal-luczak.pl
 ## Diagram
 <img src="diagram.png">
 
+|       ENDPOINT        | METHOD  |         REQUEST          |       RESPONSE       |                    FUNCTION                     |
+|:---------------------:|:-------:|:------------------------:|:--------------------:|:-----------------------------------------------:|
+|         /token        |  POST   |  JSON BODY (credentials) |   JSON (JWT token)   | returns token after successfully authorization  |
+|        /offers        |  GET    |            -             |    JSON (offers)     |                returns all offers               |
+|        /offers        |  POST   |    JSON BODY (offer)     |      JSON (uuid)     |                creates new offer                |
+|     /offers/{uuid}    |  GET    |   PATH VARIABLE (uuid)   |     JSON (offer)     |          returns offer with given uuid          |
+|       /register       |  POST   |     JSON BODY (user)     |      JSON (id)       |                 creates new user                |
+
 ## Tech Stack
 Code: <br>
 ![Static Badge](https://img.shields.io/badge/java_17-orange?style=for-the-badge&logo=openjdk&logoColor=white)
