@@ -10,28 +10,29 @@ on [Swagger UI](https://michal-luczak.pl/job-offers/api/swagger-ui/index.html).
 If you want to see frontend also, you can 
 go to [JobOffers-ReactApp](https://github.com/michal-luczak/JobOffers-ReactApp).
 To see full version of app deployed on AWS click [here](https://michal-luczak.pl/job-offers).
+## Diagram
+<img src="diagram.png">
+
 ## Tech Stack
-<ul>
-    <li>Spring Boot 3</li>
-    <li>Java 17</li>
-    <li>PostgreSQL</li>
-    <li>MongoDB</li>
-    <li>Redis</li>
-    <li>CI/CD (CircleCI)</li>
-    <li>Tests:
-        <ul>
-            <li>Junit 5</li>
-            <li>MockMvc</li>
-            <li>WireMock</li>
-            <li>TestContainers</li>
-            <li>AssertJ</li>
-            <li>Mockito</li>
-            <li>H2 Database</li>
-        </ul>
-    </li>
-    <li>Docker</li>
-    <li>Swagger</li>
-</ul>
+Code: <br>
+![Static Badge](https://img.shields.io/badge/java_17-orange?style=for-the-badge&logo=openjdk&logoColor=white)
+![Static Badge](https://img.shields.io/badge/Spring_Boot_3-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+<br>
+Tests: <br>
+![image](https://img.shields.io/badge/Junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![image](https://img.shields.io/badge/Mockito-78A641?style=for-the-badge)
+![image](https://img.shields.io/badge/Testcontainers-9B489A?style=for-the-badge)
+![image](https://img.shields.io/badge/WireMock-ac4642?style=for-the-badge) 
+<br>
+CI/CD: <br>
+![CircleCI](https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white)
+<br>
+Other: <br>
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
 ## Solved Problems
 During the development of this project I had to face of a bunch of problems. These are a few of them.
