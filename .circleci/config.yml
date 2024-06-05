@@ -41,18 +41,6 @@ jobs:
           paths:
             - .
 
-  deploy:
-    machine:
-      image: ubuntu-2004:current
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - aws-ecr/build-and-push-image:
-          dockerfile: Dockerfile
-          path: .
-          repo: job-offers
-
   code-quality:
     machine:
       image: 'ubuntu-2004:current'
