@@ -43,15 +43,11 @@ jobs:
           args: -l jetbrains/qodana-jvm
 
 workflows:
-  build-test-deploy:
+  build-test-codeQuality:
     jobs:
       - build
       - test:
           requires:
             - build
-      - deploy:
-          requires:
-            - test
-          context: aws-dev
       - code-quality:
           context: qodana
