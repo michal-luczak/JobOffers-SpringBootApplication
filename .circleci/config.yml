@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@8.1.3
-  qodana: jetbrains/qodana@2023.3
+  qodana: jetbrains/qodana@2024.1
 
 jobs:
   build:
@@ -9,12 +8,6 @@ jobs:
       image: ubuntu-2004:current
     steps:
       - checkout
-      - run:
-          name: Installing AWS CLI
-          command: |
-            sudo apt-get update
-            sudo apt install python3-pip
-            sudo pip3 install awsebcli --upgrade
       - run:
           name: Installing Project by Maven
           command: mvn install -DskipTests
