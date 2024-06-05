@@ -31,7 +31,7 @@
         <de.flapdoodle.embed.mongo.spring30x.version>4.7.0</de.flapdoodle.embed.mongo.spring30x.version>
         <swagger.version>2.0.4</swagger.version>
         <jedis.version>4.3.1</jedis.version>
-        <lombok.version>1.18.26</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <assertj-core.version>3.23.1</assertj-core.version>
         <junit-jupiter-api.version>5.9.2</junit-jupiter-api.version>
         <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
