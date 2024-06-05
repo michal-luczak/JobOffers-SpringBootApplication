@@ -9,7 +9,7 @@ You can check this project out by yourself
 on [Swagger UI](https://michal-luczak.pl/job-offers/api/swagger-ui/index.html).
 If you want to see frontend also, you can 
 go to [JobOffers-ReactApp](https://github.com/michal-luczak/JobOffers-ReactApp).
-To see full version of app deployed on AWS click [here](https://michal-luczak.pl/job-offers).
+~~To see full version of app deployed on AWS click [here](https://michal-luczak.pl/job-offers).~~(Unfortunately my trail has expired on AWS but domain is still mine).
 ## Diagram
 <img src="diagram.png">
 
@@ -99,9 +99,8 @@ By default, it is the `509192113520.dkr.ecr.eu-central-1.amazonaws.com/job-offer
 </ol>
 
 ## What I'm going to do in future
-There are many things that I'm going to do in this project in the future. Few of them:
+There are many things that I want to implement in the future. Few of them:
 <ul>
-    <li>Hide the secrets (usernames and passwords for example to databases)</li>
     <li>Add more parameters to Offers like: Company icon, more details about the offers etc.</li>
     <li>Implement microservices architecture by using AWS, docker containerization and kafka for example</li>
     <li>Add roles ADMIN, USER etc. Admins would be able to remove offers</li>
