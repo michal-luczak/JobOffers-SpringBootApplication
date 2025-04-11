@@ -64,8 +64,8 @@ class UserControllerTest extends AbstractIntegrationTest {
             assertThat(passwordEncoder.matches(password, foundEncodedPass)).isTrue();
             assertThat(foundUser.id()).isEqualTo(1);
             assertThat(foundUser.username()).isEqualTo(username);
-            assertThat(userDAO.findByUsername(username).isPresent()).isTrue();
-            assertThat(userDAO.findByUsername(username).get()).isEqualTo(foundUser);
+            assertThat(userDAO.findByUsername(username)).isPresent();
+            assertThat(userDAO.findByUsername(username)).contains(foundUser);
         });
     }
 }

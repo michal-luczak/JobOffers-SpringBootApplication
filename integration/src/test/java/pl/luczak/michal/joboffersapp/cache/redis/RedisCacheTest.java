@@ -57,8 +57,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
         // THEN
         verify(offerServiceCacheableWrapper, times(1))
                 .getCacheableOffers();
-        assertThat(cacheManager.getCacheNames().contains("offers"))
-                .isTrue();
+        assertThat(cacheManager.getCacheNames()).contains("offers");
         await().atMost(Duration.ofSeconds(4))
                 .pollInterval(Duration.ofSeconds(1))
                 .untilAsserted(() -> {
@@ -82,8 +81,7 @@ class RedisCacheTest extends AbstractIntegrationTest {
         // THEN
         verify(offerServiceCacheableWrapper, times(1))
                 .getCacheableOfferById(uniqueID);
-        assertThat(cacheManager.getCacheNames().contains("offers"))
-                .isTrue();
+        assertThat(cacheManager.getCacheNames()).contains("offers");
         await().atMost(Duration.ofSeconds(4))
                 .pollInterval(Duration.ofSeconds(1))
                 .untilAsserted(() -> {

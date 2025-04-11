@@ -1,17 +1,14 @@
 package pl.luczak.michal.joboffersapp.offer;
 
 import com.mongodb.DuplicateKeyException;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ContextConfiguration;
-import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -55,10 +52,6 @@ class OfferRepositoryTest {
         });
     }
 
-    /* TODO change embed mongodb lib for test units
-      * This implementation doesn't throw DuplicateKeyException
-      * and overwrites objects when id is the same
-     */
     @Test
     void should_throw_an_exception_because_of_duplication() {
         // GIVEN
