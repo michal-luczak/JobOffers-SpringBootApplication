@@ -27,7 +27,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jackson-module-parameter-names.version>2.14.2</jackson-module-parameter-names.version>
-        <spring-boot-dependencies.version>3.0.5</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.4.4</spring-boot-dependencies.version>
         <de.flapdoodle.embed.mongo.spring30x.version>4.7.0</de.flapdoodle.embed.mongo.spring30x.version>
         <swagger.version>2.0.4</swagger.version>
         <jedis.version>4.3.1</jedis.version>
