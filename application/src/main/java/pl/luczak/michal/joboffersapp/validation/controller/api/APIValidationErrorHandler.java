@@ -2,7 +2,6 @@ package pl.luczak.michal.joboffersapp.validation.controller.api;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -30,13 +28,13 @@ import java.util.stream.Collectors;
 class APIValidationErrorHandler {
 
     private final MessageSource messageSource;
-    private static final String loggerName = "APIValidationErrorHandler";
+    private static final String LOGGER_NAME = "ApiValidationErrorHandler";
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     @LogHandlerMethodExec(
-            value = loggerName,
+            value = LOGGER_NAME,
             handlerClazz = APIValidationErrorHandler.class,
             caughtException = MethodArgumentNotValidException.class
     )
@@ -65,7 +63,7 @@ class APIValidationErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @LogHandlerMethodExec(
-            value = loggerName,
+            value = LOGGER_NAME,
             handlerClazz = APIValidationErrorHandler.class,
             caughtException = HttpMessageNotReadableException.class
     )
@@ -77,7 +75,7 @@ class APIValidationErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @LogHandlerMethodExec(
-            value = loggerName,
+            value = LOGGER_NAME,
             handlerClazz = APIValidationErrorHandler.class,
             caughtException = MethodArgumentTypeMismatchException.class
     )

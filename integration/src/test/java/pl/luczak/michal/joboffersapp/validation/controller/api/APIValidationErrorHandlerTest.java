@@ -73,7 +73,6 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
     }
 
     // Tests for /register endpoint
-    //     ||           ||
     //     \/           \/
 
     @Test
@@ -127,7 +126,6 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
     }
 
     // Tests for /offers endpoint
-    //     ||           ||
     //     \/           \/
 
     @Test
@@ -194,8 +192,6 @@ class APIValidationErrorHandlerTest extends AbstractIntegrationTest {
     }
 
     // Tests for /token endpoint
-    //     ||           ||
-    //     \/           \/
     @Test
     void should_handle_BAD_REQUEST_caused_by_invalid_json_format_of_request_on_token_endpoint() throws Exception {
         // GIVEN && WHEN
