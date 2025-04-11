@@ -16,7 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <testcontainers.version>1.17.4</testcontainers.version>
-        <wiremock-jre8-standalone.version>2.35.0</wiremock-jre8-standalone.version>
+        <wiremock-jre8-standalone.version>2.35.2</wiremock-jre8-standalone.version>
     </properties>
 
     <dependencies>
