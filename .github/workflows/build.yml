@@ -1,0 +1,43 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04  # Określenie obrazu systemu
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Project dependencies using Maven
+        run: mvn install -DskipTests
+
+      - name: Persist workspace
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/build
+          cp -r . $GITHUB_WORKSPACE/build
+
+  test:
+    runs-on: ubuntu-20.04
+    needs: build  # Zapewnienie, że testy uruchomią się po zakończeniu "build"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Restore workspace
+        run: |
+          cp -r $GITHUB_WORKSPACE/build/* .
+
+      - name: Set up Docker for testing
+        uses: docker/setup-buildx-action@v2  # Konfiguracja do używania dockera
+        with:
+          version: 20.10.14
+
+      - name: Run Tests
+        run: mvn test
