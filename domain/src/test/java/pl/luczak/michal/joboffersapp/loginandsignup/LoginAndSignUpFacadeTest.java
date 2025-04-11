@@ -13,7 +13,7 @@ class LoginAndSignUpFacadeTest {
     );
 
     @Test
-    public void should_successfully_find_user() {
+    void should_successfully_find_user() {
         // GIVEN
         UserDTO userDTO = UserDTO.builder()
                 .id(1L)
@@ -30,8 +30,7 @@ class LoginAndSignUpFacadeTest {
     }
 
     @Test
-    public void should_unsuccessfully_find_user_and_throw_UserNotFoundException() {
-        // GIVEN && WHEN && THEN
+    void should_unsuccessfully_find_user_and_throw_UserNotFoundException() {
         Assertions.assertThrows(
                 UserNotFoundException.class,
                 () -> loginAndSignUpFacade.findByUsername("username")
@@ -39,7 +38,7 @@ class LoginAndSignUpFacadeTest {
     }
 
     @Test
-    public void should_successfully_register_user() {
+    void should_successfully_register_user() {
         // GIVEN
         String username = "username";
         String password = "password";
@@ -55,7 +54,7 @@ class LoginAndSignUpFacadeTest {
     }
 
     @Test
-    public void should_throw_UserAlreadyExistsException() {
+    void should_throw_UserAlreadyExistsException() {
         // GIVEN
         UserDTO userDTO = UserDTO.builder()
                 .id(1L)

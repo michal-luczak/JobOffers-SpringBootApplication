@@ -10,7 +10,7 @@ public record FieldErrorMessages(
         List<String> messages
 ) {
 
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public String toString() {

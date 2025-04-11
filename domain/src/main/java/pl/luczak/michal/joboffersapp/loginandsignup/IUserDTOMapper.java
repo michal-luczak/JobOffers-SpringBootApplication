@@ -9,7 +9,7 @@ public interface IUserDTOMapper<T> extends Function<T, UserDTO>, Serializable {
 
     default UserDTO toUserDTO(T t) {
         return apply(t);
-    };
+    }
 
     T fromUserDTO(UserDTO offerDTO);
 }

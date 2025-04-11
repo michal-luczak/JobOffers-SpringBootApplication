@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FieldErrorMessagesTest {
 
     @Test
-    public void testToString() {
+    void testToString() {
         // GIVEN
         String expectedString = """
                 {
