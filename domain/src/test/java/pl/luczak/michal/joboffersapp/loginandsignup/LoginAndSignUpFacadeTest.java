@@ -66,9 +66,11 @@ class LoginAndSignUpFacadeTest {
         inMemoryDatabaseAdapter.save(userDTO);
 
         // THEN
+        var username = userDTO.username();
+        var password = userDTO.password();
         Assertions.assertThrows(
                 UsernameDuplicationException.class,
-                () -> loginAndSignUpFacade.register(userDTO.username(), userDTO.password())
+                () -> loginAndSignUpFacade.register(username, password)
         );
     }
 }

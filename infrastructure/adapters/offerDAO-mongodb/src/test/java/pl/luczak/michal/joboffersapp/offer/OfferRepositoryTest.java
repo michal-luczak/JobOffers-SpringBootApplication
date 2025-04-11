@@ -52,10 +52,6 @@ class OfferRepositoryTest {
         });
     }
 
-    /* TODO change embed mongodb lib for test units
-      * This implementation doesn't throw DuplicateKeyException
-      * and overwrites objects when id is the same
-     */
     @Test
     void should_throw_an_exception_because_of_duplication() {
         // GIVEN

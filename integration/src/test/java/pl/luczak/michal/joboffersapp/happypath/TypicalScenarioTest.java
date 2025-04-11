@@ -156,7 +156,6 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
         assertThat(jwtResponseDTO.token()).matches(jwtRegex);
 
     //step 7: there are 2 new offers in external HTTP server
-        // GIVEN && WHEN && THEN
         wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
@@ -169,7 +168,6 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
         OfferDTO firstOffer = offerDTOList.get(0);
         OfferDTO secondOffer = offerDTOList.get(1);
         UUID firstOfferUUID = firstOffer.uniqueID();
-        UUID secondOfferUUID = secondOffer.uniqueID();
 
         // THEN
         assertThat(offerDTOList).hasSize(2);
@@ -228,8 +226,6 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
         List<OfferDTO> offerListWith2NewOffers = offerScheduler.fetchOffers();
         OfferDTO thirdOffer = offerListWith2NewOffers.get(0);
         OfferDTO fourthOffer = offerListWith2NewOffers.get(1);
-        UUID thirdOfferUUID = thirdOffer.uniqueID();
-        UUID fourthOfferUUID = fourthOffer.uniqueID();
 
         // THEN
         assertThat(offerListWith2NewOffers).hasSize(2);
