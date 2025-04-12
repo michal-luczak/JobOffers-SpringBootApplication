@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,7 +12,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 class RestTemplateResponseErrorHandlerTest {
 
@@ -33,44 +33,10 @@ class RestTemplateResponseErrorHandlerTest {
         // WHEN && THEN
         enumSet.forEach(status ->
                 testTemplate(
-                    status,
-                    expectedMessage,
-                    HttpStatus.INTERNAL_SERVER_ERROR
+                        expectedMessage,
+                        HttpStatus.INTERNAL_SERVER_ERROR
                 )
         );
-    }
-
-    @Test
-    void should_handle_404_http_code() {
-        // GIVEN
-        EnumSet<HttpStatus> enumSet = EnumSet.of(HttpStatus.NOT_FOUND);
-
-        // WHEN && THEN
-        enumSet.forEach(status -> testTemplate(status, "", HttpStatus.NOT_FOUND));
-    }
-
-    @Test
-    void should_handle_401_http_code() {
-        // GIVEN
-        EnumSet<HttpStatus> enumSet = EnumSet.of(HttpStatus.UNAUTHORIZED);
-
-        // WHEN && THEN
-        enumSet.forEach(status -> testTemplate(status, "", HttpStatus.UNAUTHORIZED));
-    }
-
-    private void testTemplate(HttpStatus status, String message, HttpStatus responseStatus) {
-        // GIVEN
-        ClientHttpResponse response = Mockito.mock(ClientHttpResponse.class);
-
-        // WHEN && THEN
-        ResponseStatusException exception = assertThrows(
-                ResponseStatusException.class,
-                () -> restTemplateResponseErrorHandler.handleError(response, status)
-        );
-        assertThat(exception.getMessage())
-                .contains(message);
-        assertThat(exception.getStatusCode())
-                .isEqualTo(responseStatus);
     }
 
     private EnumSet<HttpStatus> createEnumSet(Predicate<HttpStatus> predicate) {
@@ -80,5 +46,45 @@ class RestTemplateResponseErrorHandlerTest {
                         .filter(predicate)
                         .collect(Collectors.toSet())
         );
+    }
+
+    private void testTemplate(String message, HttpStatus responseStatus) {
+        // GIVEN
+        ClientHttpResponse response = Mockito.mock(ClientHttpResponse.class);
+
+        // WHEN
+        try {
+            when(response.getStatusCode()).thenReturn(responseStatus);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // THEN
+        ResponseStatusException exception = assertThrows(
+                ResponseStatusException.class,
+                () -> restTemplateResponseErrorHandler.handleError(response)
+        );
+        assertThat(exception.getMessage())
+                .contains(message);
+        assertThat(exception.getStatusCode())
+                .isEqualTo(responseStatus);
+    }
+
+    @Test
+    void should_handle_404_http_code() {
+        // GIVEN
+        EnumSet<HttpStatus> enumSet = EnumSet.of(HttpStatus.NOT_FOUND);
+
+        // WHEN && THEN
+        enumSet.forEach(status -> testTemplate("", HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    void should_handle_401_http_code() {
+        // GIVEN
+        EnumSet<HttpStatus> enumSet = EnumSet.of(HttpStatus.UNAUTHORIZED);
+
+        // WHEN && THEN
+        enumSet.forEach(status -> testTemplate("", HttpStatus.UNAUTHORIZED));
     }
 }
