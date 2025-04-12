@@ -22,6 +22,7 @@
         <user-rest-controller.version>1.0</user-rest-controller.version>
         <awaitility.version>4.2.0</awaitility.version>
         <AOP.version>1.0</AOP.version>
+        <jedis.version>5.2.0</jedis.version>
     </properties>
 
     <dependencies>
@@ -99,6 +100,12 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
+        </dependency>
+        <!-- REDIS -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
     </dependencies>
 
