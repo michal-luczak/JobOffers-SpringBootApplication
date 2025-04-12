@@ -21,7 +21,7 @@ class UserRepositoryTest {
     @Test
     void should_successfully_save_user_and_then_find_user_by_username() {
         // GIVEN
-        UserEntity userEntity = new UserEntity(1L, "testUsername", "testPassword");
+        UserEntity userEntity = new UserEntity("testUsername", "testPassword");
 
         // WHEN
         userRepository.save(userEntity);

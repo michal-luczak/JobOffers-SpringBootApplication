@@ -13,7 +13,7 @@
     <description>application</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <offer-rest-fetcher.version>1.0</offer-rest-fetcher.version>
         <offerDAO-mongodb.version>1.0</offerDAO-mongodb.version>
         <userDAO-jpa.version>1.0</userDAO-jpa.version>
