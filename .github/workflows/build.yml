@@ -27,7 +27,7 @@ jobs:
       - name: Persist workspace
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
-          cp -r . $GITHUB_WORKSPACE/build
+          cp -r .. $GITHUB_WORKSPACE/build
 
   test:
     runs-on: ubuntu-20.04
