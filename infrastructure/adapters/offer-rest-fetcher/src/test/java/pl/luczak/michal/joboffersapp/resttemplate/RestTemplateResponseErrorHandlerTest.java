@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
