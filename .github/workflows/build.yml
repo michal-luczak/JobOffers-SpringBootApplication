@@ -10,10 +10,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04  # Określenie obrazu systemu
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'  # Możesz też użyć 'zulu' lub 'oracle'
+          java-version: '21'
 
       - name: Install Project dependencies using Maven
         run: mvn install -DskipTests
@@ -25,17 +31,23 @@ jobs:
 
   test:
     runs-on: ubuntu-20.04
-    needs: build  # Zapewnienie, że testy uruchomią się po zakończeniu "build"
+    needs: build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
 
       - name: Restore workspace
         run: |
           cp -r $GITHUB_WORKSPACE/build/* .
 
       - name: Set up Docker for testing
-        uses: docker/setup-buildx-action@v2  # Konfiguracja do używania dockera
+        uses: docker/setup-buildx-action@v2
         with:
           version: 20.10.14
 
