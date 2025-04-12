@@ -30,7 +30,6 @@
         <spring-boot-dependencies.version>3.4.4</spring-boot-dependencies.version>
         <de.flapdoodle.embed.mongo.spring30x.version>4.7.0</de.flapdoodle.embed.mongo.spring30x.version>
         <swagger.version>2.8.6</swagger.version>
-        <jedis.version>4.3.1</jedis.version>
         <lombok.version>1.18.30</lombok.version>
         <assertj-core.version>3.23.1</assertj-core.version>
     </properties>
@@ -107,12 +106,6 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-            <!-- REDIS -->
-            <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>${jedis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
