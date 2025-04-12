@@ -24,7 +24,7 @@ class OfferFetcher implements OfferFetcherPort<OfferRequestDTO> {
     @Override
     public List<OfferRequestDTO> fetchOffers() {
         log.warn("Fetching offers from external server...");
-        String url = UriComponentsBuilder.fromHttpUrl(getUrlService("/offers"))
+        String url = UriComponentsBuilder.fromUriString(getUrlService("/offers"))
                 .toUriString();
         ResponseEntity<List<OfferRequestDTO>> response = restTemplate.exchange(
                 url,

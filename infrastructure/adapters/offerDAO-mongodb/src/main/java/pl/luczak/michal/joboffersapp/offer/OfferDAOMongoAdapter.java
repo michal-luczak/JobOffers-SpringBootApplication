@@ -62,9 +62,7 @@ class OfferDAOMongoAdapter implements OfferDAOPort {
     @Override
     public List<UUID> saveAllOffers(List<OfferDTO> offerDTOs) {
         List<UUID> uniqueIDs = new LinkedList<>();
-        offerDTOs.forEach(offerDTO -> {
-            uniqueIDs.add(saveOffer(offerDTO));
-        });
+        offerDTOs.forEach(offerDTO -> uniqueIDs.add(saveOffer(offerDTO)));
         return uniqueIDs;
     }
 

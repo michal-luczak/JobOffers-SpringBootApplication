@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 import pl.luczak.michal.joboffersapp.utils.SamplesOffersResponse;
 
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OfferDTOMapperTest implements SamplesOffersResponse {
 
@@ -31,7 +29,6 @@ class OfferDTOMapperTest implements SamplesOffersResponse {
 
     @Test
     void should_map_OfferDTO_to_OfferDocument() {
-        // GIVEN && WHEN && THEN
         assertThat(offerDTOMapper.fromOfferDTO(offerDTO))
                 .usingRecursiveComparison()
                 .ignoringFields("uniqueID")
@@ -40,7 +37,6 @@ class OfferDTOMapperTest implements SamplesOffersResponse {
 
     @Test
     void should_map_OfferDocument_to_OfferDTO() {
-        // GIVEN && WHEN && THEN
         assertThat(offerDTOMapper.apply(offerDocument))
                 .usingRecursiveComparison()
                 .ignoringFields("uniqueID")

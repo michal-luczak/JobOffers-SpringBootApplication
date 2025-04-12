@@ -2,7 +2,6 @@ package pl.luczak.michal.joboffersapp.error;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.luczak.michal.joboffersapp.OfferSaveRequest;
 import pl.luczak.michal.joboffersapp.offer.OfferAlreadyExistsException;
 import pl.luczak.michal.joboffersapp.offer.OfferNotFoundException;
 

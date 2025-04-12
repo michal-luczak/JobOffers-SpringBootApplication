@@ -4,8 +4,6 @@ import org.springframework.stereotype.Service;
 import pl.luczak.michal.joboffersapp.offer.IOfferDTOMapper;
 import pl.luczak.michal.joboffersapp.offer.dto.OfferDTO;
 
-import java.util.UUID;
-
 @Service
 class OfferSaveRequestToOfferDTOMapper implements IOfferDTOMapper<OfferSaveRequest> {
 

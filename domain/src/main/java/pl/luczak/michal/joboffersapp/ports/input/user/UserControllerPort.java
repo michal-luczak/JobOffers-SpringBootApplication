@@ -1,10 +1,10 @@
 package pl.luczak.michal.joboffersapp.ports.input.user;
 
 /**
- * @param <RQ> request
- * @param <RP> response
+ * @param <Request> request
+ * @param <Response> response
 **/
-public interface UserControllerPort<RP, RQ> {
+public interface UserControllerPort<Response, Request> {
 
-    RP register(RQ rq);
+    Response register(Request request);
 }

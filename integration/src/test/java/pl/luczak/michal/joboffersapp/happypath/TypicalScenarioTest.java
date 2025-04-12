@@ -214,7 +214,6 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
         assertThat(firstFoundOfferDTO).isEqualTo(firstOffer);
 
     //step 12: there are 2 new offers in external HTTP server
-        // GIVEN && WHEN && THEN
         wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
@@ -230,7 +229,6 @@ class TypicalScenarioTest extends AbstractIntegrationTest implements SamplesOffe
         // THEN
         assertThat(offerListWith2NewOffers).hasSize(2);
 
-    //step 14: user made GET /offers and system returned OK(200) with 4 offers with ids: ${firstOfferUUID}, ${secondOfferUUID}, ${thirdOfferUUID} and ${fourthOfferUUID}
         // GIVEN && WHEN
         ResultActions getWithFourOffers = mockMvc.perform(get("/offers"));
         String getWithFourOffersResponse = getWithFourOffers.andExpect(status().isOk())
