@@ -22,10 +22,10 @@ class RestTemplateConfig {
     ) {
         return new RestTemplateBuilder()
                 .errorHandler(restTemplateResponseErrorHandler)
-                .setConnectTimeout(
+                .connectTimeout(
                         Duration.ofMillis(restTemplateConfigProperties.connectionTimeOut())
                 )
-                .setReadTimeout(
+                .readTimeout(
                         Duration.ofMillis(restTemplateConfigProperties.readTimeOut())
                 )
                 .build();

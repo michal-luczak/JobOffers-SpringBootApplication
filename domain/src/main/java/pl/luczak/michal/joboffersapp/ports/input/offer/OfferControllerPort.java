@@ -3,15 +3,15 @@ package pl.luczak.michal.joboffersapp.ports.input.offer;
 import java.util.UUID;
 
 /**
- * @param <RP> Response
- * @param <RQ> Request
+ * @param <Response> Response
+ * @param <Request> Request
 **/
 
-public interface OfferControllerPort<RP, RQ> {
+public interface OfferControllerPort<Response, Request> {
 
-    RP saveOffer(RQ rq);
+    Response saveOffer(Request rq);
 
-    RP findAllOffers();
+    Response findAllOffers();
 
-    RP findOfferById(UUID uniqueID);
+    Response findOfferById(UUID uniqueID);
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import pl.luczak.michal.joboffersapp.ports.input.offer.OfferSchedulerPort;
 
 import java.time.Duration;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(properties = "job-offers.offer.scheduler.fixed-rate=PT1S")
 class OfferSchedulerTest {
 
-    @SpyBean
+    @MockitoSpyBean
     private OfferSchedulerPort offerScheduler;
 
     @Test

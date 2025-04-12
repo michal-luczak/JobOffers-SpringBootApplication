@@ -71,10 +71,10 @@ class OfferFacadeTest implements SamplesOffersResponse {
 
     @Test
     void should_unsuccessfully_find_offer_by_id_and_throw_OfferNotFoundException() {
-        //then
+        var uuid = UUID.randomUUID();
         assertThrows(
                 OfferNotFoundException.class,
-                () -> offerFacade.findOfferById(UUID.randomUUID())
+                () -> offerFacade.findOfferById(uuid)
         );
     }
 

@@ -29,7 +29,7 @@ class UserDAOAdapterTest {
     private UserDAOAdapter userDAOAdapter;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
@@ -56,7 +56,7 @@ class UserDAOAdapterTest {
     }
 
     @Test
-    public void should_throw_UserIdDuplicationException() {
+    void should_throw_UserIdDuplicationException() {
         // GIVEN
         UserDTO userDTO = new UserDTO(1L, "username", "password");
         UserEntity userEntity = new UserEntity();
@@ -77,7 +77,7 @@ class UserDAOAdapterTest {
     }
 
     @Test
-    public void delete_SuccessfullyDeleted_ReturnsUserId() {
+    void delete_SuccessfullyDeleted_ReturnsUserId() {
         // GIVEN
         UserDTO userDTO = new UserDTO(1L, "username", "password");
         UserEntity userEntity = new UserEntity();
@@ -97,7 +97,7 @@ class UserDAOAdapterTest {
     }
 
     @Test
-    public void delete_UserNotFound_ThrowsException() {
+    void delete_UserNotFound_ThrowsException() {
         // GIVEN
         UserDTO userDTO = new UserDTO(1L, "username", "password");
         UserEntity userEntity = new UserEntity();
@@ -112,7 +112,7 @@ class UserDAOAdapterTest {
     }
 
     @Test
-    public void findByUsername_UserExists_ReturnsOptionalUserDTO() {
+    void findByUsername_UserExists_ReturnsOptionalUserDTO() {
         // GIVEN
         String username = "testuser";
         UserEntity userEntity = new UserEntity();
@@ -135,7 +135,7 @@ class UserDAOAdapterTest {
     }
 
     @Test
-    public void findByUsername_UserNotExists_ReturnsEmptyOptional() {
+    void findByUsername_UserNotExists_ReturnsEmptyOptional() {
         // GIVEN
         String username = "nonexistentuser";
         when(userRepository.findByUsername(username))
