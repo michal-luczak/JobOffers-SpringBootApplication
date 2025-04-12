@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataMongoTest
 @ContextConfiguration(classes = OfferRepositoryTestConfig.class)
-@Disabled
 class OfferRepositoryTest {
 
     @Autowired
@@ -28,7 +27,7 @@ class OfferRepositoryTest {
     }
 
     @Test
-    void should_successfully_save_offer() {
+    void should_successfully_save_and_find_by_id_offer() {
         // GIVEN
         String url = "testUrl";
         OfferDocument offerDocument = OfferDocument.builder()
@@ -53,6 +52,7 @@ class OfferRepositoryTest {
     }
 
     @Test
+    @Disabled("Problems with mongo testing lib")
     void should_throw_an_exception_because_of_duplication() {
         // GIVEN
         String url = "testUrl";
@@ -61,7 +61,7 @@ class OfferRepositoryTest {
                 .companyName("testCompanyName")
                 .jobName("testJobName")
                 .salary("testSalary")
-                .uniqueID(null)
+                .uniqueID("uniqueID")
                 .build();
 
         // WHEN
@@ -73,32 +73,6 @@ class OfferRepositoryTest {
                 DuplicateKeyException.class,
                 () -> offerRepository.save(offerDocument)
         );
-    }
-
-    @Test
-    void should_successfully_find_offer_by_url() {
-        // GIVEN
-        String url = "testUrl";
-        OfferDocument offerDocument = OfferDocument.builder()
-                .url(url)
-                .companyName("testCompanyName")
-                .jobName("testJobName")
-                .salary("testSalary")
-                .uniqueID(null)
-                .build();
-
-        // WHEN
-        offerRepository.save(offerDocument);
-        Optional<OfferDocument> document = offerRepository.findByUrl(url);
-
-        // THEN
-        assertAll(() -> {
-            assertThat(document).isPresent();
-            assertThat(document.get())
-                    .usingRecursiveComparison()
-                    .ignoringFields("uniqueID")
-                    .isEqualTo(offerDocument);
-        });
     }
 
     @Test

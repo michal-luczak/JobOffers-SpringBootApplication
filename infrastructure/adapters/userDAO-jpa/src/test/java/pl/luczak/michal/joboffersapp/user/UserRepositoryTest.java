@@ -28,8 +28,7 @@ class UserRepositoryTest {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(userEntity.getUsername());
 
         // THEN
-        assertThat(optionalUserEntity).isPresent();
-        assertThat(optionalUserEntity.get()).isEqualTo(userEntity);
+        assertThat(optionalUserEntity).isPresent().contains(userEntity);
     }
 
     @Test
