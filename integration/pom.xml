@@ -15,7 +15,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <testcontainers.version>1.20.6</testcontainers.version>
+        <testcontainers.version>1.21.0</testcontainers.version>
         <wiremock-jre8-standalone.version>2.35.2</wiremock-jre8-standalone.version>
     </properties>
 
